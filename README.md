@@ -1,7 +1,7 @@
 Pugna
 =============
 
-Pugna is latin for conflict, which is descirbes this plugin perfectly. Pugna is a fully featured Minecraft plugin for Bukkit servers that inhances player versus player and player versus enviroment combat. 
+Pugna is latin for conflict, which describes this plugin perfectly. Pugna is a fully featured Minecraft plugin for Bukkit servers, that inhances player versus player and player versus enviroment combat. 
 
 ## Features ##
 Features marked with a (*) have not been implemented yet but are planned
