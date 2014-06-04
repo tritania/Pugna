@@ -160,7 +160,7 @@ public class PugnaListener implements Listener
     {
         if (event.getDamager() instanceof Monster) 
         {
-            event.setDamage(event.getDamage() + 4);
+            event.setDamage(event.getDamage() + 6);
         }
     }
     

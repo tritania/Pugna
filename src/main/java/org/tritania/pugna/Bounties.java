@@ -62,6 +62,7 @@ public class Bounties implements Serializable
 		UUID contractor = placer.getUniqueId();
 		Reward bountyreward = new Reward(contractor, bounty);
 		bountyorder.put(targeted, bountyreward);
+		pg.stats.setBountyBoard(target, placer);
 	}
 	
 	public boolean removeBounty(Player target, Player placer) //remove (target was not killed)

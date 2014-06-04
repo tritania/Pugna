@@ -36,6 +36,7 @@ public class Pugna extends JavaPlugin
 {
 	
 	public Configuration config;
+	public Stats stats;
 	public Combat com;
 	public Bounties bt;
 	public Death dt;
@@ -62,11 +63,12 @@ public class Pugna extends JavaPlugin
 		
 		config.load();
 		
-		com = new Combat(this);
-		bt = new Bounties(this);
-		dt = new Death(this);
-		inv = new Inventory(this);
-		mb = new MobLevel(this);
+		com   = new Combat(this);
+		stats = new Stats(this);
+		bt    = new Bounties(this);
+		dt    = new Death(this);
+		inv   = new Inventory(this);
+		mb    = new MobLevel(this);
 		
 		pm.registerEvents(new PugnaListener(this), this);
 		dt.loadDeathChests();
@@ -75,6 +77,7 @@ public class Pugna extends JavaPlugin
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new Bounty(this));
+		getCommand("board").setExecutor(new CStats(this));
 	}
 	
 	public void onDisable()
