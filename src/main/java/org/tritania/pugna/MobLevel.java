@@ -28,6 +28,7 @@ import org.bukkit.entity.CreatureType;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Damageable;
+import org.bukkit.entity.EntityType;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -81,14 +82,12 @@ public class MobLevel
 			{
 				break;
 			}
+			case SILVERFISH:
+			{
+				break;
+			}
 		}
 		
 		return true;
-	}
-	
-	public void increaseDmg(EntityDamageByEntityEvent event)
-	{
-		
-	}
-    
+	} 
 }

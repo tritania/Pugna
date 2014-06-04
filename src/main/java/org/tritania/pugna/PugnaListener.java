@@ -25,8 +25,10 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -42,6 +44,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.EntityType;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
@@ -143,7 +148,33 @@ public class PugnaListener implements Listener
     public void onCreatureSpawnEvent(CreatureSpawnEvent event)
     {
 		Entity mob = event.getEntity();
-		CreatureType type = event.getCreatureType();
-		pg.mb.alter(mob, type);
+		if (mob instanceof Monster)
+		{
+			CreatureType type = event.getCreatureType();
+			pg.mb.alter(mob, type);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+    public void onDmg(EntityDamageByEntityEvent event) 
+    {
+        if (event.getDamager() instanceof Monster) 
+        {
+            event.setDamage(event.getDamage() + 4);
+        }
+    }
+    
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void CreeperExplode(EntityExplodeEvent event)
+	{
+		EntityType e = event.getEntity().getType();
+		Location loc = event.getEntity().getLocation();
+		World w = loc.getWorld();
+		if(e == EntityType.CREEPER)
+		{
+			event.setCancelled(true);
+			event.getEntity().remove();
+			w.createExplosion(loc, 25);
+		} 
 	}
 }
