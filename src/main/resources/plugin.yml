@@ -1,0 +1,14 @@
+name: Pugna
+version: 1.0
+description: >
+  Creates a fully featured PvP system
+author: Tritania
+website: https://github.com/tritania/Pugna
+
+main: org.tritania.pugna.Pugna
+
+commands:
+  pg:
+    description: Gives access to all pugna commands
+    aliases: []
+    usage: /<command> [argument]
