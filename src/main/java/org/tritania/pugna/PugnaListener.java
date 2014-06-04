@@ -30,6 +30,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
@@ -98,6 +99,25 @@ public class PugnaListener implements Listener
         if (event.getInventory().getHolder() instanceof Chest)
         {
 			Location location = ((BlockState) event.getInventory().getHolder()).getBlock().getLocation();
+			Player player     = (Player) event.getPlayer();
+            if (pg.dt.checkPlayer(location, player))
+            {
+				
+			}
+			else
+			{
+				event.setCancelled(true);
+				CommandSender pc = (CommandSender) player;
+				Message.info(pc, "Stop trying to steal stuff!");
+			}
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onBlockBreakEvent(BlockBreakEvent event){
+        if (event.getBlock() instanceof Chest)
+        {
+			Location location = event.getBlock().getLocation();
 			Player player     = (Player) event.getPlayer();
             if (pg.dt.checkPlayer(location, player))
             {
