@@ -18,14 +18,18 @@
 package org.tritania.pugna;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+
+import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
 
@@ -64,5 +68,14 @@ public class PugnaListener implements Listener
        
     }
     
-    
+	@EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
+	public void dmg(EntityDamageEvent event) 
+	{
+		Entity e = event.getEntity();
+		if (e instanceof Player) 
+		{
+			Player player = (Player) e;
+			pg.com.combatStart(player);
+		}
+	}
 }

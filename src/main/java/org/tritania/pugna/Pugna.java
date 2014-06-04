@@ -36,6 +36,8 @@ public class Pugna extends JavaPlugin
 {
 	
 	public Configuration config;
+	public Combat com;
+	public Bounties bt;
 	
 	public void onLoad()
 	{
@@ -54,6 +56,9 @@ public class Pugna extends JavaPlugin
 		config.load();
 		
 		pm.registerEvents(new PugnaListener(this), this);
+		
+		com = new Combat(this);
+		bt = new Bounties(this);
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 	}
