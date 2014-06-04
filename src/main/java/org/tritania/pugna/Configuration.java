@@ -30,17 +30,19 @@ public class Configuration extends YamlConfiguration
 {
 	private File file;
 	
-    public  String SQLurl;
-	public  String SQLpass;
-	public  String SQLuser;
+	public  boolean global;
+    public  String mapName;
+	public  boolean deathChest;
+	public  boolean allowBounty;
     
 	public Configuration(File file)
 	{
 		this.file = file;
 		
-		SQLuser = "chrysus";
-		SQLpass = "1234";
-		SQLurl  = "jdbc:mysql://localhost:3306/chrysus";
+		global = false;
+		mapName = "World";
+		deathChest = true;
+		allowBounty = true;
 	}
 	 
 	public void load()
@@ -54,9 +56,10 @@ public class Configuration extends YamlConfiguration
             Log.warning("Unable to load: %s", file.toString());
 		}
 		
-		SQLuser = getString("user", SQLuser);
-		SQLurl  = getString("url", SQLurl);
-		SQLpass = getString("pass", SQLpass);
+		global = getBoolean("Use this plugin globally?", global);
+		mapName  = getString("Use this plugin only on this map", mapName);
+		deathChest = getBoolean("Allow death chests", deathChest);
+		allowBounty = getBoolean("Allow bounties", allowBounty);
 		
         
 		if (!file.exists())
@@ -66,9 +69,10 @@ public class Configuration extends YamlConfiguration
 	
 	public void save() 
 	{
-		set("user", SQLuser);
-		set("url", SQLurl);
-		set("pass", SQLpass);
+		set("Use this plugin globally?", global);
+		set("Use this plugin only on this map", mapName);
+		set("Allow death chests", deathChest);
+		set("Allow bounties", allowBounty);
 		try 
 		{
 			super.save(file);
