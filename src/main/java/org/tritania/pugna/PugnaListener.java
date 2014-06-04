@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Erik Wilson <erikwilson@magnorum.com>
+ * Copyright 2012-2014 Erik Wilson <erikwilson@magnorum.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,52 +14,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+ 
 package org.tritania.pugna;
 
-import java.io.File;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
-
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
-import org.tritania.pugna.command.*;
-import org.tritania.pugna.Configuration;
-import org.tritania.pugna.PugnaListener;
 
-public class Pugna extends JavaPlugin
+public class PugnaListener implements Listener
 {
-	
-	public Configuration config;
-	
-	public void onLoad()
+	private Pugna pg;
+
+	public PugnaListener(Pugna pg)
 	{
-		config = new Configuration(new File(getDataFolder(), "config.yml"));
+		this.pg = pg;
 	}
 	
-	public void onEnable()
+	public void register()
 	{
-		PluginManager pm;
-		Plugin p;
+		PluginManager manager;
 		
-		Log.init(getLogger());
-		Message.init(getDescription().getName());
-		
-		pm = getServer().getPluginManager();
-		config.load();
-		
-		pm.registerEvents(new PugnaListener(this), this);
-		
-		getCommand("pg").setExecutor(new Cpg(this));
-	}
+		manager = pg.getServer().getPluginManager();
+		manager.registerEvents(this, pg);
+	} 
 	
-	public void onDisable()
+	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-		
+       
 	}
+    
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onPlayerLeave(PlayerQuitEvent event)
+    {
+       
+    }
+    
+    
 }
