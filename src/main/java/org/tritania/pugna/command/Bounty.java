@@ -53,25 +53,39 @@ public class Bounty implements CommandExecutor
             Message.info(sender, command.getUsage());
             return true;
         }
-        if (Bukkit.getPlayer(args[0]) == player)
-		{
-			Message.info(sender, command.getUsage());
-            return true;
+        if (args[0].equals("add"))
+        {
+			if (Bukkit.getPlayer(args[1]) == player)
+			{
+				Message.info(sender, command.getUsage());
+				return true;
+			}
+			Player target = Bukkit.getPlayer(args[1]);
+			Material item = Material.getMaterial(args[2]);
+			int amount = Integer.parseInt(args[3]);
+			ItemStack bounty = new ItemStack(item, amount);
+			if (pg.inv.checkForItems(player, bounty))
+			{
+				pg.bt.createBounty(target, player, bounty);
+				pg.inv.removeItems(player, bounty);
+				return true;
+			}
+			else
+			{
+				 Message.info(sender, "You don't have the items for that");
+				 return true;
+			}
 		}
-		Player target = Bukkit.getPlayer(args[0]);
-		Material item = Material.getMaterial(args[1]);
-		int amount = Integer.parseInt(args[2]);
-		ItemStack bounty = new ItemStack(item, amount);
-		if (pg.inv.checkForItems(player, bounty))
+		else if (args[0].equals("remove"))
 		{
-			pg.bt.createBounty(target, player, bounty);
-			pg.inv.removeItems(player, bounty);
+			Player target = Bukkit.getPlayer(args[1]);
+			pg.bt.removeBounty(target, player);
 			return true;
 		}
 		else
 		{
-			 Message.info(sender, "You don't have the items for that");
-			 return true;
+			Message.info(sender, command.getUsage());
+            return true;
 		}
 		
 	}

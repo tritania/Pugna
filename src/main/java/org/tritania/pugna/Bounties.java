@@ -64,7 +64,7 @@ public class Bounties implements Serializable
 		bountyorder.put(targeted, bountyreward);
 	}
 	
-	public boolean removeBounty(Player target, Player placer)
+	public boolean removeBounty(Player target, Player placer) //remove (target was not killed)
 	{
 		
 		UUID targeted = target.getUniqueId();
@@ -79,6 +79,7 @@ public class Bounties implements Serializable
 			UUID contractor2 = reward.getContractor();
 			if (targetID == targeted && contractor2 == contractor)
 			{
+				pg.inv.placeItems(placer, reward.getReward());
 				iterator.remove();
 				return true;
 			}
