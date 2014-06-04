@@ -12,3 +12,7 @@ commands:
     description: Gives access to all pugna commands
     aliases: []
     usage: /<command> [argument]
+  bounty:
+    description: Allows you to place a bounty on a player (items go into escrow)
+    aliases: []
+    usage: /<command> [playername] [item] [amount]
