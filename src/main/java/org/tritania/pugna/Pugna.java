@@ -70,6 +70,7 @@ public class Pugna extends JavaPlugin
 		inv = new Inventory(this);
 		
 		getCommand("pg").setExecutor(new Cpg(this));
+		getCommand("bounty").setExecutor(new Bounty(this));
 	}
 	
 	public void onDisable()
