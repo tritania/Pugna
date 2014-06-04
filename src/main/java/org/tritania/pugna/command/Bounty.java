@@ -64,6 +64,8 @@ public class Bounty implements CommandExecutor
 			Material item = Material.getMaterial(args[2]);
 			int amount = Integer.parseInt(args[3]);
 			ItemStack bounty = new ItemStack(item, amount);
+			if (pg.bt.checkOutstanding(target, player))
+				return true;
 			if (pg.inv.checkForItems(player, bounty))
 			{
 				pg.bt.createBounty(target, player, bounty);

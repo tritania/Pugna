@@ -87,9 +87,24 @@ public class Bounties implements Serializable
 		return false;
 	}
 	
-	public void checkOutstanding(Player target, Player placer) //not allowing more then one bounty from the same player against the same player
+	public boolean checkOutstanding(Player target, Player placer) //not allowing more then one bounty from the same player against the same player
 	{
+		UUID targeted = target.getUniqueId();
+		UUID contractor = placer.getUniqueId();
 		
+		Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<UUID, Reward> entry = iterator.next();
+			UUID targetID = entry.getKey();
+			Reward reward = entry.getValue();
+			UUID contractor2 = reward.getContractor();
+			if (targetID == targeted && contractor2 == contractor)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void checkOutstanding(Player player) //used for player login events.
