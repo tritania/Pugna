@@ -23,6 +23,14 @@ import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.Material;
+import org.bukkit.inventory.*;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
@@ -39,6 +47,32 @@ public class Bounty implements CommandExecutor
     
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		return true;
+		Player player = (Player) sender;
+		if (args.length < 1) 
+        {
+            Message.info(sender, command.getUsage());
+            return true;
+        }
+        if (Bukkit.getPlayer(args[0]) == player)
+		{
+			Message.info(sender, command.getUsage());
+            return true;
+		}
+		Player target = Bukkit.getPlayer(args[0]);
+		Material item = Material.getMaterial(args[1]);
+		int amount = Integer.parseInt(args[2]);
+		ItemStack bounty = new ItemStack(item, amount);
+		if (pg.inv.checkForItems(player, bounty))
+		{
+			pg.bt.createBounty(target, player, bounty);
+			pg.inv.removeItems(player, bounty);
+			return true;
+		}
+		else
+		{
+			 Message.info(sender, "You don't have the items for that");
+			 return true;
+		}
+		
 	}
 }

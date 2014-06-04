@@ -55,12 +55,17 @@ public class Inventory
     
     public void placeItems(Player player, ItemStack reward)
     {
-		
+		player.getInventory().addItem(reward);
 	}
 	
 	public void removeItems(Player player, ItemStack cost)
 	{
-		
+		player.getInventory().removeItem(cost);
+	}
+	
+	public boolean checkForItems(Player player, ItemStack items)
+	{
+		return player.getInventory().contains(items);
 	}
     
 }
