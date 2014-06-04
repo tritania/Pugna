@@ -38,6 +38,7 @@ public class Pugna extends JavaPlugin
 	public Configuration config;
 	public Combat com;
 	public Bounties bt;
+	public Death dt;
 	
 	public void onLoad()
 	{
@@ -59,6 +60,7 @@ public class Pugna extends JavaPlugin
 		
 		com = new Combat(this);
 		bt = new Bounties(this);
+		dt = new Death(this);
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 	}

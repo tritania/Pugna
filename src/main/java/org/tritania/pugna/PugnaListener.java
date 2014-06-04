@@ -17,6 +17,8 @@
  
 package org.tritania.pugna;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerEvent;
@@ -28,6 +30,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
@@ -65,7 +70,10 @@ public class PugnaListener implements Listener
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
-       
+		List<ItemStack> drops = event.getDrops();
+		Player player = (Player) event.getEntity();
+		pg.dt.createDeathChest(player, drops);
+		event.getDrops().clear();
     }
     
 	@EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player

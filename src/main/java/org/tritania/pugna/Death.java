@@ -17,6 +17,8 @@
 
 package org.tritania.pugna;
 
+import java.util.List;
+
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +29,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.*;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -41,9 +46,16 @@ public class Death
         this.pg = pg;
     }
     
-    public void createDeathChest(Player player) 
+    public void createDeathChest(Player player, List<ItemStack> drops) 
     {
-		
+		Location death = player.getLocation();
+		Block chest = death.getBlock();
+		chest.setType(Material.CHEST);
+		Chest chestp = (Chest) death.getBlock().getState();
+		for (ItemStack tmp : drops)
+		{
+			chestp.getInventory().addItem(tmp);
+		}
 	}
 	
 	public void destroyDeathChest(Player player)
