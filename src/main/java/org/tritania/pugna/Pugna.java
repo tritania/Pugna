@@ -17,6 +17,8 @@
 
 package org.tritania.pugna;
 
+import java.io.File;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,12 +29,16 @@ import org.bukkit.plugin.PluginManager;
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
 import org.tritania.pugna.command.*;
+import org.tritania.pugna.Configuration;
 
 public class Pugna extends JavaPlugin
 {
+	
+	public Configuration config;
+	
 	public void onLoad()
 	{
-		
+		config = new Configuration(new File(getDataFolder(), "config.yml"));
 	}
 	
 	public void onEnable()
@@ -44,6 +50,9 @@ public class Pugna extends JavaPlugin
 		Message.init(getDescription().getName());
 		
 		pm = getServer().getPluginManager();
+		config.load();
+		
+		getCommand("pg").setExecutor(new Cpg(this));
 	}
 	
 	public void onDisable()

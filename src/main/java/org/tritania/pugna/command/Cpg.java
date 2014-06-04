@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tritania.horseteleport.command;
+package org.tritania.pugna.command;
 
 /*Start Imports*/
 import org.bukkit.permissions.PermissibleBase;
@@ -26,8 +26,6 @@ import org.bukkit.command.CommandSender;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
-
-import static org.bukkit.entity.Horse.*;
 /*End Imports*/
 
 public class Cpg implements CommandExecutor 
