@@ -43,10 +43,12 @@ import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
+import org.tritania.pugna.Reward;
 
 public class Bounties implements Serializable
 {
 	public Pugna pg;
+	public HashMap<UUID, Reward> bountyorder = new HashMap<UUID, Reward>();
 
     public Bounties(Pugna pg)
     {
@@ -55,7 +57,10 @@ public class Bounties implements Serializable
     
     public void createBounty(Player target, Player placer, ItemStack bounty)
     {
-		
+		UUID targeted = target.getUniqueId();
+		UUID contractor = placer.getUniqueId();
+		Reward bountyreward = new Reward(contractor, bounty);
+		bountyorder.put(targeted, bountyreward);
 	}
 	
 	public void removeBounty(Player target, Player placer)

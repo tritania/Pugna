@@ -59,6 +59,7 @@ public class Pugna extends JavaPlugin
 		datalocal = getDataFolder().getAbsolutePath();
 		
 		config.load();
+		dt.loadDeathChests();
 		
 		pm.registerEvents(new PugnaListener(this), this);
 		
@@ -71,6 +72,6 @@ public class Pugna extends JavaPlugin
 	
 	public void onDisable()
 	{
-		
+		dt.offloadDeathChests();
 	}
 }

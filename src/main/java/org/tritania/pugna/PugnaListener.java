@@ -65,7 +65,8 @@ public class PugnaListener implements Listener
 	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
-       
+       Player player = event.getPlayer();
+       pg.bt.checkOutstanding(player);
 	}
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -80,6 +81,7 @@ public class PugnaListener implements Listener
 		List<ItemStack> drops = event.getDrops();
 		Player player = (Player) event.getEntity();
 		pg.dt.createDeathChest(player, drops);
+		pg.bt.checkOutstanding(player);
 		event.getDrops().clear();
     }
     
