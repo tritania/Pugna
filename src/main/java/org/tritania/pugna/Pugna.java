@@ -61,15 +61,17 @@ public class Pugna extends JavaPlugin
 		datalocal = getDataFolder().getAbsolutePath();
 		
 		config.load();
-		dt.loadDeathChests();
-		
-		pm.registerEvents(new PugnaListener(this), this);
 		
 		com = new Combat(this);
 		bt = new Bounties(this);
 		dt = new Death(this);
 		inv = new Inventory(this);
 		mb = new MobLevel(this);
+		
+		pm.registerEvents(new PugnaListener(this), this);
+		dt.loadDeathChests();
+		
+
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new Bounty(this));

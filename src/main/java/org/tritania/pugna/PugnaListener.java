@@ -100,7 +100,8 @@ public class PugnaListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-    public void onInventoryOpenEvent(InventoryOpenEvent event){
+    public void onInventoryOpenEvent(InventoryOpenEvent event)
+    {
         if (event.getInventory().getHolder() instanceof Chest)
         {
 			Location location = ((BlockState) event.getInventory().getHolder()).getBlock().getLocation();
@@ -138,8 +139,8 @@ public class PugnaListener implements Listener
         }
     }
     
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onCreateSpawnEvent(CreatureSpawnEvent event)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onCreatureSpawnEvent(CreatureSpawnEvent event)
     {
 		Entity mob = event.getEntity();
 		CreatureType type = event.getCreatureType();
