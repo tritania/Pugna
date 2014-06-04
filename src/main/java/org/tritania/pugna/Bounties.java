@@ -18,6 +18,7 @@
 package org.tritania.pugna;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.io.File;
@@ -57,15 +58,32 @@ public class Bounties implements Serializable
     
     public void createBounty(Player target, Player placer, ItemStack bounty)
     {
-		UUID targeted = target.getUniqueId();
+		UUID targeted = target.getUniqueId(); //need to make sure more then one can't be added + remove items from players inventory
 		UUID contractor = placer.getUniqueId();
 		Reward bountyreward = new Reward(contractor, bounty);
 		bountyorder.put(targeted, bountyreward);
 	}
 	
-	public void removeBounty(Player target, Player placer)
+	public boolean removeBounty(Player target, Player placer)
 	{
 		
+		UUID targeted = target.getUniqueId();
+		UUID contractor = placer.getUniqueId();
+		
+		Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<UUID, Reward> entry = iterator.next();
+			UUID targetID = entry.getKey();
+			Reward reward = entry.getValue();
+			UUID contractor2 = reward.getContractor();
+			if (targetID == targeted && contractor2 == contractor)
+			{
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void checkOutstanding(Player target, Player placer) //not allowing more then one bounty from the same player against the same player
@@ -84,6 +102,11 @@ public class Bounties implements Serializable
 	}
 	
 	public void saveBounties()
+	{
+		
+	}
+	
+	public void cashOut(Player killer, Player killed)
 	{
 		
 	}

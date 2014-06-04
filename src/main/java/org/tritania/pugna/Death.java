@@ -72,7 +72,6 @@ public class Death implements Serializable
 		
 		UUID playerId = player.getUniqueId();
 		String local = death.getWorld().getName() + "," + String.valueOf((int) death.getX()) + "," + String.valueOf((int) death.getY()) + "," + String.valueOf((int) death.getZ());
-		System.out.println(local);
 		deathlocations.put(playerId, local);
 	}
 	
@@ -84,7 +83,6 @@ public class Death implements Serializable
 	public boolean checkPlayer(Location location, Player player)
 	{
 		String local = location.getWorld().getName() + "," + String.valueOf((int) location.getX()) + "," + String.valueOf((int) location.getY()) + "," + String.valueOf((int) location.getZ());
-		System.out.println(local);
 		UUID playerId = player.getUniqueId();
 		String match = deathlocations.get(playerId);
 		if (local.equals(match))
