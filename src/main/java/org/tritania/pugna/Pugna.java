@@ -39,6 +39,7 @@ public class Pugna extends JavaPlugin
 	public Combat com;
 	public Bounties bt;
 	public Death dt;
+	public String datalocal;
 	
 	public void onLoad()
 	{
@@ -54,6 +55,9 @@ public class Pugna extends JavaPlugin
 		Message.init(getDescription().getName());
 		
 		pm = getServer().getPluginManager();
+		
+		datalocal = getDataFolder().getAbsolutePath();
+		
 		config.load();
 		
 		pm.registerEvents(new PugnaListener(this), this);

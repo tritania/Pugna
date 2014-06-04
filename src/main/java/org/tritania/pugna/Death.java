@@ -17,6 +17,17 @@
 
 package org.tritania.pugna;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.UUID;
 import java.util.List;
 
 import org.bukkit.permissions.PermissibleBase;
@@ -37,8 +48,10 @@ import org.bukkit.block.Chest;
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 
-public class Death 
+public class Death implements Serializable 
 {
+	public HashMap<UUID, String> deathlocations = new HashMap<UUID, String>();
+	
 	public Pugna pg;
 
     public Death(Pugna pg)
@@ -56,6 +69,11 @@ public class Death
 		{
 			chestp.getInventory().addItem(tmp);
 		}
+		
+		UUID playerId = player.getUniqueId();
+		String local = death.getWorld().getName() + "," + String.valueOf((int) death.getX()) + "," + String.valueOf((int) death.getY()) + "," + String.valueOf((int) death.getZ());
+		System.out.println(local);
+		deathlocations.put(playerId, local);
 	}
 	
 	public void destroyDeathChest(Player player)
@@ -63,9 +81,66 @@ public class Death
 		
 	}
 	
-	public void checkPlayer(Player player)
+	public boolean checkPlayer(Location location, Player player)
 	{
-		
+		String local = location.getWorld().getName() + "," + String.valueOf((int) location.getX()) + "," + String.valueOf((int) location.getY()) + "," + String.valueOf((int) location.getZ());
+		System.out.println(local);
+		UUID playerId = player.getUniqueId();
+		String match = deathlocations.get(playerId);
+		if (local.equals(match))
+		{
+			return true;
+		}
+		else
+		{
+			for (Map.Entry<UUID, String> entry : deathlocations.entrySet())
+			{
+				if (entry.getValue().equals(local))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+	
+	public void loadDeathChests()
+    {
+		try
+		{
+			File data            = new File(pg.datalocal + "/deathChests.data");
+			FileInputStream fis  = new FileInputStream(data);
+			ObjectInputStream ois= new ObjectInputStream(fis);
+
+			deathlocations = (HashMap<UUID,String>)ois.readObject();
+
+			ois.close();
+			fis.close();
+		}
+		catch(Exception ex)
+		{
+			Log.severe(" " + ex.getMessage());
+		}
+	}
+	
+	public void offloadDeathChests()
+	{
+		try
+		{
+			File data =  new File(pg.datalocal + "/deathChests.data");
+			FileOutputStream fos   = new FileOutputStream(data);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(deathlocations);
+			oos.flush();
+			oos.close();
+			fos.close();
+			
+		}
+		catch(Exception ex)
+		{
+			Log.severe("  " + ex.getMessage());
+		}	
 	}
 	
 }

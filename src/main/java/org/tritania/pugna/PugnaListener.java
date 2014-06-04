@@ -28,11 +28,17 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
+import org.bukkit.command.CommandSender;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
@@ -86,4 +92,23 @@ public class PugnaListener implements Listener
 			pg.com.combatStart(player);
 		}
 	}
+	
+	@EventHandler(priority = EventPriority.NORMAL)
+    public void onInventoryOpenEvent(InventoryOpenEvent event){
+        if (event.getInventory().getHolder() instanceof Chest)
+        {
+			Location location = ((BlockState) event.getInventory().getHolder()).getBlock().getLocation();
+			Player player     = (Player) event.getPlayer();
+            if (pg.dt.checkPlayer(location, player))
+            {
+				
+			}
+			else
+			{
+				event.setCancelled(true);
+				CommandSender pc = (CommandSender) player;
+				Message.info(pc, "Stop trying to steal stuff!");
+			}
+        }
+    }
 }
