@@ -34,6 +34,7 @@ public class Configuration extends YamlConfiguration
     public  String mapName;
 	public  boolean deathChest;
 	public  boolean allowBounty;
+	public boolean diffmob;
     
 	public Configuration(File file)
 	{
@@ -43,6 +44,7 @@ public class Configuration extends YamlConfiguration
 		mapName = "World";
 		deathChest = true;
 		allowBounty = true;
+		diffmob = true;
 	}
 	 
 	public void load()
@@ -60,6 +62,7 @@ public class Configuration extends YamlConfiguration
 		mapName  = getString("Use this plugin only on this map", mapName);
 		deathChest = getBoolean("Allow death chests", deathChest);
 		allowBounty = getBoolean("Allow bounties", allowBounty);
+		diffmob = getBoolean("Creates more difficult mobs", diffmob);
 		
         
 		if (!file.exists())
@@ -73,6 +76,7 @@ public class Configuration extends YamlConfiguration
 		set("Use this plugin only on this map", mapName);
 		set("Allow death chests", deathChest);
 		set("Allow bounties", allowBounty);
+		set("Creates more difficult mobs", diffmob);
 		try 
 		{
 			super.save(file);

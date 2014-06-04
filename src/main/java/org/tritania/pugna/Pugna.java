@@ -40,6 +40,7 @@ public class Pugna extends JavaPlugin
 	public Bounties bt;
 	public Death dt;
 	public Inventory inv;
+	public MobLevel mb;
 	public String datalocal;
 	
 	public void onLoad()
@@ -68,6 +69,7 @@ public class Pugna extends JavaPlugin
 		bt = new Bounties(this);
 		dt = new Death(this);
 		inv = new Inventory(this);
+		mb = new MobLevel(this);
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new Bounty(this));

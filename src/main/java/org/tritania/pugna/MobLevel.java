@@ -17,38 +17,32 @@
 package org.tritania.pugna;
 
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
+import org.bukkit.entity.CreatureType;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 
-public class Inventory 
+public class MobLevel 
 {
 	public Pugna pg;
 
-    public Inventory(Pugna pg)
+    public MobLevel(Pugna pg)
     {
         this.pg = pg;
     }
     
-    public void placeItems(Player player, ItemStack reward)
-    {
-		player.getInventory().addItem(reward);
-	}
-	
-	public void removeItems(Player player, ItemStack cost)
+	public boolean alter(Entity mob, CreatureType type)
 	{
-		player.getInventory().removeItem(cost);
-	}
-	
-	public boolean checkForItems(Player player, ItemStack items)
-	{
-		return player.getInventory().contains(items);
+		if (pg.config.diffmob != true)
+			return true;
+		return true;
 	}
     
 }

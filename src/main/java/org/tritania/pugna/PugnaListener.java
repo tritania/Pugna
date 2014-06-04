@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -40,10 +41,12 @@ import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.CreatureType;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
+
 
 public class PugnaListener implements Listener
 {
@@ -116,7 +119,8 @@ public class PugnaListener implements Listener
     }
     
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onBlockBreakEvent(BlockBreakEvent event){
+    public void onBlockBreakEvent(BlockBreakEvent event)
+    {
         if (event.getBlock() instanceof Chest)
         {
 			Location location = event.getBlock().getLocation();
@@ -133,4 +137,12 @@ public class PugnaListener implements Listener
 			}
         }
     }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onCreateSpawnEvent(CreatureSpawnEvent event)
+    {
+		Entity mob = event.getEntity();
+		CreatureType type = event.getCreatureType();
+		pg.mb.alter(mob, type);
+	}
 }
