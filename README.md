@@ -16,6 +16,8 @@ Features marked with a (*) have not been implemented yet but are planned
 ## Commands ##
 * /pg        Gives access to all administrative commands
 * /bounty    Allows players to place bounties on other players
+* /board     Gives access to all scoreboard commands
+* /dchest    Gives access to all death chest commands
 
 
 ## Permissons ##
