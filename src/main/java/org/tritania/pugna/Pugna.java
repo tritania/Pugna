@@ -78,6 +78,7 @@ public class Pugna extends JavaPlugin
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new Bounty(this));
 		getCommand("board").setExecutor(new CStats(this));
+		getCommand("dchest").setExecutor(new CChests(this));
 	}
 	
 	public void onDisable()

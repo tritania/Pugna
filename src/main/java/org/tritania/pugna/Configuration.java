@@ -35,6 +35,7 @@ public class Configuration extends YamlConfiguration
 	public  boolean deathChest;
 	public  boolean allowBounty;
 	public boolean diffmob;
+	public int deathChestTime;
     
 	public Configuration(File file)
 	{
@@ -45,6 +46,7 @@ public class Configuration extends YamlConfiguration
 		deathChest = true;
 		allowBounty = true;
 		diffmob = true;
+		deathChestTime = 6000;
 	}
 	 
 	public void load()
@@ -63,6 +65,7 @@ public class Configuration extends YamlConfiguration
 		deathChest = getBoolean("Allow death chests", deathChest);
 		allowBounty = getBoolean("Allow bounties", allowBounty);
 		diffmob = getBoolean("Creates more difficult mobs", diffmob);
+		deathChestTime = getInt("Amount of time to keep death chests around (20 = 1 second)", deathChestTime);
 		
         
 		if (!file.exists())
@@ -77,6 +80,7 @@ public class Configuration extends YamlConfiguration
 		set("Allow death chests", deathChest);
 		set("Allow bounties", allowBounty);
 		set("Creates more difficult mobs", diffmob);
+		set("Amount of time to keep death chests around (20 = 1 second", deathChestTime);
 		try 
 		{
 			super.save(file);

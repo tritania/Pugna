@@ -20,3 +20,7 @@ commands:
     description: Allows you to access the scoreboard related commands
     aliases: []
     usage: /<command> [remove]
+  dchest:
+    description: Allows you to access death chest related commands
+    aliases: []
+    usage: /<command> [destroy] [all] 

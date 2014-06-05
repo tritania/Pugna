@@ -66,7 +66,7 @@ public class Death implements Serializable
 			{
 				destroyAll();
 			}
-		}, 1200L);
+		}, pg.config.deathChestTime);
     }
     
     public void destroyAll() 
@@ -80,7 +80,7 @@ public class Death implements Serializable
 			Block toDestroy = location.getBlock();
 			if(toDestroy.getType().equals(Material.CHEST)) 
 			{
-				toDestroy.setType(Material.AIR);//
+				toDestroy.setType(Material.AIR);
 			}
 			iterator.remove();
 		}
@@ -90,25 +90,36 @@ public class Death implements Serializable
 	{
 		
 		String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
-		//System.out.println(location);
 		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
         while(iterator.hasNext())
         {
             Map.Entry<String, UUID> entry = iterator.next();
             UUID IDdestroy = entry.getValue();
             String loc    = entry.getKey();
-            System.out.println(loc);
 			if (IDdestroy.equals(playerID) && loc.equals(location))
 			{
-				String[] ld = location.split(",");
-				Location chest = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
-				Block toDestroy = chest.getBlock();
+				Block toDestroy = local.getBlock();
 				if(toDestroy.getType().equals(Material.CHEST)) 
 				{
 					toDestroy.setType(Material.AIR);
 				}
-				//System.out.println("test");
 				iterator.remove();
+			}
+		}
+	}
+	
+	public void removePlayerChests(UUID playerID)
+	{
+		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<String, UUID> entry = iterator.next();
+            UUID IDdestroy = entry.getValue();
+			if (IDdestroy.equals(playerID))
+			{
+				String[] ld = entry.getKey().split(",");
+				Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+				removeChest(playerID, location);
 			}
 		}
 	}
@@ -131,7 +142,6 @@ public class Death implements Serializable
 		
 		UUID playerId = player.getUniqueId();
 		String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-		System.out.println("CREATION " + local);
 		deathlocations.put(local, playerId);
 		
 		CommandSender pc = (CommandSender) player;
@@ -150,7 +160,7 @@ public class Death implements Serializable
 				UUID playID = player.getUniqueId();
 				removeChest(playID, location);
 			}
-		}.runTaskLater(pg, 1200);
+		}.runTaskLater(pg, pg.config.deathChestTime);
 	}
 	
 	
