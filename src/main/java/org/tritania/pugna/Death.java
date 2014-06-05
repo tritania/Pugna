@@ -71,7 +71,7 @@ public class Death implements Serializable
 		}
 		
 		UUID playerId = player.getUniqueId();
-		String local = death.getWorld().getName() + "," + String.valueOf((int) death.getX()) + "," + String.valueOf((int) death.getY()) + "," + String.valueOf((int) death.getZ());
+		String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
 		deathlocations.put(playerId, local);
 	}
 	
@@ -82,24 +82,30 @@ public class Death implements Serializable
 	
 	public boolean checkPlayer(Location location, Player player)
 	{
-		String local = location.getWorld().getName() + "," + String.valueOf((int) location.getX()) + "," + String.valueOf((int) location.getY()) + "," + String.valueOf((int) location.getZ());
+		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
 		UUID playerId = player.getUniqueId();
 		String match = deathlocations.get(playerId);
+		System.out.println(local);
 		if (local.equals(match))
 		{
+			System.out.println("Access");
 			return true;
 		}
 		else
 		{
 			for (Map.Entry<UUID, String> entry : deathlocations.entrySet())
 			{
+				System.out.println(entry.getValue());
 				if (entry.getValue().equals(local))
 				{
+					System.out.println("Access2");
 					return false;
 				}
 			}
+			System.out.println("Access3");
 			return true;
 		}
+		
 	}
 	
 	public void loadDeathChests()

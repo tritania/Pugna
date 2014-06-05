@@ -41,12 +41,15 @@ import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Explosive;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.block.Action;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
@@ -105,23 +108,27 @@ public class PugnaListener implements Listener
 	}
 	
 	@EventHandler(priority = EventPriority.NORMAL)
-    public void onInventoryOpenEvent(InventoryOpenEvent event)
+    public void playerInteract(PlayerInteractEvent event) 
     {
-        if (event.getInventory().getHolder() instanceof Chest)
+        Player player = event.getPlayer();
+        Block block = event.getClickedBlock();
+        Location location = block.getLocation();
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) 
         {
-			Location location = ((BlockState) event.getInventory().getHolder()).getBlock().getLocation();
-			Player player     = (Player) event.getPlayer();
-            if (pg.dt.checkPlayer(location, player))
+            if(block.getType() == Material.CHEST) 
             {
-				
+				if (pg.dt.checkPlayer(location, player))
+				{
+					
+				}
+				else
+				{
+					event.setCancelled(true);
+					CommandSender pc = (CommandSender) player;
+					Message.info(pc, "Stop trying to steal stuff!");
+				}
 			}
-			else
-			{
-				event.setCancelled(true);
-				CommandSender pc = (CommandSender) player;
-				Message.info(pc, "Stop trying to steal stuff!");
-			}
-        }
+		}
     }
     
     @EventHandler(priority = EventPriority.NORMAL)
@@ -174,7 +181,7 @@ public class PugnaListener implements Listener
 		{
 			event.setCancelled(true);
 			event.getEntity().remove();
-			w.createExplosion(loc, 25);
+			w.createExplosion(loc, 25, true);
 		} 
 	}
 }
