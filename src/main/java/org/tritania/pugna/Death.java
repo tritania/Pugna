@@ -97,7 +97,6 @@ public class Death implements Serializable
 		{
 			for (Map.Entry<UUID, String> entry : deathlocations.entrySet())
 			{
-				System.out.println(entry.getValue());
 				if (entry.getValue().equals(local))
 				{
 					return false;

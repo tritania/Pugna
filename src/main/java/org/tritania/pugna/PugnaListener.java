@@ -112,11 +112,11 @@ public class PugnaListener implements Listener
     {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
-        Location location = block.getLocation();
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK) 
         {
             if(block.getType() == Material.CHEST) 
             {
+				Location location = block.getLocation();
 				if (pg.dt.checkPlayer(location, player))
 				{
 					
@@ -134,7 +134,7 @@ public class PugnaListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onBlockBreakEvent(BlockBreakEvent event)
     {
-        if (event.getBlock() instanceof Chest)
+        if (event.getBlock().getType() == Material.CHEST)
         {
 			Location location = event.getBlock().getLocation();
 			Player player     = (Player) event.getPlayer();
