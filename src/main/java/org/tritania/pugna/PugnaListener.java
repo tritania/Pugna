@@ -17,7 +17,11 @@
  
 package org.tritania.pugna;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
@@ -50,6 +54,7 @@ import org.bukkit.entity.Explosive;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.meta.*;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Log;
@@ -94,6 +99,21 @@ public class PugnaListener implements Listener
 		pg.dt.createDeathChest(player, drops);
 		pg.bt.checkOutstanding(player);
 		event.getDrops().clear();
+		
+		
+		Location location = player.getLocation();
+		World world = location.getWorld();
+		String pName = player.getName();
+
+		ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+		ItemMeta itemMeta = item.getItemMeta();
+		ArrayList<String> itemDesc = new ArrayList<String>();
+		itemMeta.setDisplayName("Head of " + pName);
+		itemDesc.add(event.getDeathMessage());
+		itemMeta.setLore(itemDesc);
+		((SkullMeta) itemMeta).setOwner(pName);
+		item.setItemMeta(itemMeta);
+		world.dropItemNaturally(location, item);
     }
     
 	@EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
@@ -161,14 +181,47 @@ public class PugnaListener implements Listener
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void CreeperExplode(EntityExplodeEvent event)
 	{
-		EntityType e = event.getEntity().getType();
-		Location loc = event.getEntity().getLocation();
-		World w = loc.getWorld();
-		if(e == EntityType.CREEPER)
+		if(event.getEntity() != null)
 		{
-			event.setCancelled(true);
-			event.getEntity().remove();
-			w.createExplosion(loc, 25, true);
+			EntityType e = event.getEntity().getType();
+			Location loc = event.getEntity().getLocation();
+			World w = loc.getWorld();
+			if(e.equals(EntityType.CREEPER))
+			{
+				event.setCancelled(true);
+				event.getEntity().remove();
+				w.createExplosion(loc, 25, true);
+			}
+			else
+			{
+				Iterator<Block> iter = event.blockList().iterator();
+				while (iter.hasNext()) 
+				{
+					Block b = iter.next();
+					if (b.getType().equals(Material.CHEST))
+					{
+						if (pg.dt.checkBlock(b)) 
+						{
+							iter.remove();
+						} 
+					}
+				}
+			}
+		}
+		else 
+		{
+			Iterator<Block> iter = event.blockList().iterator();
+			while (iter.hasNext()) 
+			{
+				Block b = iter.next();
+				if (b.getType().equals(Material.CHEST))
+				{
+					if (pg.dt.checkBlock(b)) 
+					{
+						iter.remove();
+					} 
+				}
+			}
 		} 
 	}
 }

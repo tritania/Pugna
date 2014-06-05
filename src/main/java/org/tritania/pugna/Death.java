@@ -212,6 +212,20 @@ public class Death implements Serializable
 		
 	}
 	
+	public boolean checkBlock(Block block)
+	{
+		Location location = block.getLocation();
+		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
+		if(deathlocations.containsKey(local))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public void loadDeathChests()
     {
 		try

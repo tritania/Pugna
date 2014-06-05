@@ -49,6 +49,8 @@ public class MobLevel
 			return true;
 		if (!(mob instanceof Monster))
 			return true;
+		if (type == null)
+			return true;
 		
 		Damageable mob2 = (Damageable) mob;
 		

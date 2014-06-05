@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.UUID;
+import java.util.ArrayList;
 
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
