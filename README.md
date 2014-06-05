@@ -10,7 +10,7 @@ Features marked with a (*) have not been implemented yet but are planned
 * either global or per map functionality (*)
 * player heads drop on death (*)
 * increased mob difficulty (*)
-* teams (*)
+* teams (~)
 * team chat (*)
 
 ## Commands ##
@@ -18,6 +18,8 @@ Features marked with a (*) have not been implemented yet but are planned
 * /bounty    Allows players to place bounties on other players
 * /board     Gives access to all scoreboard commands
 * /dchest    Gives access to all death chest commands
+* /t         Team chat
+* /team      Gives access to team commands
 
 
 ## Permissons ##
