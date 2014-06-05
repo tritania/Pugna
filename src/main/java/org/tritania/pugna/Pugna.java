@@ -42,6 +42,7 @@ public class Pugna extends JavaPlugin
 	public Death dt;
 	public Inventory inv;
 	public MobLevel mb;
+	public Teams teams;
 	public String datalocal;
 	
 	public void onLoad()
@@ -69,6 +70,7 @@ public class Pugna extends JavaPlugin
 		dt    = new Death(this);
 		inv   = new Inventory(this);
 		mb    = new MobLevel(this);
+		teams = new Teams(this);
 		
 		pm.registerEvents(new PugnaListener(this), this);
 		dt.loadDeathChests();

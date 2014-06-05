@@ -17,64 +17,39 @@
 
 package org.tritania.pugna;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
-
+/*Start Imports*/
 import org.bukkit.permissions.PermissibleBase;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
+import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
-import org.tritania.pugna.util.*;
+import org.tritania.pugna.util.Message;
 
-public class Team 
+
+public class Teams
 {
 	
-	private String teamName;
-	private Player founder;
-	private HashMap<UUID, Integer> teammembers = new HashMap<UUID, Integer>(); 
-	
-	public Team(Player founder, String teamName)
-	{
-		founder = founder;
-		teamName = teamName;
-		teammembers.put(founder.getUniqueId(), 0);
-	}
-	
-	public void addMember(Player player)
-	{
-		teammembers.put(player.getUniqueId(), 0); //need to implement score system
-	}
-	
-	public void removeMember(Player player)
-	{
-		teammembers.remove(player.getUniqueId());
-	}
-	
-	public boolean checkFounderUUID(Player player)
-	{
-		if (player.getUniqueId().equals(founder.getUniqueId()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	public void disband()
-	{
-		
-	}
+	public Pugna pg;
+
+    public Teams(Pugna pg)
+    {
+        this.pg = pg;
+    }
 }
+   
