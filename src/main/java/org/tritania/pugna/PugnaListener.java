@@ -111,38 +111,29 @@ public class PugnaListener implements Listener
     public void playerInteract(PlayerInteractEvent event) 
     {
         Player player = event.getPlayer();
-        Block block = event.getClickedBlock();
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) 
+        if(!event.hasBlock())
         {
-            if(block.getType() == Material.CHEST) 
-            {
-				Location location = block.getLocation();
-				if (pg.dt.checkPlayer(location, player))
-				{
-					
-				}
-				else
-				{
-					event.setCancelled(true);
-					CommandSender pc = (CommandSender) player;
-					Message.info(pc, "Stop trying to steal stuff!");
-				}
-			}
+			
 		}
-		else if(event.getAction() == Action.LEFT_CLICK_BLOCK) 
-        {
-            if(block.getType() == Material.CHEST) 
-            {
-				Location location = block.getLocation();
-				if (pg.dt.checkPlayer(location, player))
+		else
+		{
+			Block block = event.getClickedBlock();
+			if(block.getType().equals(Material.CHEST)) 
+			{
+				if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
 				{
-					
-				}
-				else
-				{
-					event.setCancelled(true);
-					CommandSender pc = (CommandSender) player;
-					Message.info(pc, "Stop trying to steal stuff!");
+					System.out.println("boo");
+					Location location = block.getLocation();
+					if (pg.dt.checkPlayer(location, player))
+					{
+						
+					}
+					else
+					{
+						event.setCancelled(true);
+						CommandSender pc = (CommandSender) player;
+						Message.info(pc, "Stop trying to steal stuff!");
+					}
 				}
 			}
 		}

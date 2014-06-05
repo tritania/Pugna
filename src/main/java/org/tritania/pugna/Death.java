@@ -79,7 +79,7 @@ public class Death implements Serializable
 		
 		final Block replace = chest;
 		
-		pg.getServer().getScheduler().scheduleSyncDelayedTask(pg, new Runnable() 
+		pg.getServer().getScheduler().runTaskLaterAsynchronously(pg, new Runnable() 
 		{
 			public void run() 
 			{
@@ -88,10 +88,11 @@ public class Death implements Serializable
 		}, 6000L);// 60 L == 3 sec, 20 ticks == 1 sec
 	}
 	
-	//need to wipe all the chests after 5 mins
+	
 	
 	public boolean checkPlayer(Location location, Player player)
 	{
+		System.out.println("boo2");
 		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
 		UUID playerId = player.getUniqueId();
 		String match = deathlocations.get(playerId);
