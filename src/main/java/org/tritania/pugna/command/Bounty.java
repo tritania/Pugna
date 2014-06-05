@@ -19,7 +19,6 @@ package org.tritania.pugna.command;
 
 /*Start Imports*/
 import org.bukkit.permissions.PermissibleBase;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -65,7 +64,9 @@ public class Bounty implements CommandExecutor
 			int amount = Integer.parseInt(args[3]);
 			ItemStack bounty = new ItemStack(item, amount);
 			if (pg.bt.checkOutstanding(target, player))
+			{
 				return true;
+			}
 			if (pg.inv.checkForItems(player, bounty))
 			{
 				pg.bt.createBounty(target, player, bounty);
