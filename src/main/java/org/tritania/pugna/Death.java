@@ -18,6 +18,7 @@
 package org.tritania.pugna;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.io.File;
@@ -44,6 +45,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -51,13 +53,70 @@ import org.tritania.pugna.util.*;
 public class Death implements Serializable 
 {
 	public HashMap<UUID, String> deathlocations = new HashMap<UUID, String>();
+	public HashMap<UUID, String> deathlocationspost = new HashMap<UUID, String>();
 	
 	public Pugna pg;
 
     public Death(Pugna pg)
     {
         this.pg = pg;
+        pg.getServer().getScheduler().runTaskLaterAsynchronously(pg, new Runnable() 
+		{
+			public void run() 
+			{
+				destroyAll();
+			}
+		}, 1200L);
     }
+    
+    public void destroyAll() 
+    {
+		Iterator<Map.Entry<UUID, String>> iterator = deathlocationspost.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<UUID, String> entry = iterator.next();
+            String loc    = entry.getValue();
+            String[] ld = entry.getValue().split(",");
+			Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+			Block toDestroy = location.getBlock();
+			if(toDestroy.getType().equals(Material.CHEST)) 
+			{
+				toDestroy.setType(Material.AIR);
+			}
+			iterator.remove();
+		}
+	}
+	
+	public void removeChest(UUID playerID, Location local) 
+	{
+		
+		String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
+		System.out.println(location);
+		Iterator<Map.Entry<UUID, String>> iterator = deathlocations.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<UUID, String> entry = iterator.next();
+            UUID IDdestroy = entry.getKey();
+            String loc    = entry.getValue();
+			if (IDdestroy.equals(playerID) && loc.equals(location))
+			{
+				String[] ld = location.split(",");
+				Location chest = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+				Block toDestroy = chest.getBlock();
+				if(toDestroy.getType().equals(Material.CHEST)) 
+				{
+					toDestroy.setType(Material.AIR);
+				}
+				System.out.println("test");
+				iterator.remove();
+			}
+		}
+	}
+	
+	public void changeOwnership(UUID current, UUID post)
+	{
+		
+	}
     
     public void createDeathChest(Player player, List<ItemStack> drops) 
     {
@@ -77,22 +136,27 @@ public class Death implements Serializable
 		CommandSender pc = (CommandSender) player;
 		Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
 		
-		final Block replace = chest;
-		
-		pg.getServer().getScheduler().runTaskLaterAsynchronously(pg, new Runnable() 
+		deathChestTimer(player, death);
+	}
+	
+	public void deathChestTimer(final Player player, final Location location)
+	{
+		new BukkitRunnable()
 		{
-			public void run() 
+			@Override
+			public void run()
 			{
-			  replace.setType(Material.AIR);
+				Location local2 = player.getLocation();
+				UUID playID = player.getUniqueId();
+				removeChest(playID, local2);
 			}
-		}, 6000L);// 60 L == 3 sec, 20 ticks == 1 sec
+		}.runTaskLater(pg, 1200);
 	}
 	
 	
 	
 	public boolean checkPlayer(Location location, Player player)
 	{
-		System.out.println("boo2");
 		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
 		UUID playerId = player.getUniqueId();
 		String match = deathlocations.get(playerId);
@@ -126,7 +190,7 @@ public class Death implements Serializable
 			FileInputStream fis  = new FileInputStream(data);
 			ObjectInputStream ois= new ObjectInputStream(fis);
 
-			deathlocations = (HashMap<UUID,String>)ois.readObject();
+			deathlocationspost = (HashMap<UUID,String>)ois.readObject();
 
 			ois.close();
 			fis.close();

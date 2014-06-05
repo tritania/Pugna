@@ -122,7 +122,6 @@ public class PugnaListener implements Listener
 			{
 				if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
 				{
-					System.out.println("boo");
 					Location location = block.getLocation();
 					if (pg.dt.checkPlayer(location, player))
 					{
