@@ -29,6 +29,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Monster;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -45,6 +46,8 @@ public class MobLevel
 	public boolean alter(Entity mob, CreatureType type)
 	{
 		if (pg.config.diffmob != true)
+			return true;
+		if (!(mob instanceof Monster))
 			return true;
 		
 		Damageable mob2 = (Damageable) mob;

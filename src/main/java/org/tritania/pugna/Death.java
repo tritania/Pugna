@@ -73,12 +73,22 @@ public class Death implements Serializable
 		UUID playerId = player.getUniqueId();
 		String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
 		deathlocations.put(playerId, local);
+		
+		CommandSender pc = (CommandSender) player;
+		Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
+		
+		final Block replace = chest;
+		
+		pg.getServer().getScheduler().scheduleSyncDelayedTask(pg, new Runnable() 
+		{
+			public void run() 
+			{
+			  replace.setType(Material.AIR);
+			}
+		}, 6000L);// 60 L == 3 sec, 20 ticks == 1 sec
 	}
 	
-	public void destroyDeathChest(Player player)
-	{
-		
-	}
+	//need to wipe all the chests after 5 mins
 	
 	public boolean checkPlayer(Location location, Player player)
 	{

@@ -129,26 +129,23 @@ public class PugnaListener implements Listener
 				}
 			}
 		}
-    }
-    
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onBlockBreakEvent(BlockBreakEvent event)
-    {
-        if (event.getBlock().getType() == Material.CHEST)
+		else if(event.getAction() == Action.LEFT_CLICK_BLOCK) 
         {
-			Location location = event.getBlock().getLocation();
-			Player player     = (Player) event.getPlayer();
-            if (pg.dt.checkPlayer(location, player))
+            if(block.getType() == Material.CHEST) 
             {
-				
+				Location location = block.getLocation();
+				if (pg.dt.checkPlayer(location, player))
+				{
+					
+				}
+				else
+				{
+					event.setCancelled(true);
+					CommandSender pc = (CommandSender) player;
+					Message.info(pc, "Stop trying to steal stuff!");
+				}
 			}
-			else
-			{
-				event.setCancelled(true);
-				CommandSender pc = (CommandSender) player;
-				Message.info(pc, "Stop trying to steal stuff!");
-			}
-        }
+		}
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
