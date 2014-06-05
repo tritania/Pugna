@@ -60,15 +60,15 @@ public class Bounty implements CommandExecutor
 				return true;
 			}
 			Player target = Bukkit.getPlayer(args[1]);
-			Material item = Material.getMaterial(args[2]);
+			Material item = Material.getMaterial(args[2].toUpperCase());
 			int amount = Integer.parseInt(args[3]);
-			ItemStack bounty = new ItemStack(item, amount);
 			if (pg.bt.checkOutstanding(target, player))
 			{
 				return true;
 			}
-			if (pg.inv.checkForItems(player, bounty))
+			if (pg.inv.checkForItems(player, item, amount))
 			{
+				ItemStack bounty = new ItemStack(item, amount);
 				pg.bt.createBounty(target, player, bounty);
 				pg.inv.removeItems(player, bounty);
 				return true;

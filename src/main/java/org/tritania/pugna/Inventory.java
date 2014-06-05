@@ -46,9 +46,9 @@ public class Inventory
 		player.getInventory().removeItem(cost);
 	}
 	
-	public boolean checkForItems(Player player, ItemStack items)
+	public boolean checkForItems(Player player, Material item, int amount)
 	{
-		return player.getInventory().contains(items);
+		return player.getInventory().contains(item, amount);
 	}
     
 }
