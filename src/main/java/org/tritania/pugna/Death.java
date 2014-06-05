@@ -52,15 +52,15 @@ import org.tritania.pugna.util.*;
 
 public class Death implements Serializable 
 {
-	public HashMap<UUID, String> deathlocations = new HashMap<UUID, String>();
-	public HashMap<UUID, String> deathlocationspost = new HashMap<UUID, String>();
+	public HashMap<String, UUID> deathlocations = new HashMap<String, UUID>();
+	public HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
 	
 	public Pugna pg;
 
     public Death(Pugna pg)
     {
         this.pg = pg;
-        pg.getServer().getScheduler().runTaskLaterAsynchronously(pg, new Runnable() 
+        pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
 		{
 			public void run() 
 			{
@@ -71,17 +71,16 @@ public class Death implements Serializable
     
     public void destroyAll() 
     {
-		Iterator<Map.Entry<UUID, String>> iterator = deathlocationspost.entrySet().iterator();
+		Iterator<Map.Entry<String, UUID>> iterator = deathlocationspost.entrySet().iterator();
         while(iterator.hasNext())
         {
-            Map.Entry<UUID, String> entry = iterator.next();
-            String loc    = entry.getValue();
-            String[] ld = entry.getValue().split(",");
+            Map.Entry<String, UUID> entry = iterator.next();
+            String[] ld = entry.getKey().split(",");
 			Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
 			Block toDestroy = location.getBlock();
 			if(toDestroy.getType().equals(Material.CHEST)) 
 			{
-				toDestroy.setType(Material.AIR);
+				toDestroy.setType(Material.AIR);//
 			}
 			iterator.remove();
 		}
@@ -91,13 +90,14 @@ public class Death implements Serializable
 	{
 		
 		String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
-		System.out.println(location);
-		Iterator<Map.Entry<UUID, String>> iterator = deathlocations.entrySet().iterator();
+		//System.out.println(location);
+		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
         while(iterator.hasNext())
         {
-            Map.Entry<UUID, String> entry = iterator.next();
-            UUID IDdestroy = entry.getKey();
-            String loc    = entry.getValue();
+            Map.Entry<String, UUID> entry = iterator.next();
+            UUID IDdestroy = entry.getValue();
+            String loc    = entry.getKey();
+            System.out.println(loc);
 			if (IDdestroy.equals(playerID) && loc.equals(location))
 			{
 				String[] ld = location.split(",");
@@ -107,7 +107,7 @@ public class Death implements Serializable
 				{
 					toDestroy.setType(Material.AIR);
 				}
-				System.out.println("test");
+				//System.out.println("test");
 				iterator.remove();
 			}
 		}
@@ -131,7 +131,8 @@ public class Death implements Serializable
 		
 		UUID playerId = player.getUniqueId();
 		String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-		deathlocations.put(playerId, local);
+		System.out.println("CREATION " + local);
+		deathlocations.put(local, playerId);
 		
 		CommandSender pc = (CommandSender) player;
 		Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
@@ -146,9 +147,8 @@ public class Death implements Serializable
 			@Override
 			public void run()
 			{
-				Location local2 = player.getLocation();
 				UUID playID = player.getUniqueId();
-				removeChest(playID, local2);
+				removeChest(playID, location);
 			}
 		}.runTaskLater(pg, 1200);
 	}
@@ -159,7 +159,14 @@ public class Death implements Serializable
 	{
 		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
 		UUID playerId = player.getUniqueId();
-		String match = deathlocations.get(playerId);
+		String match = null;
+		for (Map.Entry<String, UUID> entry : deathlocations.entrySet())
+		{
+				if (entry.getValue().equals(playerId))
+				{
+					match = entry.getKey();
+				}
+		}
 		if (player.hasPermission("pugna.chestoveride"))
 		{
 			return true;
@@ -170,9 +177,9 @@ public class Death implements Serializable
 		}
 		else
 		{
-			for (Map.Entry<UUID, String> entry : deathlocations.entrySet())
+			for (Map.Entry<String, UUID> entry : deathlocations.entrySet())
 			{
-				if (entry.getValue().equals(local))
+				if (entry.getKey().equals(local))
 				{
 					return false;
 				}
@@ -190,7 +197,7 @@ public class Death implements Serializable
 			FileInputStream fis  = new FileInputStream(data);
 			ObjectInputStream ois= new ObjectInputStream(fis);
 
-			deathlocationspost = (HashMap<UUID,String>)ois.readObject();
+			deathlocationspost = (HashMap<String, UUID>)ois.readObject();
 
 			ois.close();
 			fis.close();
