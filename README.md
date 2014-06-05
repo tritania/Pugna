@@ -19,7 +19,7 @@ Features marked with a (*) have not been implemented yet but are planned
 
 
 ## Permissons ##
-Currently no permissons
+pugna.chestoveride allows users with this permisson to overide deathchest locks
 
 ## Installation ##
 To build and install this plugin simply install apache maven and run:

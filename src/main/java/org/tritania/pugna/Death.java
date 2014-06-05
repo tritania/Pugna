@@ -85,10 +85,12 @@ public class Death implements Serializable
 		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
 		UUID playerId = player.getUniqueId();
 		String match = deathlocations.get(playerId);
-		System.out.println(local);
-		if (local.equals(match))
+		if (player.hasPermission("pugna.chestoveride"))
 		{
-			System.out.println("Access");
+			return true;
+		}
+		else if (local.equals(match))
+		{
 			return true;
 		}
 		else
@@ -98,11 +100,9 @@ public class Death implements Serializable
 				System.out.println(entry.getValue());
 				if (entry.getValue().equals(local))
 				{
-					System.out.println("Access2");
 					return false;
 				}
 			}
-			System.out.println("Access3");
 			return true;
 		}
 		
