@@ -23,4 +23,4 @@ commands:
   dchest:
     description: Allows you to access death chest related commands
     aliases: []
-    usage: /<command> [destroy] [all] 
+    usage: /<command> [give] | [destroy] [all] 

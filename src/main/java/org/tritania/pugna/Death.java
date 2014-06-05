@@ -124,9 +124,22 @@ public class Death implements Serializable
 		}
 	}
 	
-	public void changeOwnership(UUID current, UUID post)
+	public void changeOwnership(UUID current, Player postplayer)
 	{
-		
+		UUID post = postplayer.getUniqueId();
+		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
+        while(iterator.hasNext())
+        {
+            Map.Entry<String, UUID> entry = iterator.next();
+            UUID preId = entry.getValue();
+			if (preId.equals(current))
+			{
+				deathlocations.put(entry.getKey(), post);
+				String[] ld = entry.getKey().split(",");
+				Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+				deathChestTimer(postplayer, location);
+			}
+		}		
 	}
     
     public void createDeathChest(Player player, List<ItemStack> drops) 

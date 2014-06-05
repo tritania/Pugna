@@ -24,6 +24,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
@@ -67,6 +68,19 @@ public class CChests implements CommandExecutor
 			{
 				Message.info(sender, "Destroying all of your chests");
 				pg.dt.removePlayerChests(player.getUniqueId());
+				return true;
+			}
+		}
+		else if(args[0].equals("give"))
+		{
+			if(args.length > 1)
+			{
+				Player sharee = Bukkit.getPlayer(args[1]);
+				pg.dt.changeOwnership(player.getUniqueId(), sharee);
+			}
+			else
+			{
+				Message.info(sender, command.getUsage());
 			}
 		}
 		return true;
