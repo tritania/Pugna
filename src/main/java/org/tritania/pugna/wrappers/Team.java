@@ -35,6 +35,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.*;
 
 public class Team 
@@ -42,18 +43,18 @@ public class Team
 	
 	private String teamName;
 	private Player founder;
-	private HashMap<UUID, Integer> teammembers = new HashMap<UUID, Integer>(); 
+	private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
 	
-	public Team(Player founder, String teamName)
+	public Team(Player founder, String teamName, PugnaPlayer data)
 	{
 		founder = founder;
 		teamName = teamName;
-		teammembers.put(founder.getUniqueId(), 0);
+		teammembers.put(founder.getUniqueId(), data);
 	}
 	
-	public void addMember(Player player)
+	public void addMember(Player player, PugnaPlayer data)
 	{
-		teammembers.put(player.getUniqueId(), 0); //need to implement score system
+		teammembers.put(player.getUniqueId(), data); //need to implement score system
 	}
 	
 	public void removeMember(Player player)
@@ -71,5 +72,10 @@ public class Team
 		{
 			return false;
 		}
+	}
+	
+	public HashMap<UUID, PugnaPlayer> getPlayers()
+	{
+		return teammembers;
 	}
 }

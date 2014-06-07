@@ -25,6 +25,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.Message;
 /*End Imports*/
 
@@ -40,11 +41,41 @@ public class CTeamChat implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
 		Player player = (Player) sender;
-		if (args.length < 1) 
-        {
-            Message.info(sender, command.getUsage());
-            return true;
-        }
-		return true;
+		PugnaPlayer play = pg.track.getPlayerData(player);
+		if (play.getTeamState())
+		{
+			if (args.length == 0) 
+			{
+				play.setChat(true);
+			
+				if (play.getChatState())
+				{
+					play.setChat(false);
+				}
+
+			}
+			else if (args[0].equals("true"))
+			{
+				play.setChat(true);
+			}
+			else if (args[0].equals("false"))
+			{
+				play.setChat(false);
+			}
+			else 
+			{
+				String result = "";
+				for (String entry : args) 
+				{
+					result += " " + entry;
+				}
+			}
+			return true;
+		}
+		else
+		{
+			Message.info(sender, "You don't have a team to talk too!");
+			return true;
+		}
 	}
 }

@@ -58,12 +58,22 @@ public class Teams
         this.pg = pg;
     }
     
-    public void createTeam(Player player, String teamName)
+    public void createTeam(Player player, String teamName, PugnaPlayer tracked)
     {
-		Team team = new Team(player, teamName);
+		//PugnaPlayer tracked = pg.track.getPlayerData(player);
+        Team team = new Team(player, teamName, tracked);
 		teamList.put(teamName, team);
-		PugnaPlayer tracked = pg.track.getPlayerData(player);
 		tracked.setTeam(teamName);
+	}
+	
+	public void disbandTeam(String teamName)
+	{
+		teamList.remove(teamName);
+	}
+	
+	public void sendChat(String teamName, String Message)
+	{
+        HashMap<UUID, PugnaPlayer> players = teamList.get(teamName).getPlayers();
 	}
 }
    

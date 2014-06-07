@@ -83,6 +83,7 @@ public class PlayerListener implements Listener
 	{
        Player player = event.getPlayer();
        pg.bt.checkOutstanding(player);
+       pg.track.startTracking(player);
 	}
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
