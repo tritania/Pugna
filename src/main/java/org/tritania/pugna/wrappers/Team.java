@@ -72,9 +72,4 @@ public class Team
 			return false;
 		}
 	}
-	
-	public void disband()
-	{
-		
-	}
 }

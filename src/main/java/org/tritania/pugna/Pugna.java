@@ -28,9 +28,9 @@ import org.bukkit.plugin.PluginManager;
 
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
-import org.tritania.pugna.command.*;
 import org.tritania.pugna.Configuration;
-import org.tritania.pugna.PugnaListener;
+import org.tritania.pugna.command.*;
+import org.tritania.pugna.listener.*;
 
 public class Pugna extends JavaPlugin
 {
@@ -72,7 +72,8 @@ public class Pugna extends JavaPlugin
 		mb    = new MobLevel(this);
 		teams = new Teams(this);
 		
-		pm.registerEvents(new PugnaListener(this), this);
+		pm.registerEvents(new PlayerListener(this), this);
+		pm.registerEvents(new EntityListener(this), this);
 		dt.loadDeathChests();
 		
 

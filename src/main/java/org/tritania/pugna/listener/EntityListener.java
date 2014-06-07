@@ -61,11 +61,11 @@ import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
 
 
-public class PugnaListener implements Listener
+public class EntityListener implements Listener
 {
 	private Pugna pg;
 
-	public PugnaListener(Pugna pg)
+	public EntityListener(Pugna pg)
 	{
 		this.pg = pg;
 	}
@@ -77,87 +77,7 @@ public class PugnaListener implements Listener
 		manager = pg.getServer().getPluginManager();
 		manager.registerEvents(this, pg);
 	} 
-	
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void onPlayerJoin(PlayerJoinEvent event)
-	{
-       Player player = event.getPlayer();
-       pg.bt.checkOutstanding(player);
-	}
-    
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onPlayerLeave(PlayerQuitEvent event)
-    {
-       
-    }
-    
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-    public void onPlayerDeath(PlayerDeathEvent event)
-    {
-		List<ItemStack> drops = event.getDrops();
-		Player player = (Player) event.getEntity();
-		pg.dt.createDeathChest(player, drops);
-		pg.bt.checkOutstanding(player);
-		event.getDrops().clear();
-		
-		
-		Location location = player.getLocation();
-		World world = location.getWorld();
-		String pName = player.getName();
 
-		ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-		ItemMeta itemMeta = item.getItemMeta();
-		ArrayList<String> itemDesc = new ArrayList<String>();
-		itemMeta.setDisplayName("Head of " + pName);
-		itemDesc.add(event.getDeathMessage());
-		itemMeta.setLore(itemDesc);
-		((SkullMeta) itemMeta).setOwner(pName);
-		item.setItemMeta(itemMeta);
-		world.dropItemNaturally(location, item);
-    }
-    
-	@EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
-	public void dmg(EntityDamageEvent event) 
-	{
-		Entity e = event.getEntity();
-		if (e instanceof Player) 
-		{
-			Player player = (Player) e;
-			pg.com.combatStart(player);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-    public void playerInteract(PlayerInteractEvent event) 
-    {
-        Player player = event.getPlayer();
-        if(!event.hasBlock())
-        {
-			
-		}
-		else
-		{
-			Block block = event.getClickedBlock();
-			if(block.getType().equals(Material.CHEST)) 
-			{
-				if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
-				{
-					Location location = block.getLocation();
-					if (pg.dt.checkPlayer(location, player))
-					{
-						
-					}
-					else
-					{
-						event.setCancelled(true);
-						CommandSender pc = (CommandSender) player;
-						Message.info(pc, "Stop trying to steal stuff!");
-					}
-				}
-			}
-		}
-    }
-    
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onCreatureSpawnEvent(CreatureSpawnEvent event)
     {
@@ -168,15 +88,6 @@ public class PugnaListener implements Listener
 			pg.mb.alter(mob, type);
 		}
 	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
-    public void onDmg(EntityDamageByEntityEvent event) 
-    {
-        if (event.getDamager() instanceof Monster) 
-        {
-            event.setDamage(event.getDamage() + 6);
-        }
-    }
     
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void CreeperExplode(EntityExplodeEvent event)
