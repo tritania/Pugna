@@ -31,6 +31,7 @@ import org.tritania.pugna.util.Message;
 import org.tritania.pugna.Configuration;
 import org.tritania.pugna.command.*;
 import org.tritania.pugna.listener.*;
+import org.tritania.pugna.storage.Storage;
 
 public class Pugna extends JavaPlugin
 {
@@ -44,6 +45,7 @@ public class Pugna extends JavaPlugin
 	public MobLevel mb;
 	public Teams teams;
 	public String datalocal;
+	public Storage storage;
 	
 	public void onLoad()
 	{
@@ -64,13 +66,14 @@ public class Pugna extends JavaPlugin
 		
 		config.load();
 		
-		com   = new Combat(this);
-		stats = new Stats(this);
-		bt    = new Bounties(this);
-		dt    = new Death(this);
-		inv   = new Inventory(this);
-		mb    = new MobLevel(this);
-		teams = new Teams(this);
+		com     = new Combat(this);
+		stats   = new Stats(this);
+		bt      = new Bounties(this);
+		dt      = new Death(this);
+		inv     = new Inventory(this);
+		mb      = new MobLevel(this);
+		teams   = new Teams(this);
+		storage = new Storage(this);
 		
 		pm.registerEvents(new PlayerListener(this), this);
 		pm.registerEvents(new EntityListener(this), this);

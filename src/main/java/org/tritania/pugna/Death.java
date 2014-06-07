@@ -20,14 +20,6 @@ package org.tritania.pugna;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.UUID;
 import java.util.List;
 
@@ -50,10 +42,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 
-public class Death implements Serializable 
+public class Death 
 {
-	public HashMap<String, UUID> deathlocations = new HashMap<String, UUID>();
-	public HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
+	private HashMap<String, UUID> deathlocations = new HashMap<String, UUID>();
+	private HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
 	
 	public Pugna pg;
 
@@ -228,41 +220,12 @@ public class Death implements Serializable
 	
 	public void loadDeathChests()
     {
-		try
-		{
-			File data            = new File(pg.datalocal + "/deathChests.data");
-			FileInputStream fis  = new FileInputStream(data);
-			ObjectInputStream ois= new ObjectInputStream(fis);
-
-			deathlocationspost = (HashMap<String, UUID>)ois.readObject();
-
-			ois.close();
-			fis.close();
-		}
-		catch(Exception ex)
-		{
-			Log.severe(" " + ex.getMessage());
-		}
+		deathlocationspost = pg.storage.loadData("deathChests.data");
 	}
 	
 	public void offloadDeathChests()
 	{
-		try
-		{
-			File data =  new File(pg.datalocal + "/deathChests.data");
-			FileOutputStream fos   = new FileOutputStream(data);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			
-			oos.writeObject(deathlocations);
-			oos.flush();
-			oos.close();
-			fos.close();
-			
-		}
-		catch(Exception ex)
-		{
-			Log.severe("  " + ex.getMessage());
-		}	
+		pg.storage.saveData(deathlocations, "deathChests.data");	
 	}
 	
 }

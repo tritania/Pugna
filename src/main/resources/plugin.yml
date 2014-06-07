@@ -24,3 +24,11 @@ commands:
     description: Allows you to access death chest related commands
     aliases: []
     usage: /<command> [give] | [destroy] [all] 
+  team:
+    description: Allows you to access team related commands
+    aliases: []
+    usage: /<command>  
+  t:
+    description: Allows you to access team chat
+    aliases: []
+    usage: /<message>  

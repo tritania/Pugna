@@ -20,16 +20,7 @@ package org.tritania.pugna;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.UUID;
-import java.util.ArrayList;
 
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
@@ -47,7 +38,7 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 import org.tritania.pugna.wrappers.Reward;
 
-public class Bounties implements Serializable
+public class Bounties
 {
 	public Pugna pg;
 	public HashMap<UUID, Reward> bountyorder = new HashMap<UUID, Reward>();
@@ -116,12 +107,12 @@ public class Bounties implements Serializable
 	
 	public void loadBounties()
 	{
-		
+		bountyorder = pg.storage.loadData("bounty.data");
 	}
 	
 	public void saveBounties()
 	{
-		
+		pg.storage.saveData(bountyorder, "bounty.data");
 	}
 	
 	public void cashOut(Player killer, Player killed)
