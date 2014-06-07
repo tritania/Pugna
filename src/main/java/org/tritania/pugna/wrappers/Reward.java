@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tritania.pugna;
+package org.tritania.pugna.wrappers;
 
 import java.util.UUID;
 import org.bukkit.inventory.ItemStack;

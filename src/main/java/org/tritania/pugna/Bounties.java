@@ -45,7 +45,7 @@ import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
-import org.tritania.pugna.Reward;
+import org.tritania.pugna.wrappers.Reward;
 
 public class Bounties implements Serializable
 {
