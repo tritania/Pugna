@@ -18,8 +18,13 @@
 package org.tritania.pugna;
 
 /*Start Imports*/
-import org.bukkit.permissions.PermissibleBase;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.UUID;
+import java.util.List;
 
+import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,16 +45,25 @@ import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
+import org.tritania.pugna.wrappers.*;
 
 
 public class Teams
-{
-	
+{	
 	public Pugna pg;
+	private HashMap<String, Team> teamList = new HashMap<String, Team>();
 
     public Teams(Pugna pg)
     {
         this.pg = pg;
     }
+    
+    public void createTeam(Player player, String teamName)
+    {
+		Team team = new Team(player, teamName);
+		teamList.put(teamName, team);
+		PugnaPlayer tracked = pg.track.getPlayerData(player);
+		tracked.setTeam(teamName);
+	}
 }
    

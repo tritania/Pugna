@@ -45,6 +45,26 @@ public class CTeam implements CommandExecutor
             Message.info(sender, command.getUsage());
             return true;
         }
+        else if (args[0].equals("form"))
+        {
+			
+		}
+		else if (args[0].equals("disband"))
+		{
+			
+		}
+		else if (args[0].equals("leave"))
+		{
+			
+		}
+		else if (args[0].equals("invite"))
+		{
+			
+		}
+		else if (args[0].equals("remove"))
+		{
+			
+		}
 		return true;
 	}
 }

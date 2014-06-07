@@ -85,7 +85,7 @@ public class Pugna extends JavaPlugin
 		track.loadPlayers();
 		
 		getCommand("pg").setExecutor(new Cpg(this));
-		getCommand("bounty").setExecutor(new Bounty(this));
+		getCommand("bounty").setExecutor(new CBounty(this));
 		getCommand("board").setExecutor(new CStats(this));
 		getCommand("dchest").setExecutor(new CChests(this));
 		getCommand("t").setExecutor(new CTeamChat(this));

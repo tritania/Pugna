@@ -35,11 +35,11 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
 /*End Imports*/
 
-public class Bounty implements CommandExecutor 
+public class CBounty implements CommandExecutor 
 {
 	public Pugna pg;
 
-    public Bounty(Pugna pg)
+    public CBounty(Pugna pg)
     {
         this.pg = pg;
     }
