@@ -19,16 +19,24 @@ Features marked with a (~) have been added but have not been fully finished
 
 ## Commands ##
 * /pg        Gives access to all administrative commands
+  - reload   
 * /bounty    Allows players to place bounties on other players
+  - add      
+  - remove   
+  - modify   
 * /board     Gives access to all scoreboard commands
+  - remove
 * /dchest    Gives access to all death chest commands
+  - destroy
+  - destroy all
+  - share
 * /t         Team chat
 * /team      Gives access to team commands
 
 
 ## Permissons ##
-pugna.chestoveride allows users with this permisson to overide deathchest locks
-pugna.reload       allows users with this permisson to reload the plugins config live
+* pugna.chestoveride allows users with this permisson to overide deathchest locks
+* pugna.reload       allows users with this permisson to reload the plugins config live
 
 ## Installation ##
 To build and install this plugin simply install apache maven and run:
