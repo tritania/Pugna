@@ -28,6 +28,7 @@ Features marked with a (~) have been added but have not been fully finished
 
 ## Permissons ##
 pugna.chestoveride allows users with this permisson to overide deathchest locks
+pugna.reload       allows users with this permisson to reload the plugins config live
 
 ## Installation ##
 To build and install this plugin simply install apache maven and run:
