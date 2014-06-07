@@ -38,16 +38,16 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.*;
 
-public class Team 
+public class PugnaTeam 
 {
 	
 	private String teamName;
 	private Player founder;
 	private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
 	
-	public Team(Player founder, String teamName, PugnaPlayer data)
+	public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
 	{
-		founder = founder;
+		founder = founder; 
 		teamName = teamName;
 		teammembers.put(founder.getUniqueId(), data);
 	}

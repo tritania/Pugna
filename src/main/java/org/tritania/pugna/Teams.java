@@ -49,9 +49,9 @@ import org.tritania.pugna.wrappers.*;
 
 
 public class Teams
-{	
-	public Pugna pg;
-	private HashMap<String, Team> teamList = new HashMap<String, Team>();
+{   
+    public Pugna pg;
+    private HashMap<String, PugnaTeam> teamList = new HashMap<String, PugnaTeam>();
 
     public Teams(Pugna pg)
     {
@@ -60,20 +60,20 @@ public class Teams
     
     public void createTeam(Player player, String teamName, PugnaPlayer tracked)
     {
-		//PugnaPlayer tracked = pg.track.getPlayerData(player);
-        Team team = new Team(player, teamName, tracked);
-		teamList.put(teamName, team);
-		tracked.setTeam(teamName);
-	}
-	
-	public void disbandTeam(String teamName)
-	{
-		teamList.remove(teamName);
-	}
-	
-	public void sendChat(String teamName, String Message)
-	{
-        HashMap<UUID, PugnaPlayer> players = teamList.get(teamName).getPlayers();
-	}
+        PugnaTeam team = new PugnaTeam(player, teamName, tracked);
+        teamList.put(teamName, team);
+        tracked.setTeam(teamName);
+    }
+    
+    public void disbandTeam(String teamName)
+    {
+        teamList.remove(teamName);
+    }
+    
+    public void sendChat(String teamName, String Message)
+    {
+        PugnaTeam team = teamList.get(teamName);
+        HashMap<UUID, PugnaPlayer> players = team.getPlayers();
+    }
 }
    

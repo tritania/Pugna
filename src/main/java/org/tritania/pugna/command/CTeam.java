@@ -47,7 +47,7 @@ public class CTeam implements CommandExecutor
         }
         else if (args[0].equals("form"))
         {
-			
+			pg.teams.createTeam(player, args[1], pg.track.getPlayerData(player));
 		}
 		else if (args[0].equals("disband"))
 		{
