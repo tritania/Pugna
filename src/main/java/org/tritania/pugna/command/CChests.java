@@ -41,47 +41,51 @@ public class CChests implements CommandExecutor
     
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
-		Player player = (Player) sender;
-		if (args.length < 1) 
-        {
-            Message.info(sender, command.getUsage());
-            return true;
-        }
-        else if(args[0].equals("destroy"))
-        {
-			if (args.length > 1 && args[1].equals("all"))
+		if (pg.config.deathChest)
+		{
+			Player player = (Player) sender;
+			if (args.length < 1) 
 			{
-				if (player.hasPermission("pugna.chestoveride"))
+				Message.info(sender, command.getUsage());
+				return true;
+			}
+			else if(args[0].equals("destroy"))
+			{
+				if (args.length > 1 && args[1].equals("all"))
 				{
-					Message.info(sender, "Destroying all chests");
-					pg.dt.destroyAll();
+					if (player.hasPermission("pugna.chestoveride"))
+					{
+						Message.info(sender, "Destroying all chests");
+						pg.dt.destroyAll();
+						return true;
+					}
+					else
+					{
+						Message.info(sender, "You don't have permisson for this");
+						return true;
+					}
+				}
+			
+				else
+				{
+					Message.info(sender, "Destroying all of your chests");
+					pg.dt.removePlayerChests(player.getUniqueId());
 					return true;
+				}
+			}
+			else if(args[0].equals("give"))
+			{
+				if(args.length > 1)
+				{
+					Player sharee = Bukkit.getPlayer(args[1]);
+					pg.dt.changeOwnership(player.getUniqueId(), sharee);
 				}
 				else
 				{
-					Message.info(sender, "You don't have permisson for this");
-					return true;
+					Message.info(sender, command.getUsage());
 				}
 			}
-		
-			else
-			{
-				Message.info(sender, "Destroying all of your chests");
-				pg.dt.removePlayerChests(player.getUniqueId());
-				return true;
-			}
-		}
-		else if(args[0].equals("give"))
-		{
-			if(args.length > 1)
-			{
-				Player sharee = Bukkit.getPlayer(args[1]);
-				pg.dt.changeOwnership(player.getUniqueId(), sharee);
-			}
-			else
-			{
-				Message.info(sender, command.getUsage());
-			}
+			return true;
 		}
 		return true;
 	}

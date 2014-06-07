@@ -20,6 +20,7 @@ package org.tritania.pugna.command;
 /*Start Imports*/
 import org.bukkit.permissions.PermissibleBase;
 
+import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,6 +40,19 @@ public class Cpg implements CommandExecutor
     
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
 	{
+		Player player = (Player) sender;
+		if (args[0].equals("reload"))
+		{
+			if (player.hasPermission("pugna.reload"))
+			{
+				pg.config.load();
+				Message.info(sender, "Reloading the config");
+			}
+			else
+			{
+				Message.info(sender, "You don't have permisson for this!");
+			}
+		}
 		return true;
 	}
 }

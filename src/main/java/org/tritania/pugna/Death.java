@@ -52,13 +52,16 @@ public class Death
     public Death(Pugna pg)
     {
         this.pg = pg;
-        pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
-		{
-			public void run() 
+        if (pg.config.deathChest)
+        {
+			pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
 			{
-				destroyAll();
-			}
-		}, pg.config.deathChestTime);
+				public void run() 
+				{
+					destroyAll();
+				}
+			}, pg.config.deathChestTime);
+		}
     }
     
     public void destroyAll() 
@@ -136,23 +139,26 @@ public class Death
     
     public void createDeathChest(Player player, List<ItemStack> drops) 
     {
-		Location death = player.getLocation();
-		Block chest = death.getBlock();
-		chest.setType(Material.CHEST);
-		Chest chestp = (Chest) death.getBlock().getState();
-		for (ItemStack tmp : drops)
+		if (pg.config.deathChest)
 		{
-			chestp.getInventory().addItem(tmp);
+			Location death = player.getLocation();
+			Block chest = death.getBlock();
+			chest.setType(Material.CHEST);
+			Chest chestp = (Chest) death.getBlock().getState();
+			for (ItemStack tmp : drops)
+			{
+				chestp.getInventory().addItem(tmp);
+			}
+			
+			UUID playerId = player.getUniqueId();
+			String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
+			deathlocations.put(local, playerId);
+			
+			CommandSender pc = (CommandSender) player;
+			Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
+			
+			deathChestTimer(player, death);
 		}
-		
-		UUID playerId = player.getUniqueId();
-		String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-		deathlocations.put(local, playerId);
-		
-		CommandSender pc = (CommandSender) player;
-		Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
-		
-		deathChestTimer(player, death);
 	}
 	
 	public void deathChestTimer(final Player player, final Location location)
