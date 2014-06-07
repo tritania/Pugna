@@ -100,7 +100,6 @@ public class PlayerListener implements Listener
 		pg.bt.checkOutstanding(player);
 		event.getDrops().clear();
 		
-		
 		Location location = player.getLocation();
 		World world = location.getWorld();
 		String pName = player.getName();

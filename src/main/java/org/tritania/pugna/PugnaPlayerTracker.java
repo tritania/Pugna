@@ -47,4 +47,38 @@ public class PugnaPlayerTracker
     {
         this.pg = pg;
     }
+    
+    public void startTracking(Player player)
+    {
+		PugnaPlayer track = new PugnaPlayer();
+		players.put(player.getUniqueId(), track);
+	}
+	
+	public boolean checkTracking(Player player)
+	{
+		if(players.containsKey(player.getUniqueId()))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public PugnaPlayer getPlayerData(Player player)
+	{
+		UUID playerId = player.getUniqueId();
+		return players.get(playerId);
+	}
+	
+	public void savePlayers()
+	{
+		pg.storage.saveData(players, "scores.data");
+	}
+	
+	public void loadPlayers()
+	{
+		players = pg.storage.loadData("scores.data");
+	}
 }

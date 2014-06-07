@@ -46,6 +46,7 @@ public class Pugna extends JavaPlugin
 	public Teams teams;
 	public String datalocal;
 	public Storage storage;
+	public PugnaPlayerTracker track;
 	
 	public void onLoad()
 	{
@@ -74,12 +75,14 @@ public class Pugna extends JavaPlugin
 		mb      = new MobLevel(this);
 		teams   = new Teams(this);
 		storage = new Storage(this);
+		track   = new PugnaPlayerTracker(this);
 		
 		pm.registerEvents(new PlayerListener(this), this);
 		pm.registerEvents(new EntityListener(this), this);
-		dt.loadDeathChests();
 		
-
+		
+		dt.loadDeathChests();
+		track.loadPlayers();
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new Bounty(this));
@@ -92,5 +95,6 @@ public class Pugna extends JavaPlugin
 	public void onDisable()
 	{
 		dt.offloadDeathChests();
+		track.savePlayers();
 	}
 }
