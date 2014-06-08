@@ -55,8 +55,10 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.meta.*;
+import org.bukkit.event.player.PlayerChatEvent;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.Log;
 import org.tritania.pugna.util.Message;
 
@@ -165,5 +167,20 @@ public class PlayerListener implements Listener
         {
             event.setDamage(event.getDamage() + 6);
         }
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onChat(PlayerChatEvent event)
+    {
+        Player player = event.getPlayer();
+        PugnaPlayer play = pg.track.getPlayerData(player);
+        
+        if (play.getChatState())
+        {
+			event.setCancelled(true);
+			String teamName = play.getTeam();
+            PugnaTeam team = pg.teams.getTeam(teamName);
+            team.sendMessage(player, " " + event.getMessage());
+		}
     }
 }

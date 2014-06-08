@@ -49,20 +49,25 @@ public class CTeamChat implements CommandExecutor
             PugnaTeam team = pg.teams.getTeam(teamName);
 			if (args.length == 0) 
 			{
-				play.setChat(true);
-			
 				if (play.getChatState())
 				{
+					Message.info(sender, "Disabling team auto chat");
 					play.setChat(false);
 				}
-
+				else 
+				{
+					Message.info(sender, "Enabling team auto chat");
+					play.setChat(true);
+				}
 			}
 			else if (args[0].equals("true"))
 			{
+				Message.info(sender, "Enabling team auto chat");
 				play.setChat(true);
 			}
 			else if (args[0].equals("false"))
 			{
+				Message.info(sender, "Disabling team auto chat");
 				play.setChat(false);
 			}
 			else 

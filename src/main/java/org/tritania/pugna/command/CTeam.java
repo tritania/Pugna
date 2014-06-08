@@ -51,6 +51,7 @@ public class CTeam implements CommandExecutor
         else if (args[0].equals("form"))
         {
             pg.teams.createTeam(player, args[1], trackPlayer);
+            Message.info(sender, "You formed team: " + args[1]);
         }
         else if (trackPlayer.getTeamState())
         {
