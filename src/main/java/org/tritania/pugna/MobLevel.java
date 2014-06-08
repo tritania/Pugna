@@ -54,8 +54,8 @@ public class MobLevel
 		
 		Damageable mob2 = (Damageable) mob;
 		
-		mob2.setMaxHealth(50);
-		mob2.setHealth(50);
+		mob2.setMaxHealth(150);
+		mob2.setHealth(150);
 		
 		switch(type)
 		{

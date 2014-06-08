@@ -62,6 +62,11 @@ public class PugnaPlayer
 		teamName = name;
 	}
 	
+	public void setTeamState(boolean n)
+	{
+		inTeam = n;
+	}
+	
 	public void removeTeam()
 	{
 		inTeam = false;

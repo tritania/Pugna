@@ -57,11 +57,15 @@ public class PugnaTeam
     {
         teammembers.put(player.getUniqueId(), data); 
         sendMessage(player.getDisplayName() + ChatColor.DARK_AQUA + " has joined the team");
+        data.setTeamState(true);
+        data.setTeam(teamName);
     }
     
-    public void removeMember(Player player)
+    public void removeMember(Player player, PugnaPlayer play)
     {
         teammembers.remove(player.getUniqueId());
+        play.setTeamState(false);
+        play.setChat(false);
     }
     
     public void setNewFounder(Player player)
