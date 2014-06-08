@@ -55,7 +55,8 @@ public class PugnaTeam
     
     public void addMember(Player player, PugnaPlayer data)
     {
-        teammembers.put(player.getUniqueId(), data); //need to implement score system
+        teammembers.put(player.getUniqueId(), data); 
+        sendMessage(player.getDisplayName() + "has joined the team");
     }
     
     public void removeMember(Player player)
@@ -70,14 +71,7 @@ public class PugnaTeam
     
     public boolean checkFounder(Player player)
     {
-        if (player.getUniqueId().equals(founder.getUniqueId()))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return player.equals(founder);
     }
     
     public HashMap<UUID, PugnaPlayer> getPlayers()
@@ -92,6 +86,16 @@ public class PugnaTeam
             UUID player = entry.getKey();
             Player player2 = Bukkit.getPlayer(player);
             player2.sendMessage(ChatColor.DARK_AQUA + "[Team " + sender.getDisplayName() + ChatColor.DARK_AQUA + "]" + message);
+        }
+    }
+    
+    public void sendMessage(String message)
+    {
+        for (Map.Entry<UUID, PugnaPlayer> entry : teammembers.entrySet())
+        {
+            UUID player = entry.getKey();
+            Player player2 = Bukkit.getPlayer(player);
+            player2.sendMessage(ChatColor.DARK_AQUA + "[Team Notification]" + message);
         }
     }
 }

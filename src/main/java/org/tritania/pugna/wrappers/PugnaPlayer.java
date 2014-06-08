@@ -26,6 +26,8 @@ public class PugnaPlayer
 	private boolean teamChat;
 	private boolean inTeam;
 	private String teamName;
+	private boolean invite;
+	private String inviteTeamName;
 	
 	public PugnaPlayer()
 	{
@@ -74,5 +76,26 @@ public class PugnaPlayer
 	public String getTeam()
 	{
 		return teamName;
+	}
+	
+	public void invited(String teamName)
+	{
+		invite = true;
+		inviteTeamName = teamName;
+	}
+	
+	public String getInvTeamName()
+	{
+		return inviteTeamName;
+	}
+	
+	public void accepted()
+	{
+		invite = false;
+	}
+	
+	public void denied()
+	{
+		invite = false;
 	}
 }

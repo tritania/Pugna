@@ -83,7 +83,10 @@ public class CTeam implements CommandExecutor
                 PugnaTeam team = pg.teams.getTeam(teamName);
                 if (team.checkFounder(player))
                 {
-                    //need invitation system
+                    Player invitee = Bukkit.getPlayer(args[1]);
+                    PugnaPlayer invitee2 = pg.track.getPlayerData(invitee);
+                    invitee2.invited(teamName);
+                    Message.info(invitee, "You've been invited to join " + player.getDisplayName() + " team, /team accept or deny");
                 }
             }
             else if (args[0].equals("remove"))
@@ -108,6 +111,19 @@ public class CTeam implements CommandExecutor
                     Message.info(sender, "You don't have permisson to do that!");
                 }
             }
+            else if (args[0].equals("accept"))
+            {
+				PugnaPlayer play = pg.track.getPlayerData(player);
+				String teamName = play.getInvTeamName();
+				PugnaTeam team = pg.teams.getTeam(teamName);
+				team.addMember(player, play);
+				play.accepted();
+			}
+            else if (args[0].equals("deny"))
+            {
+				PugnaPlayer play = pg.track.getPlayerData(player);
+				play.denied();
+			}
         }
         else
         {
