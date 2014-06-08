@@ -75,5 +75,10 @@ public class Teams
         PugnaTeam team = teamList.get(teamName);
         HashMap<UUID, PugnaPlayer> players = team.getPlayers();
     }
+    
+    public PugnaTeam getTeam(String teamName)
+    {
+		return teamList.get(teamName);
+	}
 }
    

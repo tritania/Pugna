@@ -62,7 +62,12 @@ public class PugnaTeam
 		teammembers.remove(player.getUniqueId());
 	}
 	
-	public boolean checkFounderUUID(Player player)
+	public void setNewFounder(Player player)
+	{
+		founder = player;
+	}
+	
+	public boolean checkFounder(Player player)
 	{
 		if (player.getUniqueId().equals(founder.getUniqueId()))
 		{
