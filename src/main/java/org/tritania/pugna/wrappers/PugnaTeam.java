@@ -40,47 +40,57 @@ import org.tritania.pugna.util.*;
 
 public class PugnaTeam 
 {
-	
-	private String teamName;
-	private Player founder;
-	private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
-	
-	public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
-	{
-		founder = founder; 
-		teamName = teamName;
-		teammembers.put(founder.getUniqueId(), data);
-	}
-	
-	public void addMember(Player player, PugnaPlayer data)
-	{
-		teammembers.put(player.getUniqueId(), data); //need to implement score system
-	}
-	
-	public void removeMember(Player player)
-	{
-		teammembers.remove(player.getUniqueId());
-	}
-	
-	public void setNewFounder(Player player)
-	{
-		founder = player;
-	}
-	
-	public boolean checkFounder(Player player)
-	{
-		if (player.getUniqueId().equals(founder.getUniqueId()))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	public HashMap<UUID, PugnaPlayer> getPlayers()
-	{
-		return teammembers;
-	}
+    
+    private String teamName;
+    private Player founder;
+    private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
+    
+    public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
+    {
+        founder = founder; 
+        teamName = teamName;
+        teammembers.put(founder.getUniqueId(), data);
+    }
+    
+    public void addMember(Player player, PugnaPlayer data)
+    {
+        teammembers.put(player.getUniqueId(), data); //need to implement score system
+    }
+    
+    public void removeMember(Player player)
+    {
+        teammembers.remove(player.getUniqueId());
+    }
+    
+    public void setNewFounder(Player player)
+    {
+        founder = player;
+    }
+    
+    public boolean checkFounder(Player player)
+    {
+        if (player.getUniqueId().equals(founder.getUniqueId()))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public HashMap<UUID, PugnaPlayer> getPlayers()
+    {
+        return teammembers;
+    }
+    
+    public void sendMessage(String message)
+    {
+        for (Map.Entry<UUID, PugnaPlayer> entry : teammembers.entrySet())
+        {
+            UUID player = entry.getKey();
+            Player player2 = Bukkit.getPlayer(player);
+            player2.sendMessage(message);
+        }
+    }
 }

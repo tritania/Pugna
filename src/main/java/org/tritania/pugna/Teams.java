@@ -70,12 +70,6 @@ public class Teams
         teamList.remove(teamName);
     }
     
-    public void sendChat(String teamName, String Message)
-    {
-        PugnaTeam team = teamList.get(teamName);
-        HashMap<UUID, PugnaPlayer> players = team.getPlayers();
-    }
-    
     public PugnaTeam getTeam(String teamName)
     {
 		return teamList.get(teamName);
