@@ -114,15 +114,30 @@ public class CTeam implements CommandExecutor
             else if (args[0].equals("accept"))
             {
 				PugnaPlayer play = pg.track.getPlayerData(player);
-				String teamName = play.getInvTeamName();
-				PugnaTeam team = pg.teams.getTeam(teamName);
-				team.addMember(player, play);
-				play.accepted();
+				if (play.getInviteState())
+				{
+					String teamName = play.getInvTeamName();
+					PugnaTeam team = pg.teams.getTeam(teamName);
+					team.addMember(player, play);
+					play.accepted();
+				}
+				else
+				{
+					Message.info(sender, "You need to be invited first!");
+				}
 			}
             else if (args[0].equals("deny"))
             {
 				PugnaPlayer play = pg.track.getPlayerData(player);
-				play.denied();
+				if (play.getInviteState())
+				{
+					play.denied();
+					Message.info(sender, "Invite denied");
+				}
+				else
+				{
+					Message.info(sender, "You need to be invited first!");
+				}
 			}
         }
         else

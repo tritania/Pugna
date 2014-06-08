@@ -48,15 +48,15 @@ public class PugnaTeam
     
     public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
     {
-        founder = founder; 
-        teamName = teamName;
-        teammembers.put(founder.getUniqueId(), data);
+        this.founder = founder; 
+        this.teamName = teamName;
+        this.teammembers.put(founder.getUniqueId(), data);
     }
     
     public void addMember(Player player, PugnaPlayer data)
     {
         teammembers.put(player.getUniqueId(), data); 
-        sendMessage(player.getDisplayName() + "has joined the team");
+        sendMessage(player.getDisplayName() + ChatColor.DARK_AQUA + " has joined the team");
     }
     
     public void removeMember(Player player)
@@ -71,7 +71,14 @@ public class PugnaTeam
     
     public boolean checkFounder(Player player)
     {
-        return player.equals(founder);
+        if(player == null || founder == null) //founder equals null?
+        {
+			return false;
+		}
+		else
+		{
+			return player.getUniqueId().equals(founder.getUniqueId());
+		}
     }
     
     public HashMap<UUID, PugnaPlayer> getPlayers()
@@ -95,7 +102,7 @@ public class PugnaTeam
         {
             UUID player = entry.getKey();
             Player player2 = Bukkit.getPlayer(player);
-            player2.sendMessage(ChatColor.DARK_AQUA + "[Team Notification]" + message);
+            player2.sendMessage(ChatColor.DARK_AQUA + "[Team Notification] " + message);
         }
     }
 }

@@ -98,4 +98,9 @@ public class PugnaPlayer
 	{
 		invite = false;
 	}
+	
+	public boolean getInviteState()
+	{
+		return invite;
+	}
 }
