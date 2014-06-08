@@ -91,6 +91,10 @@ public class MobLevel
 			{
 				break;
 			}
+			default:
+			{
+				
+			}
 		}
 		
 		return true;

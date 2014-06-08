@@ -23,6 +23,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -44,6 +45,8 @@ public class CTeamChat implements CommandExecutor
 		PugnaPlayer play = pg.track.getPlayerData(player);
 		if (play.getTeamState())
 		{
+			String teamName = play.getTeam();
+            PugnaTeam team = pg.teams.getTeam(teamName);
 			if (args.length == 0) 
 			{
 				play.setChat(true);
@@ -69,6 +72,7 @@ public class CTeamChat implements CommandExecutor
 				{
 					result += " " + entry;
 				}
+				team.sendMessage(player, result);
 			}
 			return true;
 		}

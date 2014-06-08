@@ -33,6 +33,7 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
+import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -84,13 +85,13 @@ public class PugnaTeam
         return teammembers;
     }
     
-    public void sendMessage(String message)
+    public void sendMessage(Player sender, String message)
     {
         for (Map.Entry<UUID, PugnaPlayer> entry : teammembers.entrySet())
         {
             UUID player = entry.getKey();
             Player player2 = Bukkit.getPlayer(player);
-            player2.sendMessage(message);
+            player2.sendMessage(ChatColor.DARK_AQUA + "[Team " + sender.getDisplayName() + ChatColor.DARK_AQUA + "]" + message);
         }
     }
 }
