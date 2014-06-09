@@ -45,6 +45,8 @@ public class PugnaTeam implements Serializable
     
     private String teamName;
     private UUID founder;
+    private int members;
+    private int onlineMembers;
     private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
     
     public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
@@ -52,6 +54,8 @@ public class PugnaTeam implements Serializable
         this.founder = founder.getUniqueId(); 
         this.teamName = teamName;
         this.teammembers.put(founder.getUniqueId(), data);
+        this.members = 1;
+        this.onlineMembers = 1;
     }
     
     public void addMember(Player player, PugnaPlayer data)
@@ -60,6 +64,8 @@ public class PugnaTeam implements Serializable
         sendMessage(player.getDisplayName() + ChatColor.DARK_AQUA + " has joined the team");
         data.setTeamState(true);
         data.setTeam(teamName);
+        members++;
+        onlineMembers++;
     }
     
     public void removeMember(Player player, PugnaPlayer play)
@@ -67,6 +73,8 @@ public class PugnaTeam implements Serializable
         teammembers.remove(player.getUniqueId());
         play.setTeamState(false);
         play.setChat(false);
+        members--;
+        onlineMembers--;
     }
     
     public void setNewFounder(Player player)
@@ -76,7 +84,7 @@ public class PugnaTeam implements Serializable
     
     public boolean checkFounder(Player player)
     {
-        if(player == null || founder == null) //founder equals null?
+        if(player == null || founder == null) 
         {
 			return false;
 		}
@@ -86,9 +94,14 @@ public class PugnaTeam implements Serializable
 		}
     }
     
-    public HashMap<UUID, PugnaPlayer> getPlayers()
+    public HashMap<UUID, PugnaPlayer> getMembers()
     {
         return teammembers;
+    }
+    
+    public int getMembersI()
+    {
+        return members;
     }
     
     public void sendMessage(Player sender, String message)
@@ -110,4 +123,14 @@ public class PugnaTeam implements Serializable
             player2.sendMessage(ChatColor.DARK_AQUA + "[Team Notification] " + message);
         }
     }
+    
+    public void setOffline()
+    {
+		onlineMembers--;
+	}
+	
+	public void setOnline()
+	{
+		onlineMembers++;
+	}
 }

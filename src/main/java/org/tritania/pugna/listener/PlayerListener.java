@@ -90,6 +90,12 @@ public class PlayerListener implements Listener
        Player player = event.getPlayer();
        pg.bt.checkOutstanding(player);
        pg.track.startTracking(player);
+       PugnaPlayer play = pg.track.getPlayerData(player);
+       if (play.getTeamState())
+       {
+		   PugnaTeam team = pg.teams.getTeam(play.getTeam());
+		   team.setOnline();
+	   }
     }
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
@@ -97,6 +103,12 @@ public class PlayerListener implements Listener
     {
        Player player = event.getPlayer();
        pg.storage.savePlayer(player);
+       PugnaPlayer play = pg.track.getPlayerData(player);
+       if (play.getTeamState())
+       {
+		   PugnaTeam team = pg.teams.getTeam(play.getTeam());
+		   team.setOffline();
+	   }
        pg.track.stopTracking(player);
     }
     

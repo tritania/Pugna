@@ -68,7 +68,7 @@ public class Teams
     public void disbandTeam(String teamName)
     {
 		PugnaTeam team = teamList.get(teamName);
-		HashMap<UUID, PugnaPlayer> players = team.getPlayers();
+		HashMap<UUID, PugnaPlayer> players = team.getMembers();
 		for (Map.Entry<UUID, PugnaPlayer> entry : players.entrySet())
         {
             PugnaPlayer player = entry.getValue();

@@ -50,9 +50,15 @@ public class CTeam implements CommandExecutor
             return true;
         }
         else if (args[0].equals("form"))
-        {
-            pg.teams.createTeam(player, args[1], trackPlayer);
-            Message.info(sender, "You formed team: " + args[1]);
+        {	if (trackPlayer.getTeamState())
+			{
+				Message.info(sender, "Your already in a team!");
+			}
+			else
+			{
+				pg.teams.createTeam(player, args[1], trackPlayer);
+				Message.info(sender, "You formed team: " + args[1]);
+			}
         }
         else if (trackPlayer.getTeamState())
         {
@@ -76,9 +82,23 @@ public class CTeam implements CommandExecutor
                 PugnaTeam team = pg.teams.getTeam(teamName);
                 if (team.checkFounder(player))
                 {
-                    Message.info(sender, "Please set a new leader before leaving, /team setleader playername");
+					if(team.getMembersI() > 1)
+					{
+						Message.info(sender, "Please set a new leader before leaving, /team setleader playername");
+					}
+					else
+					{
+						Message.info(sender, "You left the team");
+						team.removeMember(player, trackPlayer);
+						pg.teams.disbandTeam(teamName);
+					}
                 }
-                team.sendMessage(player.getDisplayName() + " left the team");
+                else
+                {
+					Message.info(sender, "You left the team");
+					team.removeMember(player, trackPlayer);
+					team.sendMessage(player.getDisplayName() + " left the team");
+				}
             }
             else if (args[0].equals("invite"))
             {
@@ -91,7 +111,7 @@ public class CTeam implements CommandExecutor
                         Player invitee = Bukkit.getPlayer(args[1]);
                         PugnaPlayer invitee2 = pg.track.getPlayerData(invitee);
                         invitee2.invited(teamName);
-                        Message.info(invitee, "You've been invited to join " + player.getDisplayName() + " team, /team accept or deny");
+                        Message.info(invitee, "You've been invited to join " + player.getDisplayName() + "'s team, /team accept or deny");
                     }
                     else
                     {
