@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.io.Serializable;
 
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
@@ -39,7 +40,7 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.*;
 
-public class PugnaTeam 
+public class PugnaTeam implements Serializable 
 {
     
     private String teamName;

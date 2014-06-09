@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
+import java.util.List;
 
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
@@ -40,8 +41,8 @@ import org.tritania.pugna.wrappers.PugnaPlayer;
 
 public class PugnaPlayerTracker 
 {
-	public Pugna pg;
-	private HashMap<UUID, PugnaPlayer> players = new HashMap<UUID, PugnaPlayer>();
+    public Pugna pg;
+    private HashMap<UUID, PugnaPlayer> players = new HashMap<UUID, PugnaPlayer>();
 
     public PugnaPlayerTracker(Pugna pg)
     {
@@ -50,35 +51,54 @@ public class PugnaPlayerTracker
     
     public void startTracking(Player player)
     {
-		PugnaPlayer track = new PugnaPlayer();
-		players.put(player.getUniqueId(), track);
-	}
-	
-	public boolean checkTracking(Player player)
-	{
-		if(players.containsKey(player.getUniqueId()))
-		{
-			return true;
+        pg.storage.check(player); //check for player file
+        PugnaPlayer track = new PugnaPlayer();
+        players.put(player.getUniqueId(), track);
+    }
+    
+    public void stopTracking(Player player)
+    {
+        players.remove(player.getUniqueId());
+    }
+    
+    public boolean checkTracking(Player player)
+    {
+        if(players.containsKey(player.getUniqueId()))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public PugnaPlayer getPlayerData(Player player)
+    {
+        UUID playerId = player.getUniqueId();
+        return players.get(playerId);
+    }
+    
+    public void savePlayers()
+    {
+        Player[] playersSave = Bukkit.getOnlinePlayers();
+        for (Player play : playersSave)
+        {
+			pg.storage.savePlayer(play);
+			players.remove(play.getUniqueId());
 		}
-		else
-		{
-			return false;
+    }
+    
+    public void loadPlayers()
+    {
+        Player[] playersSave = Bukkit.getOnlinePlayers();
+        for (Player play : playersSave)
+        {
+			if (pg.storage.check(play))
+			{
+				PugnaPlayer loaded = pg.storage.loadPlayer(play);
+				players.put(play.getUniqueId(), loaded);
+			}
 		}
-	}
-	
-	public PugnaPlayer getPlayerData(Player player)
-	{
-		UUID playerId = player.getUniqueId();
-		return players.get(playerId);
-	}
-	
-	public void savePlayers()
-	{
-		pg.storage.saveData(players, "scores.data");
-	}
-	
-	public void loadPlayers()
-	{
-		players = pg.storage.loadData("scores.data");
-	}
+    }
 }

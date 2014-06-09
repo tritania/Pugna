@@ -18,9 +18,10 @@
 package org.tritania.pugna.wrappers;
 
 import java.util.UUID;
+import java.io.Serializable;
 import org.bukkit.inventory.ItemStack;
 
-public class Reward
+public class Reward implements Serializable
 {
 	private UUID contractor;
 	private ItemStack reward;

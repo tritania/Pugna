@@ -53,6 +53,7 @@ public class Storage implements Serializable
 
     public Storage(Pugna pg)
     {
+		new File(pg.datalocal + "/playerdata").mkdirs();
         this.pg = pg;
     }
     
@@ -95,5 +96,53 @@ public class Storage implements Serializable
 			Log.severe(" " + ex.getMessage());
 		}
 		return dataLoaded;
+	}
+	
+	public void savePlayer(Player player)
+	{
+		PugnaPlayer play = pg.track.getPlayerData(player);
+		String playerId = player.getUniqueId().toString();
+		try
+		{
+			File data =  new File(pg.datalocal + "/playerdata/" + playerId);
+			FileOutputStream fos   = new FileOutputStream(data);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(play);
+			oos.flush();
+			oos.close();
+			fos.close();
+		}
+		catch(Exception ex)
+		{
+			Log.severe("  " + ex.getMessage());
+		}
+	}
+	
+	public boolean check(Player player)
+	{
+		File data = new File(pg.datalocal + "/playerdata/" + player.getUniqueId().toString());
+		return data.exists();
+	}
+	
+	public PugnaPlayer loadPlayer(Player player)
+	{
+		PugnaPlayer play = new PugnaPlayer();
+		try
+		{
+			File data            = new File(pg.datalocal + "/playerdata/" + player.getUniqueId().toString());
+			FileInputStream fis  = new FileInputStream(data);
+			ObjectInputStream ois= new ObjectInputStream(fis);
+
+			play = (PugnaPlayer)ois.readObject();
+
+			ois.close();
+			fis.close();
+		}
+		catch(Exception ex)
+		{
+			Log.severe(" " + ex.getMessage());
+		}
+		return play;
 	}
 }

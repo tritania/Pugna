@@ -95,7 +95,9 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerLeave(PlayerQuitEvent event)
     {
-       
+       Player player = event.getPlayer();
+       pg.storage.savePlayer(player);
+       pg.track.stopTracking(player);
     }
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

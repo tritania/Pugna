@@ -19,8 +19,9 @@ package org.tritania.pugna.wrappers;
 
 import java.util.UUID;
 import org.bukkit.inventory.ItemStack;
+import java.io.Serializable;
 
-public class PugnaPlayer
+public class PugnaPlayer implements Serializable
 {
 	private int score;
 	private boolean teamChat;
