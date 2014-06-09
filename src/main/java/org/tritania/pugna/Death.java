@@ -41,197 +41,198 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
+import org.tritania.pugna.wrappers.*;
 
 public class Death 
 {
-	private HashMap<String, UUID> deathlocations = new HashMap<String, UUID>();
-	private HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
-	
-	public Pugna pg;
+    private HashMap<String, DeathChest> deathlocations = new HashMap<String, DeathChest>();
+    private HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
+    
+    public Pugna pg;
 
     public Death(Pugna pg)
     {
         this.pg = pg;
         if (pg.config.deathChest)
         {
-			pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
-			{
-				public void run() 
-				{
-					destroyAll();
-				}
-			}, pg.config.deathChestTime);
-		}
+            pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
+            {
+                public void run() 
+                {
+                    destroyAll();
+                }
+            }, pg.config.deathChestTime);
+        }
     }
     
     public void destroyAll() 
     {
-		Iterator<Map.Entry<String, UUID>> iterator = deathlocationspost.entrySet().iterator();
+        Iterator<Map.Entry<String, UUID>> iterator = deathlocationspost.entrySet().iterator();
         while(iterator.hasNext())
         {
             Map.Entry<String, UUID> entry = iterator.next();
             String[] ld = entry.getKey().split(",");
-			Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
-			Block toDestroy = location.getBlock();
-			if(toDestroy.getType().equals(Material.CHEST)) 
-			{
-				toDestroy.setType(Material.AIR);
-			}
-			iterator.remove();
-		}
-	}
-	
-	public void removeChest(UUID playerID, Location local) 
-	{
-		
-		String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
-		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
+            Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+            Block toDestroy = location.getBlock();
+            if(toDestroy.getType().equals(Material.CHEST)) 
+            {
+                toDestroy.setType(Material.AIR);
+            }
+            iterator.remove();
+        }
+    }
+    
+    public void removeChest(UUID playerId, Location local) 
+    {
+        String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
+        Iterator<Map.Entry<String, DeathChest>> iterator = deathlocations.entrySet().iterator();
+        
         while(iterator.hasNext())
         {
-            Map.Entry<String, UUID> entry = iterator.next();
-            UUID IDdestroy = entry.getValue();
-            String loc    = entry.getKey();
-			if (IDdestroy.equals(playerID) && loc.equals(location))
-			{
-				Block toDestroy = local.getBlock();
-				if(toDestroy.getType().equals(Material.CHEST)) 
-				{
-					toDestroy.setType(Material.AIR);
-				}
-				iterator.remove();
-			}
-		}
-	}
-	
-	public void removePlayerChests(UUID playerID)
-	{
-		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
+            Map.Entry<String, DeathChest> entry = iterator.next();
+            DeathChest chest = entry.getValue();
+            String loc = entry.getKey();
+            
+            if (chest.checkOwner(playerId) && loc.equals(location)) //might need to do array check
+            {
+                Block toDestroy = local.getBlock();
+                if(toDestroy.getType().equals(Material.CHEST)) 
+                {
+                    toDestroy.setType(Material.AIR);
+                }
+                iterator.remove();
+            }
+        }
+    }
+    
+    public void removePlayerChests(UUID playerID)
+    {
+        Iterator<Map.Entry<String, DeathChest>> iterator = deathlocations.entrySet().iterator();
         while(iterator.hasNext())
         {
-            Map.Entry<String, UUID> entry = iterator.next();
-            UUID IDdestroy = entry.getValue();
-			if (IDdestroy.equals(playerID))
-			{
-				String[] ld = entry.getKey().split(",");
-				Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
-				removeChest(playerID, location);
-			}
-		}
-	}
-	
-	public void changeOwnership(UUID current, Player postplayer)
-	{
-		UUID post = postplayer.getUniqueId();
-		Iterator<Map.Entry<String, UUID>> iterator = deathlocations.entrySet().iterator();
+            Map.Entry<String, DeathChest> entry = iterator.next();
+            DeathChest chest = entry.getValue();
+            if (chest.checkOwner(playerID))
+            {
+                String[] ld = entry.getKey().split(",");
+                Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
+                removeChest(playerID, location);
+            }
+        }
+    }
+    
+    public void changeOwnership(UUID current, Player postplayer)
+    {
+        UUID post = postplayer.getUniqueId();
+        Iterator<Map.Entry<String, DeathChest>> iterator = deathlocations.entrySet().iterator();
         while(iterator.hasNext())
         {
-            Map.Entry<String, UUID> entry = iterator.next();
-            UUID preId = entry.getValue();
-			if (preId.equals(current))
-			{
-				deathlocations.put(entry.getKey(), post);
-				String[] ld = entry.getKey().split(",");
-				Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
-				deathChestTimer(postplayer, location);
-			}
-		}		
-	}
+            Map.Entry<String, DeathChest> entry = iterator.next();
+            DeathChest chest = entry.getValue();
+            if (chest.checkOwner(current))
+            {
+                chest.addOther(post);
+                deathlocations.put(entry.getKey(), chest);
+            }
+        }       
+    }
     
     public void createDeathChest(Player player, List<ItemStack> drops) 
     {
-		if (pg.config.deathChest)
-		{
-			Location death = player.getLocation();
-			Block chest = death.getBlock();
-			chest.setType(Material.CHEST);
-			Chest chestp = (Chest) death.getBlock().getState();
-			for (ItemStack tmp : drops)
-			{
-				chestp.getInventory().addItem(tmp);
-			}
-			
-			UUID playerId = player.getUniqueId();
-			String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-			deathlocations.put(local, playerId);
-			
-			CommandSender pc = (CommandSender) player;
-			Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
-			
-			deathChestTimer(player, death);
-		}
-	}
-	
-	public void deathChestTimer(final Player player, final Location location)
-	{
-		new BukkitRunnable()
-		{
-			@Override
-			public void run()
-			{
-				UUID playID = player.getUniqueId();
-				removeChest(playID, location);
-			}
-		}.runTaskLater(pg, pg.config.deathChestTime);
-	}
-	
-	
-	
-	public boolean checkPlayer(Location location, Player player)
-	{
-		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
-		UUID playerId = player.getUniqueId();
-		String match = null;
-		for (Map.Entry<String, UUID> entry : deathlocations.entrySet())
-		{
-				if (entry.getValue().equals(playerId))
-				{
-					match = entry.getKey();
-				}
-		}
-		if (player.hasPermission("pugna.chestoveride"))
-		{
-			return true;
-		}
-		else if (local.equals(match))
-		{
-			return true;
-		}
-		else
-		{
-			for (Map.Entry<String, UUID> entry : deathlocations.entrySet())
-			{
-				if (entry.getKey().equals(local))
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-		
-	}
-	
-	public boolean checkBlock(Block block)
-	{
-		Location location = block.getLocation();
-		String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
-		if(deathlocations.containsKey(local))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	public void loadDeathChests()
+        if (pg.config.deathChest)
+        {
+            Location death = player.getLocation();
+            Block chest = death.getBlock();
+            chest.setType(Material.CHEST);
+            Chest chestp = (Chest) death.getBlock().getState();
+            for (ItemStack tmp : drops)
+            {
+                chestp.getInventory().addItem(tmp);
+            }
+            UUID playerId = player.getUniqueId();
+            String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
+            DeathChest box = new DeathChest(playerId);
+            deathlocations.put(local, box);
+            
+            CommandSender pc = (CommandSender) player;
+            Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
+            
+            deathChestTimer(player, death);
+        }
+    }
+    
+    public void deathChestTimer(final Player player, final Location location)
     {
-		deathlocationspost = pg.storage.loadData("deathChests.data");
-	}
-	
-	public void offloadDeathChests()
-	{
-		pg.storage.saveData(deathlocations, "deathChests.data");	
-	}
-	
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                UUID playID = player.getUniqueId();
+                removeChest(playID, location);
+            }
+        }.runTaskLater(pg, pg.config.deathChestTime);
+    }
+    
+    
+    
+    public boolean checkPlayer(Location location, Player player)
+    {
+        String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
+        String match = null;
+        UUID playerId = player.getUniqueId();
+        for (Map.Entry<String, DeathChest> entry : deathlocations.entrySet())
+        {
+			DeathChest chest = entry.getValue();
+			if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
+			{
+				match = entry.getKey();
+			}
+        }
+        if (player.hasPermission("pugna.chestoveride"))
+        {
+            return true;
+        }
+        else if (local.equals(match))
+        {
+            return true;
+        }
+        else
+        {
+            for (Map.Entry<String, DeathChest> entry : deathlocations.entrySet()) //instance of
+            {
+                if (entry.getKey().equals(local))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+    }
+    
+    public boolean checkBlock(Block block)
+    {
+        Location location = block.getLocation();
+        String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
+        if(deathlocations.containsKey(local))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public void loadDeathChests()
+    {
+        deathlocationspost = pg.storage.loadData("deathChests.data");
+    }
+    
+    public void offloadDeathChests()
+    {
+        pg.storage.saveData(deathlocations, "deathChests.data");    
+    }
+    
 }

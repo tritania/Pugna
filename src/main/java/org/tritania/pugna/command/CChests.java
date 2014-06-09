@@ -74,7 +74,7 @@ public class CChests implements CommandExecutor
 					return true;
 				}
 			}
-			else if(args[0].equals("give"))
+			else if(args[0].equals("allow"))
 			{
 				if(args.length > 1)
 				{
