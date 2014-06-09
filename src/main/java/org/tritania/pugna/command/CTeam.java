@@ -107,6 +107,7 @@ public class CTeam implements CommandExecutor
                 {
                     Player remove = Bukkit.getPlayer(args[1]);
                     PugnaPlayer play = pg.track.getPlayerData(remove);
+                    play.removeTeam();
                     team.removeMember(remove, play);
                     team.sendMessage(remove.getDisplayName() + " left the team");
                 }

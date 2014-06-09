@@ -33,6 +33,7 @@ import org.bukkit.inventory.*;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
+import org.tritania.pugna.util.Tools;
 /*End Imports*/
 
 public class CBounty implements CommandExecutor 
@@ -52,44 +53,60 @@ public class CBounty implements CommandExecutor
             Message.info(sender, command.getUsage());
             return true;
         }
-        if (args[0].equals("add"))
+        else if (args[0].equals("add"))
         {
-			if (Bukkit.getPlayer(args[1]) == player)
+			if (Tools.isPlayer(args[1]))
 			{
-				Message.info(sender, command.getUsage());
-				return true;
-			}
-			Player target = Bukkit.getPlayer(args[1]);
-			Material item = Material.getMaterial(args[2].toUpperCase());
-			int amount = Integer.parseInt(args[3]);
-			if (pg.bt.checkOutstanding(target, player))
-			{
-				return true;
-			}
-			if (pg.inv.checkForItems(player, item, amount))
-			{
-				ItemStack bounty = new ItemStack(item, amount);
-				pg.bt.createBounty(target, player, bounty);
-				pg.inv.removeItems(player, bounty);
-				return true;
+				if (Bukkit.getPlayer(args[1]) == player)
+				{
+					Message.info(sender, command.getUsage());
+					return true;
+				}
+				Player target = Bukkit.getPlayer(args[1]);
+				Material item = Material.getMaterial(args[2].toUpperCase());
+				int amount = Integer.parseInt(args[3]);
+				if (pg.bt.checkOutstanding(target, player))
+				{
+					return true;
+				}
+				if (pg.inv.checkForItems(player, item, amount))
+				{
+					ItemStack bounty = new ItemStack(item, amount);
+					pg.bt.createBounty(target, player, bounty);
+					pg.inv.removeItems(player, bounty);
+					return true;
+				}
+				else
+				{
+					 Message.info(sender, "You don't have the items for that");
+					 return true;
+				}
 			}
 			else
 			{
-				 Message.info(sender, "You don't have the items for that");
-				 return true;
+				Message.info(sender, "Not currently a player");
 			}
 		}
 		else if (args[0].equals("remove"))
 		{
-			Player target = Bukkit.getPlayer(args[1]);
-			pg.bt.removeBounty(target, player);
-			return true;
+			if (Tools.isPlayer(args[1]))
+			{
+				Player target = Bukkit.getPlayer(args[1]);
+				pg.bt.removeBounty(target, player);
+				return true;
+			}
+			else
+			{
+				Message.info(sender, "No bounty for this player");
+			}
 		}
 		else
 		{
 			Message.info(sender, command.getUsage());
             return true;
 		}
-		
+		return true;
 	}
 }
+
+

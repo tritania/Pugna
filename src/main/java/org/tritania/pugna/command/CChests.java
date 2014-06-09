@@ -28,6 +28,7 @@ import org.bukkit.Bukkit;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
+import org.tritania.pugna.util.Tools;
 /*End Imports*/
 
 public class CChests implements CommandExecutor 
@@ -77,8 +78,15 @@ public class CChests implements CommandExecutor
 			{
 				if(args.length > 1)
 				{
-					Player sharee = Bukkit.getPlayer(args[1]);
-					pg.dt.changeOwnership(player.getUniqueId(), sharee);
+					if (Tools.isPlayer(args[1]))
+					{
+						Player sharee = Bukkit.getPlayer(args[1]);
+						pg.dt.changeOwnership(player.getUniqueId(), sharee);
+					}
+					else
+					{
+						Message.info(sender, "No such player!");
+					}
 				}
 				else
 				{

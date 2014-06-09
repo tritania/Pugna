@@ -32,6 +32,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -50,12 +51,15 @@ import org.bukkit.block.Chest;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Monster;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Explosive;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.entity.Projectile;
+import org.bukkit.util.Vector;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -65,28 +69,28 @@ import org.tritania.pugna.util.Message;
 
 public class PlayerListener implements Listener
 {
-	private Pugna pg;
+    private Pugna pg;
 
-	public PlayerListener(Pugna pg)
-	{
-		this.pg = pg;
-	}
-	
-	public void register()
-	{
-		PluginManager manager;
-		
-		manager = pg.getServer().getPluginManager();
-		manager.registerEvents(this, pg);
-	} 
-	
-	@EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
-	public void onPlayerJoin(PlayerJoinEvent event)
-	{
+    public PlayerListener(Pugna pg)
+    {
+        this.pg = pg;
+    }
+    
+    public void register()
+    {
+        PluginManager manager;
+        
+        manager = pg.getServer().getPluginManager();
+        manager.registerEvents(this, pg);
+    } 
+    
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onPlayerJoin(PlayerJoinEvent event)
+    {
        Player player = event.getPlayer();
        pg.bt.checkOutstanding(player);
        pg.track.startTracking(player);
-	}
+    }
     
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerLeave(PlayerQuitEvent event)
@@ -97,75 +101,98 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
-		List<ItemStack> drops = event.getDrops();
-		Player player = (Player) event.getEntity();
-		pg.dt.createDeathChest(player, drops);
-		pg.bt.checkOutstanding(player);
-		event.getDrops().clear();
-		
-		Location location = player.getLocation();
-		World world = location.getWorld();
-		String pName = player.getName();
+        List<ItemStack> drops = event.getDrops();
+        Player player = (Player) event.getEntity();
+        pg.dt.createDeathChest(player, drops);
+        pg.bt.checkOutstanding(player);
+        event.getDrops().clear();
+        
+        Location location = player.getLocation();
+        World world = location.getWorld();
+        String pName = player.getName();
 
-		ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
-		ItemMeta itemMeta = item.getItemMeta();
-		ArrayList<String> itemDesc = new ArrayList<String>();
-		itemMeta.setDisplayName("Head of " + pName);
-		itemDesc.add(event.getDeathMessage());
-		itemMeta.setLore(itemDesc);
-		((SkullMeta) itemMeta).setOwner(pName);
-		item.setItemMeta(itemMeta);
-		world.dropItemNaturally(location, item);
+        ItemStack item = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+        ItemMeta itemMeta = item.getItemMeta();
+        ArrayList<String> itemDesc = new ArrayList<String>();
+        itemMeta.setDisplayName("Head of " + pName);
+        itemDesc.add(event.getDeathMessage());
+        itemMeta.setLore(itemDesc);
+        ((SkullMeta) itemMeta).setOwner(pName);
+        item.setItemMeta(itemMeta);
+        world.dropItemNaturally(location, item);
     }
     
-	@EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
-	public void dmg(EntityDamageEvent event) 
-	{
-		Entity e = event.getEntity();
-		if (e instanceof Player) 
-		{
-			Player player = (Player) e;
-			pg.com.combatStart(player);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
+    public void dmg(EntityDamageEvent event) 
+    {
+        Entity e = event.getEntity();
+        if (e instanceof Player) 
+        {
+            Player player = (Player) e;
+            pg.com.combatStart(player);
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
     public void playerInteract(PlayerInteractEvent event) 
     {
         Player player = event.getPlayer();
         if(!event.hasBlock())
         {
-			
-		}
-		else
-		{
-			Block block = event.getClickedBlock();
-			if(block.getType().equals(Material.CHEST)) 
-			{
-				if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
-				{
-					Location location = block.getLocation();
-					if (pg.dt.checkPlayer(location, player))
-					{
-						
-					}
-					else
-					{
-						event.setCancelled(true);
-						CommandSender pc = (CommandSender) player;
-						Message.info(pc, "Stop trying to steal stuff!");
-					}
-				}
-			}
-		}
+            
+        }
+        else
+        {
+            Block block = event.getClickedBlock();
+            if(block.getType().equals(Material.CHEST)) 
+            {
+                if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
+                {
+                    Location location = block.getLocation();
+                    if (pg.dt.checkPlayer(location, player))
+                    {
+                        
+                    }
+                    else
+                    {
+                        event.setCancelled(true);
+                        CommandSender pc = (CommandSender) player;
+                        Message.info(pc, "Stop trying to steal stuff!");
+                    }
+                }
+            }
+        }
     }
-	
-	@EventHandler(priority = EventPriority.NORMAL)
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void projectileHit(ProjectileHitEvent event)
+    {
+        if (event.getEntity() instanceof Arrow)
+        {
+            Entity arrow = (Arrow) event.getEntity();
+            //Player player = (Player) event.getEntity().getShooter();
+            Block block = arrow.getLocation().getBlock();
+            int flame = arrow.getFireTicks();
+            if (flame > 0)
+            {
+                block.setType(Material.FIRE);
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onDmg(EntityDamageByEntityEvent event) 
     {
-        if (event.getDamager() instanceof Monster) 
+        if (event.getEntity() instanceof Player)
         {
-            event.setDamage(event.getDamage() + 6);
+            if (event.getDamager() instanceof Monster) 
+            {
+                event.setDamage(event.getDamage() + 6);
+            }
+            else if (event.getDamager() instanceof Arrow)
+            {
+                
+            }
         }
     }
     
@@ -177,10 +204,10 @@ public class PlayerListener implements Listener
         
         if (play.getChatState())
         {
-			event.setCancelled(true);
-			String teamName = play.getTeam();
+            event.setCancelled(true);
+            String teamName = play.getTeam();
             PugnaTeam team = pg.teams.getTeam(teamName);
             team.sendMessage(player, " " + event.getMessage());
-		}
+        }
     }
 }
