@@ -44,12 +44,12 @@ public class PugnaTeam implements Serializable
 {
     
     private String teamName;
-    private Player founder;
+    private UUID founder;
     private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
     
     public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
     {
-        this.founder = founder; 
+        this.founder = founder.getUniqueId(); 
         this.teamName = teamName;
         this.teammembers.put(founder.getUniqueId(), data);
     }
@@ -71,7 +71,7 @@ public class PugnaTeam implements Serializable
     
     public void setNewFounder(Player player)
     {
-        founder = player;
+        founder = player.getUniqueId();
     }
     
     public boolean checkFounder(Player player)
@@ -82,7 +82,7 @@ public class PugnaTeam implements Serializable
 		}
 		else
 		{
-			return player.getUniqueId().equals(founder.getUniqueId());
+			return player.getUniqueId().equals(founder);
 		}
     }
     

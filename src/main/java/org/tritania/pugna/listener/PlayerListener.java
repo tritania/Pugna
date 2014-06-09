@@ -204,11 +204,11 @@ public class PlayerListener implements Listener
         Player player = event.getPlayer();
         PugnaPlayer play = pg.track.getPlayerData(player);
         
-        if (play.getChatState())
+        if (play.getChatState() && play.getTeamState())
         {
             event.setCancelled(true);
             String teamName = play.getTeam();
-            PugnaTeam team = pg.teams.getTeam(teamName);
+            PugnaTeam team = pg.teams.getTeam(teamName); //
             team.sendMessage(player, " " + event.getMessage());
         }
     }

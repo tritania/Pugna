@@ -83,6 +83,7 @@ public class Pugna extends JavaPlugin
 		
 		dt.loadDeathChests();
 		track.loadPlayers();
+		teams.loadTeams();
 		
 		getCommand("pg").setExecutor(new Cpg(this));
 		getCommand("bounty").setExecutor(new CBounty(this));
@@ -96,5 +97,6 @@ public class Pugna extends JavaPlugin
 	{
 		dt.offloadDeathChests();
 		track.savePlayers();
+		teams.saveTeams();
 	}
 }
