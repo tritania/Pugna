@@ -85,7 +85,7 @@ public class Teams
 	
 	public void loadTeams()
 	{
-		pg.storage.loadData("teams.data");
+		teamList = pg.storage.loadData("teams.data");
 	}
 	public void saveTeams()
 	{
