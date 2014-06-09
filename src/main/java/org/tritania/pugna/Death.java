@@ -46,7 +46,7 @@ import org.tritania.pugna.wrappers.*;
 public class Death 
 {
     private HashMap<String, DeathChest> deathlocations = new HashMap<String, DeathChest>();
-    private HashMap<String, UUID> deathlocationspost = new HashMap<String, UUID>();
+    private HashMap<String, DeathChest> deathlocationspost = new HashMap<String, DeathChest>();
     
     public Pugna pg;
 
@@ -67,10 +67,10 @@ public class Death
     
     public void destroyAll() 
     {
-        Iterator<Map.Entry<String, UUID>> iterator = deathlocationspost.entrySet().iterator();
+        Iterator<Map.Entry<String, DeathChest>> iterator = deathlocationspost.entrySet().iterator();
         while(iterator.hasNext())
         {
-            Map.Entry<String, UUID> entry = iterator.next();
+            Map.Entry<String, DeathChest> entry = iterator.next();
             String[] ld = entry.getKey().split(",");
             Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
             Block toDestroy = location.getBlock();
@@ -199,14 +199,11 @@ public class Death
         }
         else
         {
-            for (Map.Entry<String, DeathChest> entry : deathlocations.entrySet()) //instance of
+            if(deathlocations.containsKey(local))
             {
-                if (entry.getKey().equals(local))
-                {
-                    return false;
-                }
-            }
-            return true;
+				return false;
+			}
+			return true;
         }
         
     }
