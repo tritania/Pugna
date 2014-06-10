@@ -44,11 +44,11 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 import org.tritania.pugna.wrappers.*;
 
-public class Death 
+public class Death
 {
     private HashMap<String, DeathChest> deathlocations = new HashMap<String, DeathChest>();
     private HashMap<String, DeathChest> deathlocationspost = new HashMap<String, DeathChest>();
-    
+
     public Pugna pg;
 
     public Death(Pugna pg)
@@ -56,17 +56,17 @@ public class Death
         this.pg = pg;
         if (pg.config.deathChest)
         {
-            pg.getServer().getScheduler().runTaskLater(pg, new Runnable() 
+            pg.getServer().getScheduler().runTaskLater(pg, new Runnable()
             {
-                public void run() 
+                public void run()
                 {
                     destroyAll();
                 }
             }, pg.config.deathChestTime);
         }
     }
-    
-    public void destroyAll() 
+
+    public void destroyAll()
     {
         Iterator<Map.Entry<String, DeathChest>> iterator = deathlocationspost.entrySet().iterator();
         while(iterator.hasNext())
@@ -75,9 +75,9 @@ public class Death
             String[] ld = entry.getKey().split(",");
             Location location = new Location(Bukkit.getWorld(ld[0]),Double.parseDouble(ld[1]),Double.parseDouble(ld[2]),Double.parseDouble(ld[3]));
             Block toDestroy = location.getBlock();
-            if(toDestroy.getType().equals(Material.CHEST)) 
+            if(toDestroy.getType().equals(Material.CHEST))
             {
-                Chest drops = (Chest) toDestroy.getState(); 
+                Chest drops = (Chest) toDestroy.getState();
                 drops.getInventory().clear();
                 toDestroy.setType(Material.AIR);
                 toDestroy.setType(Material.AIR);
@@ -85,24 +85,24 @@ public class Death
             iterator.remove();
         }
     }
-    
-    public void removeChest(UUID playerId, Location local) 
+
+    public void removeChest(UUID playerId, Location local)
     {
         String location = local.getWorld().getName() + "," + String.valueOf( local.getBlockX()) + "," + String.valueOf( local.getBlockY()) + "," + String.valueOf(local.getBlockZ());
         Iterator<Map.Entry<String, DeathChest>> iterator = deathlocations.entrySet().iterator();
-        
+
         while(iterator.hasNext())
         {
             Map.Entry<String, DeathChest> entry = iterator.next();
             DeathChest chest = entry.getValue();
             String loc = entry.getKey();
-            
-            if (chest.checkOwner(playerId) && loc.equals(location)) 
+
+            if (chest.checkOwner(playerId) && loc.equals(location))
             {
                 Block toDestroy = local.getBlock();
-                if(toDestroy.getType().equals(Material.CHEST)) 
+                if(toDestroy.getType().equals(Material.CHEST))
                 {
-                    Chest drops = (Chest) toDestroy.getState(); 
+                    Chest drops = (Chest) toDestroy.getState();
                     drops.getInventory().clear();
                     toDestroy.setType(Material.AIR);
                 }
@@ -110,7 +110,7 @@ public class Death
             }
         }
     }
-    
+
     public void removePlayerChests(UUID playerID)
     {
         Iterator<Map.Entry<String, DeathChest>> iterator = deathlocations.entrySet().iterator();
@@ -126,7 +126,7 @@ public class Death
             }
         }
     }
-    
+
     public void changeOwnership(UUID current, Player postplayer)
     {
         UUID post = postplayer.getUniqueId();
@@ -140,36 +140,36 @@ public class Death
                 chest.addOther(post);
                 deathlocations.put(entry.getKey(), chest);
             }
-        }       
+        }
     }
-    
-    public void createDeathChest(Player player, List<ItemStack> drops) 
+
+    public void createDeathChest(Player player, List<ItemStack> drops)
     {
         if (pg.config.deathChest)
         {
-			if(pg.config.global || player.getLocation().getWorld().toString().equals(pg.config.mapName))
-			{
-				Location death = checkLocation(player.getLocation());
-				Block chest = death.getBlock();
-				chest.setType(Material.CHEST);
-				Chest chestp = (Chest) death.getBlock().getState();
-				for (ItemStack tmp : drops)
-				{
-					chestp.getInventory().addItem(tmp);
-				}
-				UUID playerId = player.getUniqueId();
-				String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-				DeathChest box = new DeathChest(playerId);
-				deathlocations.put(local, box);
-				
-				CommandSender pc = (CommandSender) player;
-				Message.info(pc, "You have " + String.valueOf(pg.config.deathChestTime/20) + " seconds to retrive your items, good luck!"); //need to fix
-				
-				deathChestTimer(player, death);
-			}
+            if(pg.config.global || player.getLocation().getWorld().toString().equals(pg.config.mapName))
+            {
+                Location death = checkLocation(player.getLocation());
+                Block chest = death.getBlock();
+                chest.setType(Material.CHEST);
+                Chest chestp = (Chest) death.getBlock().getState();
+                for (ItemStack tmp : drops)
+                {
+                    chestp.getInventory().addItem(tmp);
+                }
+                UUID playerId = player.getUniqueId();
+                String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
+                DeathChest box = new DeathChest(playerId);
+                deathlocations.put(local, box);
+
+                CommandSender pc = (CommandSender) player;
+                Message.info(pc, "You have " + String.valueOf(pg.config.deathChestTime/20) + " seconds to retrive your items, good luck!"); //need to fix
+
+                deathChestTimer(player, death);
+            }
         }
     }
-    
+
     public void deathChestTimer(final Player player, final Location location)
     {
         new BukkitRunnable()
@@ -182,27 +182,20 @@ public class Death
             }
         }.runTaskLater(pg, pg.config.deathChestTime);
     }
-    
-    
-    
+
+
+
     public boolean checkPlayer(Location location, Player player)
     {
         String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
         String match = null;
         UUID playerId = player.getUniqueId();
-        for (Map.Entry<String, DeathChest> entry : deathlocations.entrySet())
-        {
-            DeathChest chest = entry.getValue();
-            if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
-            {
-                match = entry.getKey();
-            }
-        }
-        if (player.hasPermission("pugna.chestoveride"))
+        DeathChest chest = deathlocations.get(local);
+        if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
         {
             return true;
         }
-        else if (local.equals(match))
+        if (player.hasPermission("pugna.chestoveride"))
         {
             return true;
         }
@@ -214,9 +207,9 @@ public class Death
             }
             return true;
         }
-        
+
     }
-    
+
     public boolean checkBlock(Block block)
     {
         Location location = block.getLocation();
@@ -230,37 +223,37 @@ public class Death
             return false;
         }
     }
-    
+
     public Location checkLocation(Location location)
     {
-		boolean safe = true;
+        boolean safe = true;
         Block chest = location.getBlock();
         while (safe)
         {
-			Block north = chest.getRelative(BlockFace.NORTH, 1);
-			Block south = chest.getRelative(BlockFace.SOUTH, 1);
-			Block west  = chest.getRelative(BlockFace.WEST, 1);
-			Block east  = chest.getRelative(BlockFace.EAST, 1);
-			if (chest.getType().equals(Material.CHEST) || north.getType().equals(Material.CHEST) || south.getType().equals(Material.CHEST) || west.getType().equals(Material.CHEST) || east.getType().equals(Material.CHEST) )
-			{
-				chest = chest.getRelative(BlockFace.UP, 1);
-			}
-			else
-			{
-				safe = false;
-			}
-		}
+            Block north = chest.getRelative(BlockFace.NORTH, 1);
+            Block south = chest.getRelative(BlockFace.SOUTH, 1);
+            Block west  = chest.getRelative(BlockFace.WEST, 1);
+            Block east  = chest.getRelative(BlockFace.EAST, 1);
+            if (chest.getType().equals(Material.CHEST) || north.getType().equals(Material.CHEST) || south.getType().equals(Material.CHEST) || west.getType().equals(Material.CHEST) || east.getType().equals(Material.CHEST) )
+            {
+                chest = chest.getRelative(BlockFace.UP, 1);
+            }
+            else
+            {
+                safe = false;
+            }
+        }
         return chest.getLocation();
     }
-    
+
     public void loadDeathChests()
     {
         deathlocationspost = pg.storage.loadData("deathChests.data");
     }
-    
+
     public void offloadDeathChests()
     {
-        pg.storage.saveData(deathlocations, "deathChests.data");    
+        pg.storage.saveData(deathlocations, "deathChests.data");
     }
-    
+
 }

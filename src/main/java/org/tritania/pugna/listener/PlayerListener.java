@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package org.tritania.pugna.listener;
 
 import java.util.HashMap;
@@ -60,6 +60,9 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.event.inventory.InventoryAction;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -75,15 +78,15 @@ public class PlayerListener implements Listener
     {
         this.pg = pg;
     }
-    
+
     public void register()
     {
         PluginManager manager;
-        
+
         manager = pg.getServer().getPluginManager();
         manager.registerEvents(this, pg);
-    } 
-    
+    }
+
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerJoin(PlayerJoinEvent event)
     {
@@ -93,11 +96,11 @@ public class PlayerListener implements Listener
        PugnaPlayer play = pg.track.getPlayerData(player);
        if (play.getTeamState())
        {
-		   PugnaTeam team = pg.teams.getTeam(play.getTeam());
-		   team.setOnline();
-	   }
+           PugnaTeam team = pg.teams.getTeam(play.getTeam());
+           team.setOnline();
+       }
     }
-    
+
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerLeave(PlayerQuitEvent event)
     {
@@ -106,12 +109,12 @@ public class PlayerListener implements Listener
        PugnaPlayer play = pg.track.getPlayerData(player);
        if (play.getTeamState())
        {
-		   PugnaTeam team = pg.teams.getTeam(play.getTeam());
-		   team.setOffline();
-	   }
+           PugnaTeam team = pg.teams.getTeam(play.getTeam());
+           team.setOffline();
+       }
        pg.track.stopTracking(player);
     }
-    
+
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event)
     {
@@ -120,7 +123,7 @@ public class PlayerListener implements Listener
         pg.dt.createDeathChest(player, drops);
         pg.bt.checkOutstanding(player);
         event.getDrops().clear();
-        
+
         Location location = player.getLocation();
         World world = location.getWorld();
         String pName = player.getName();
@@ -135,37 +138,37 @@ public class PlayerListener implements Listener
         item.setItemMeta(itemMeta);
         world.dropItemNaturally(location, item);
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
-    public void dmg(EntityDamageEvent event) 
+    public void dmg(EntityDamageEvent event)
     {
         Entity e = event.getEntity();
-        if (e instanceof Player) 
+        if (e instanceof Player)
         {
             Player player = (Player) e;
             pg.com.combatStart(player);
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void playerInteract(PlayerInteractEvent event) 
+    public void playerInteract(PlayerInteractEvent event)
     {
         Player player = event.getPlayer();
         if(!event.hasBlock())
         {
-            
+
         }
         else
         {
             Block block = event.getClickedBlock();
-            if(block.getType().equals(Material.CHEST)) 
+            if(block.getType().equals(Material.CHEST))
             {
                 if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getAction().equals(Action.LEFT_CLICK_BLOCK))
                 {
                     Location location = block.getLocation();
                     if (pg.dt.checkPlayer(location, player))
                     {
-                        
+
                     }
                     else
                     {
@@ -177,7 +180,7 @@ public class PlayerListener implements Listener
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void projectileHit(ProjectileHitEvent event)
     {
@@ -193,29 +196,29 @@ public class PlayerListener implements Listener
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onDmg(EntityDamageByEntityEvent event) 
+    public void onDmg(EntityDamageByEntityEvent event)
     {
         if (event.getEntity() instanceof Player)
         {
-            if (event.getDamager() instanceof Monster) 
+            if (event.getDamager() instanceof Monster)
             {
                 event.setDamage(event.getDamage() + 6);
             }
             else if (event.getDamager() instanceof Arrow)
             {
-                
+
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
     public void onChat(PlayerChatEvent event)
     {
         Player player = event.getPlayer();
         PugnaPlayer play = pg.track.getPlayerData(player);
-        
+
         if (play.getChatState() && play.getTeamState())
         {
             event.setCancelled(true);
