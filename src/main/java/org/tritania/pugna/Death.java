@@ -163,7 +163,7 @@ public class Death
 				deathlocations.put(local, box);
 				
 				CommandSender pc = (CommandSender) player;
-				Message.info(pc, "You have 5 minutes to retrive your items, good luck!"); //need to fix
+				Message.info(pc, "You have " + String.valueOf(pg.config.deathChestTime/20) + " seconds to retrive your items, good luck!"); //need to fix
 				
 				deathChestTimer(player, death);
 			}
