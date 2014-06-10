@@ -147,23 +147,26 @@ public class Death
     {
         if (pg.config.deathChest)
         {
-            Location death = checkLocation(player.getLocation());
-            Block chest = death.getBlock();
-            chest.setType(Material.CHEST);
-            Chest chestp = (Chest) death.getBlock().getState();
-            for (ItemStack tmp : drops)
-            {
-                chestp.getInventory().addItem(tmp);
-            }
-            UUID playerId = player.getUniqueId();
-            String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
-            DeathChest box = new DeathChest(playerId);
-            deathlocations.put(local, box);
-            
-            CommandSender pc = (CommandSender) player;
-            Message.info(pc, "You have 5 minutes to retrive your items, good luck!"); //need to fix
-            
-            deathChestTimer(player, death);
+			if(pg.config.global || player.getLocation().getWorld().toString().equals(pg.config.mapName))
+			{
+				Location death = checkLocation(player.getLocation());
+				Block chest = death.getBlock();
+				chest.setType(Material.CHEST);
+				Chest chestp = (Chest) death.getBlock().getState();
+				for (ItemStack tmp : drops)
+				{
+					chestp.getInventory().addItem(tmp);
+				}
+				UUID playerId = player.getUniqueId();
+				String local = death.getWorld().getName() + "," + String.valueOf( death.getBlockX()) + "," + String.valueOf( death.getBlockY()) + "," + String.valueOf(death.getBlockZ());
+				DeathChest box = new DeathChest(playerId);
+				deathlocations.put(local, box);
+				
+				CommandSender pc = (CommandSender) player;
+				Message.info(pc, "You have 5 minutes to retrive your items, good luck!"); //need to fix
+				
+				deathChestTimer(player, death);
+			}
         }
     }
     
