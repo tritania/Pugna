@@ -76,6 +76,9 @@ public class Death
             Block toDestroy = location.getBlock();
             if(toDestroy.getType().equals(Material.CHEST)) 
             {
+				Chest drops = (Chest) toDestroy.getState(); 
+				drops.getInventory().clear();
+                toDestroy.setType(Material.AIR);
                 toDestroy.setType(Material.AIR);
             }
             iterator.remove();
@@ -93,11 +96,13 @@ public class Death
             DeathChest chest = entry.getValue();
             String loc = entry.getKey();
             
-            if (chest.checkOwner(playerId) && loc.equals(location)) //might need to do array check
+            if (chest.checkOwner(playerId) && loc.equals(location)) 
             {
                 Block toDestroy = local.getBlock();
                 if(toDestroy.getType().equals(Material.CHEST)) 
                 {
+					Chest drops = (Chest) toDestroy.getState(); 
+					drops.getInventory().clear();
                     toDestroy.setType(Material.AIR);
                 }
                 iterator.remove();
