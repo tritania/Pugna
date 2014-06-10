@@ -38,6 +38,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.block.BlockFace;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -76,8 +77,8 @@ public class Death
             Block toDestroy = location.getBlock();
             if(toDestroy.getType().equals(Material.CHEST)) 
             {
-				Chest drops = (Chest) toDestroy.getState(); 
-				drops.getInventory().clear();
+                Chest drops = (Chest) toDestroy.getState(); 
+                drops.getInventory().clear();
                 toDestroy.setType(Material.AIR);
                 toDestroy.setType(Material.AIR);
             }
@@ -101,8 +102,8 @@ public class Death
                 Block toDestroy = local.getBlock();
                 if(toDestroy.getType().equals(Material.CHEST)) 
                 {
-					Chest drops = (Chest) toDestroy.getState(); 
-					drops.getInventory().clear();
+                    Chest drops = (Chest) toDestroy.getState(); 
+                    drops.getInventory().clear();
                     toDestroy.setType(Material.AIR);
                 }
                 iterator.remove();
@@ -146,7 +147,7 @@ public class Death
     {
         if (pg.config.deathChest)
         {
-            Location death = player.getLocation();
+            Location death = checkLocation(player.getLocation());
             Block chest = death.getBlock();
             chest.setType(Material.CHEST);
             Chest chestp = (Chest) death.getBlock().getState();
@@ -160,7 +161,7 @@ public class Death
             deathlocations.put(local, box);
             
             CommandSender pc = (CommandSender) player;
-            Message.info(pc, "You have 5 minutes to retrive your items, good luck!");
+            Message.info(pc, "You have 5 minutes to retrive your items, good luck!"); //need to fix
             
             deathChestTimer(player, death);
         }
@@ -188,11 +189,11 @@ public class Death
         UUID playerId = player.getUniqueId();
         for (Map.Entry<String, DeathChest> entry : deathlocations.entrySet())
         {
-			DeathChest chest = entry.getValue();
-			if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
-			{
-				match = entry.getKey();
-			}
+            DeathChest chest = entry.getValue();
+            if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
+            {
+                match = entry.getKey();
+            }
         }
         if (player.hasPermission("pugna.chestoveride"))
         {
@@ -206,9 +207,9 @@ public class Death
         {
             if(deathlocations.containsKey(local))
             {
-				return false;
-			}
-			return true;
+                return false;
+            }
+            return true;
         }
         
     }
@@ -225,6 +226,28 @@ public class Death
         {
             return false;
         }
+    }
+    
+    public Location checkLocation(Location location)
+    {
+		boolean safe = true;
+        Block chest = location.getBlock();
+        while (safe)
+        {
+			Block north = chest.getRelative(BlockFace.NORTH, 1);
+			Block south = chest.getRelative(BlockFace.SOUTH, 1);
+			Block west  = chest.getRelative(BlockFace.WEST, 1);
+			Block east  = chest.getRelative(BlockFace.EAST, 1);
+			if (chest.getType().equals(Material.CHEST) || north.getType().equals(Material.CHEST) || south.getType().equals(Material.CHEST) || west.getType().equals(Material.CHEST) || east.getType().equals(Material.CHEST) )
+			{
+				chest = chest.getRelative(BlockFace.UP, 1);
+			}
+			else
+			{
+				safe = false;
+			}
+		}
+        return chest.getLocation();
     }
     
     public void loadDeathChests()
