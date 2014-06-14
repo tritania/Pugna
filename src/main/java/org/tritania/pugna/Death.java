@@ -190,24 +190,23 @@ public class Death
         String local = location.getWorld().getName() + "," + String.valueOf( location.getBlockX()) + "," + String.valueOf( location.getBlockY()) + "," + String.valueOf(location.getBlockZ());
         String match = null;
         UUID playerId = player.getUniqueId();
-        DeathChest chest = deathlocations.get(local);
-        if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
+        if(deathlocations.containsKey(local))
         {
-            return true;
-        }
-        if (player.hasPermission("pugna.chestoveride"))
-        {
-            return true;
-        }
-        else
-        {
-            if(deathlocations.containsKey(local))
+            DeathChest chest = deathlocations.get(local);
+            if (chest.checkOwner(playerId) || chest.checkForAcess(playerId))
+            {
+                return true;
+            }
+            else
             {
                 return false;
             }
+        }
+        else if (player.hasPermission("pugna.chestoveride"))
+        {
             return true;
         }
-
+        return true;
     }
 
     public boolean checkBlock(Block block)
