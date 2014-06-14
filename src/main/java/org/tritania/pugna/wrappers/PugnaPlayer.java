@@ -23,90 +23,96 @@ import java.io.Serializable;
 
 public class PugnaPlayer implements Serializable
 {
-	private int score;
-	private boolean teamChat;
-	private boolean inTeam;
-	private String teamName;
-	private boolean invite;
-	private String inviteTeamName;
-	
-	public PugnaPlayer()
-	{
-		score = 0;
-		teamChat = false;
-		inTeam = false;
-	}
-	
-	public void addScore(int value)
-	{
-		score = score + value;
-	}
-	
-	public void removeScore(int value)
-	{
-		score = score - value;
-	}
-	
-	public void setChat(boolean value)
-	{
-		teamChat = value;
-	}
-	
-	public boolean getChatState()
-	{
-		return teamChat;
-	}
-	
-	public void setTeam(String name)
-	{
-		inTeam = true;
-		teamName = name;
-	}
-	
-	public void setTeamState(boolean n)
-	{
-		inTeam = n;
-	}
-	
-	public void removeTeam()
-	{
-		inTeam = false;
-		teamName = null;
-	}
-	
-	public boolean getTeamState()
-	{
-		return inTeam;
-	}
-	
-	public String getTeam()
-	{
-		return teamName;
-	}
-	
-	public void invited(String teamName)
-	{
-		invite = true;
-		inviteTeamName = teamName;
-	}
-	
-	public String getInvTeamName()
-	{
-		return inviteTeamName;
-	}
-	
-	public void accepted()
-	{
-		invite = false;
-	}
-	
-	public void denied()
-	{
-		invite = false;
-	}
-	
-	public boolean getInviteState()
-	{
-		return invite;
-	}
+    private int score;
+    private boolean teamChat;
+    private boolean inTeam;
+    private String teamName;
+    private boolean invite;
+    private String inviteTeamName;
+
+    public PugnaPlayer()
+    {
+        score = 0;
+        teamChat = false;
+        inTeam = false;
+    }
+
+    public void addScore(int value)
+    {
+        score = score + value;
+    }
+
+    public void removeScore(int value)
+    {
+        score = score - value;
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void setChat(boolean value)
+    {
+        teamChat = value;
+    }
+
+    public boolean getChatState()
+    {
+        return teamChat;
+    }
+
+    public void setTeam(String name)
+    {
+        inTeam = true;
+        teamName = name;
+    }
+
+    public void setTeamState(boolean value)
+    {
+        inTeam = value;
+    }
+
+    public void removeTeam()
+    {
+        inTeam = false;
+        teamName = null;
+        teamChat = false;
+    }
+
+    public boolean getTeamState()
+    {
+        return inTeam;
+    }
+
+    public String getTeam()
+    {
+        return teamName;
+    }
+
+    public void invited(String teamName)
+    {
+        invite = true;
+        inviteTeamName = teamName;
+    }
+
+    public String getInvTeamName()
+    {
+        return inviteTeamName;
+    }
+
+    public void accepted()
+    {
+        invite = false;
+    }
+
+    public void denied()
+    {
+        invite = false;
+    }
+
+    public boolean getInviteState()
+    {
+        return invite;
+    }
 }

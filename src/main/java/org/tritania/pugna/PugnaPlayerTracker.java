@@ -39,7 +39,7 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 import org.tritania.pugna.wrappers.PugnaPlayer;
 
-public class PugnaPlayerTracker 
+public class PugnaPlayerTracker
 {
     public Pugna pg;
     private HashMap<UUID, PugnaPlayer> players = new HashMap<UUID, PugnaPlayer>();
@@ -48,19 +48,42 @@ public class PugnaPlayerTracker
     {
         this.pg = pg;
     }
-    
+
+    public Player getEmperor()
+    {
+        PugnaPlayer highest = new PugnaPlayer();
+        Iterator<Map.Entry<UUID, PugnaPlayer>> iterator = players.entrySet().iterator();
+        UUID id = null;
+        Player play = null;
+        while(iterator.hasNext())
+        {
+            Map.Entry<UUID, PugnaPlayer> entry = iterator.next();
+            PugnaPlayer player = entry.getValue();
+            if (player.getScore() > highest.getScore())
+            {
+                highest = player;
+                id = entry.getKey();
+            }
+        }
+        if (Bukkit.getOfflinePlayer(id) != null && Bukkit.getOfflinePlayer(id).isOnline())
+        {
+            play = (Player) Bukkit.getOfflinePlayer(id);
+        }
+        return play;
+    }
+
     public void startTracking(Player player)
     {
         pg.storage.check(player); //check for player file
         PugnaPlayer track = new PugnaPlayer();
         players.put(player.getUniqueId(), track);
     }
-    
+
     public void stopTracking(Player player)
     {
         players.remove(player.getUniqueId());
     }
-    
+
     public boolean checkTracking(Player player)
     {
         if(players.containsKey(player.getUniqueId()))
@@ -72,33 +95,33 @@ public class PugnaPlayerTracker
             return false;
         }
     }
-    
+
     public PugnaPlayer getPlayerData(Player player)
     {
         UUID playerId = player.getUniqueId();
         return players.get(playerId);
     }
-    
+
     public void savePlayers()
     {
         Player[] playersSave = Bukkit.getOnlinePlayers();
         for (Player play : playersSave)
         {
-			pg.storage.savePlayer(play);
-			players.remove(play.getUniqueId());
-		}
+            pg.storage.savePlayer(play);
+            players.remove(play.getUniqueId());
+        }
     }
-    
+
     public void loadPlayers()
     {
         Player[] playersSave = Bukkit.getOnlinePlayers();
         for (Player play : playersSave)
         {
-			if (pg.storage.check(play))
-			{
-				PugnaPlayer loaded = pg.storage.loadPlayer(play);
-				players.put(play.getUniqueId(), loaded);
-			}
-		}
+            if (pg.storage.check(play))
+            {
+                PugnaPlayer loaded = pg.storage.loadPlayer(play);
+                players.put(play.getUniqueId(), loaded);
+            }
+        }
     }
 }
