@@ -29,12 +29,19 @@ public class PugnaPlayer implements Serializable
     private String teamName;
     private boolean invite;
     private String inviteTeamName;
+    private String name;
 
-    public PugnaPlayer()
+    public PugnaPlayer(String name)
     {
+        name = name;
         score = 0;
         teamChat = false;
         inTeam = false;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public void addScore(int value)

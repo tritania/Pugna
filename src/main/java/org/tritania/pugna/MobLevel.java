@@ -16,15 +16,19 @@
  */
 package org.tritania.pugna;
 
+import java.util.List;
+
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
 import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.Creature;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Damageable;
@@ -34,69 +38,66 @@ import org.bukkit.entity.Monster;
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 
-public class MobLevel 
+public class MobLevel
 {
-	public Pugna pg;
+    public Pugna pg;
 
     public MobLevel(Pugna pg)
     {
         this.pg = pg;
     }
-    
-	public boolean alter(Entity mob, CreatureType type)
-	{
-		if (pg.config.diffmob != true)
-			return true;
-		if (!(mob instanceof Monster))
-			return true;
-		if (type == null)
-			return true;
-		
-		Damageable mob2 = (Damageable) mob;
-		
-		mob2.setMaxHealth(150);
-		mob2.setHealth(150);
-		
-		switch(type)
-		{
-			case CREEPER:
-			{
-				break;
-			}
-			case SKELETON:
-			{
-				break;
-			}
-			case SPIDER:
-			{
-				break;
-			}
-			case ZOMBIE:
-			{
-				break;
-			}
-			case SLIME:
-			{
-				break;
-			}
-			case ENDERMAN:
-			{
-				break;
-			}
-			case CAVE_SPIDER:
-			{
-				break;
-			}
-			case SILVERFISH:
-			{
-				break;
-			}
-			default:
-			{
-				
-			}
-		}
-		
-		return true;
-	} 
+
+    public boolean alter(Entity mob, CreatureType type)
+    {
+        if (pg.config.diffmob != true)
+            return true;
+        if (type == null)
+            return true;
+
+        Damageable mob2 = (Damageable) mob;
+
+        mob2.setMaxHealth(150);
+        mob2.setHealth(150);
+        switch(mob.getType())
+        {
+            case CREEPER:
+            {
+                break;
+            }
+            case SKELETON:
+            {
+                break;
+            }
+            case SPIDER:
+            {
+                break;
+            }
+            case ZOMBIE:
+            {
+                break;
+            }
+            case SLIME:
+            {
+                break;
+            }
+            case ENDERMAN:
+            {
+                break;
+            }
+            case CAVE_SPIDER:
+            {
+                break;
+            }
+            case SILVERFISH:
+            {
+                break;
+            }
+            default:
+            {
+
+            }
+        }
+
+        return true;
+    }
 }

@@ -37,45 +37,29 @@ import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
-import org.tritania.pugna.wrappers.PugnaPlayer;
+import org.tritania.pugna.wrappers.*;
 
 public class PugnaPlayerTracker
 {
     public Pugna pg;
+    private PugnaPlayer emperor;
     private HashMap<UUID, PugnaPlayer> players = new HashMap<UUID, PugnaPlayer>();
 
     public PugnaPlayerTracker(Pugna pg)
     {
         this.pg = pg;
+        emperor = pg.storage.getEmperor();
     }
 
-    public Player getEmperor()
+    public String getEmperorName()
     {
-        PugnaPlayer highest = new PugnaPlayer();
-        Iterator<Map.Entry<UUID, PugnaPlayer>> iterator = players.entrySet().iterator();
-        UUID id = null;
-        Player play = null;
-        while(iterator.hasNext())
-        {
-            Map.Entry<UUID, PugnaPlayer> entry = iterator.next();
-            PugnaPlayer player = entry.getValue();
-            if (player.getScore() > highest.getScore())
-            {
-                highest = player;
-                id = entry.getKey();
-            }
-        }
-        if (Bukkit.getOfflinePlayer(id) != null && Bukkit.getOfflinePlayer(id).isOnline())
-        {
-            play = (Player) Bukkit.getOfflinePlayer(id);
-        }
-        return play;
+        return emperor.getName();
     }
 
     public void startTracking(Player player)
     {
         pg.storage.check(player); //check for player file
-        PugnaPlayer track = new PugnaPlayer();
+        PugnaPlayer track = new PugnaPlayer(player.getDisplayName());
         players.put(player.getUniqueId(), track);
     }
 

@@ -226,5 +226,9 @@ public class PlayerListener implements Listener
             PugnaTeam team = pg.teams.getTeam(teamName); //
             team.sendMessage(player, " " + event.getMessage());
         }
+        else if (player.getPlayerListName().equals(pg.track.getEmperorName()))
+        {
+            event.setFormat("[EMPEROR] %s : %s");
+        }
     }
 }
