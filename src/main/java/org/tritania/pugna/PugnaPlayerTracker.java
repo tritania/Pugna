@@ -48,17 +48,25 @@ public class PugnaPlayerTracker
     public PugnaPlayerTracker(Pugna pg)
     {
         this.pg = pg;
-        emperor = pg.storage.getEmperor();
+        emperor = pg.storage.loadEmperor();
     }
 
     public String getEmperorName()
     {
-        return emperor.getName();
+        if (emperor == null || emperor.getName() == null || emperor.getName().isEmpty())
+        {
+            return "Their currently is no emperor!";
+        }
+        else
+        {
+            return emperor.getName() + " is the current emperor";
+        }
     }
 
     public void checkEmperor(PugnaPlayer player)
     {
-        if (player.getScore() > emperor.getScore())
+        System.out.println(player.getScore() + " --- " + emperor.getScore());
+        if (emperor == null || player.getScore() > emperor.getScore())
         {
             emperor = player;
         }
@@ -102,6 +110,7 @@ public class PugnaPlayerTracker
             pg.storage.savePlayer(play);
             players.remove(play.getUniqueId());
         }
+        pg.storage.saveEmperor(emperor);
     }
 
     public void loadPlayers()

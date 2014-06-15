@@ -146,39 +146,42 @@ public class Storage implements Serializable
         return play;
     }
 
-    public PugnaPlayer getEmperor()
+    public void saveEmperor(PugnaPlayer player)
     {
-        PugnaPlayer play = new PugnaPlayer("top");
-        PugnaPlayer tmp = new PugnaPlayer("tmp");
-        File folder = new File(pg.datalocal + "/playerdata/");
-        File[] listOfFiles = folder.listFiles();
-        String fileName = null;
-
-        for (File file : listOfFiles)
+        try
         {
-            if (file.isFile())
-            {
-                fileName = file.getName();
-                try
-                {
-                    File data            = new File(pg.datalocal + "/playerdata/" + fileName);
-                    FileInputStream fis  = new FileInputStream(data);
-                    ObjectInputStream ois= new ObjectInputStream(fis);
+            File data =  new File(pg.datalocal + "emperor.data");
+            FileOutputStream fos   = new FileOutputStream(data);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-                    tmp = (PugnaPlayer)ois.readObject();
+            oos.writeObject(player);
+            oos.flush();
+            oos.close();
+            fos.close();
+        }
+        catch(Exception ex)
+        {
+            Log.severe("  " + ex.getMessage());
+        }
+    }
 
-                    ois.close();
-                    fis.close();
-                }
-                catch(Exception ex)
-                {
-                    Log.severe(" " + ex.getMessage());
-                }
-            }
-            if (tmp.getScore() > play.getScore())
-            {
-                play = tmp;
-            }
+    public PugnaPlayer loadEmperor()
+    {
+        PugnaPlayer play = null;
+        try
+        {
+            File data =  new File(pg.datalocal + "emperor.data");
+            FileInputStream fis  = new FileInputStream(data);
+            ObjectInputStream ois= new ObjectInputStream(fis);
+
+            play = (PugnaPlayer)ois.readObject();
+
+            ois.close();
+            fis.close();
+        }
+        catch(Exception ex)
+        {
+            Log.severe(" " + ex.getMessage());
         }
         return play;
     }

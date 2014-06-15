@@ -54,10 +54,14 @@ public class CScore implements CommandExecutor
             {
                 play.removeScore(Integer.parseInt(args[1]));
             }
+            else if (args[0].equals("check"))
+            {
+                Message.info(sender, pg.track.getEmperorName());
+            }
         }
         else if (args[0].equals("check"))
         {
-            Message.info(sender, pg.track.getEmperorName() + " Is currently the emperor!");
+            Message.info(sender, pg.track.getEmperorName());
         }
 
         return true;
