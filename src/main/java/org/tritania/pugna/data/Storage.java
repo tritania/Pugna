@@ -150,7 +150,7 @@ public class Storage implements Serializable
     {
         try
         {
-            File data =  new File(pg.datalocal + "emperor.data");
+            File data =  new File(pg.datalocal + "/emperor.data");
             FileOutputStream fos   = new FileOutputStream(data);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -170,7 +170,7 @@ public class Storage implements Serializable
         PugnaPlayer play = null;
         try
         {
-            File data =  new File(pg.datalocal + "emperor.data");
+            File data =  new File(pg.datalocal + "/emperor.data");
             FileInputStream fis  = new FileInputStream(data);
             ObjectInputStream ois= new ObjectInputStream(fis);
 

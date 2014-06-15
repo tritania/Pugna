@@ -33,7 +33,7 @@ public class PugnaPlayer implements Serializable
 
     public PugnaPlayer(String name)
     {
-        name = name;
+        this.name = name;
         score = 0;
         teamChat = false;
         inTeam = false;

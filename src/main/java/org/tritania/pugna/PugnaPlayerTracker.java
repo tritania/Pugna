@@ -66,6 +66,7 @@ public class PugnaPlayerTracker
     public void checkEmperor(PugnaPlayer player)
     {
         System.out.println(player.getScore() + " --- " + emperor.getScore());
+        System.out.println(player.getName());
         if (emperor == null || player.getScore() > emperor.getScore())
         {
             emperor = player;
@@ -75,7 +76,7 @@ public class PugnaPlayerTracker
     public void startTracking(Player player)
     {
         pg.storage.check(player); //check for player file
-        PugnaPlayer track = new PugnaPlayer(player.getDisplayName());
+        PugnaPlayer track = new PugnaPlayer(player.getName());
         players.put(player.getUniqueId(), track);
     }
 

@@ -47,6 +47,7 @@ public class CScore implements CommandExecutor
         {
             if (args[0].equals("add"))
             {
+                System.out.print("bloop");
                 play.addScore(Integer.parseInt(args[1]));
                 pg.track.checkEmperor(play);
             }
