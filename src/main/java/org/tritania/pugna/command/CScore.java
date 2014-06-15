@@ -26,6 +26,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.Message;
 /*End Imports*/
 
@@ -41,20 +42,22 @@ public class CScore implements CommandExecutor
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         Player player = (Player) sender;
+        PugnaPlayer play = pg.track.getPlayerData(player);
         if (player.hasPermission("pugna.scores"))
         {
             if (args[0].equals("add"))
             {
-
+                play.addScore(Integer.parseInt(args[1]));
+                pg.track.checkEmperor(play);
             }
             else if (args[0].equals("remove"))
             {
-
+                play.removeScore(Integer.parseInt(args[1]));
             }
         }
-        else
+        else if (args[0].equals("check"))
         {
-            Message.info(sender, "You don't have permisson for this!");
+            Message.info(sender, pg.track.getEmperorName() + " Is currently the emperor!");
         }
 
         return true;

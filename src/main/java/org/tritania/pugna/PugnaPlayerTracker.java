@@ -56,6 +56,14 @@ public class PugnaPlayerTracker
         return emperor.getName();
     }
 
+    public void checkEmperor(PugnaPlayer player)
+    {
+        if (player.getScore() > emperor.getScore())
+        {
+            emperor = player;
+        }
+    }
+
     public void startTracking(Player player)
     {
         pg.storage.check(player); //check for player file

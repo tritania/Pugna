@@ -23,12 +23,16 @@ commands:
   dchest:
     description: Allows you to access death chest related commands
     aliases: []
-    usage: /<command> [give] | [destroy] [all] 
+    usage: /<command> [give] | [destroy] [all]
   team:
     description: Allows you to access team related commands
     aliases: []
-    usage: /<command>  
+    usage: /<command>
+  pscore:
+    description: Allows you to access score related commands
+    aliases: []
+    usage: /<command>
   t:
     description: Allows you to access team chat
     aliases: []
-    usage: /<message>  
+    usage: /<message>

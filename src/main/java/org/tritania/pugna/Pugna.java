@@ -35,68 +35,69 @@ import org.tritania.pugna.storage.Storage;
 
 public class Pugna extends JavaPlugin
 {
-	
-	public Configuration config;
-	public Stats stats;
-	public Combat com;
-	public Bounties bt;
-	public Death dt;
-	public Inventory inv;
-	public MobLevel mb;
-	public Teams teams;
-	public String datalocal;
-	public Storage storage;
-	public PugnaPlayerTracker track;
-	
-	public void onLoad()
-	{
-		config = new Configuration(new File(getDataFolder(), "config.yml"));
-	}
-	
-	public void onEnable()
-	{
-		PluginManager pm;
-		Plugin p;
-		
-		Log.init(getLogger());
-		Message.init(getDescription().getName());
-		
-		pm = getServer().getPluginManager();
-		
-		datalocal = getDataFolder().getAbsolutePath();
-		
-		config.load();
-		
-		com     = new Combat(this);
-		stats   = new Stats(this);
-		bt      = new Bounties(this);
-		dt      = new Death(this);
-		inv     = new Inventory(this);
-		mb      = new MobLevel(this);
-		teams   = new Teams(this);
-		storage = new Storage(this);
-		track   = new PugnaPlayerTracker(this);
-		
-		pm.registerEvents(new PlayerListener(this), this);
-		pm.registerEvents(new EntityListener(this), this);
-		
-		
-		dt.loadDeathChests();
-		track.loadPlayers();
-		teams.loadTeams();
-		
-		getCommand("pg").setExecutor(new Cpg(this));
-		getCommand("bounty").setExecutor(new CBounty(this));
-		getCommand("board").setExecutor(new CStats(this));
-		getCommand("dchest").setExecutor(new CChests(this));
-		getCommand("t").setExecutor(new CTeamChat(this));
-		getCommand("team").setExecutor(new CTeam(this));
-	}
-	
-	public void onDisable()
-	{
-		dt.offloadDeathChests();
-		track.savePlayers();
-		teams.saveTeams();
-	}
+
+    public Configuration config;
+    public Stats stats;
+    public Combat com;
+    public Bounties bt;
+    public Death dt;
+    public Inventory inv;
+    public MobLevel mb;
+    public Teams teams;
+    public String datalocal;
+    public Storage storage;
+    public PugnaPlayerTracker track;
+
+    public void onLoad()
+    {
+        config = new Configuration(new File(getDataFolder(), "config.yml"));
+    }
+
+    public void onEnable()
+    {
+        PluginManager pm;
+        Plugin p;
+
+        Log.init(getLogger());
+        Message.init(getDescription().getName());
+
+        pm = getServer().getPluginManager();
+
+        datalocal = getDataFolder().getAbsolutePath();
+
+        config.load();
+
+        com     = new Combat(this);
+        stats   = new Stats(this);
+        bt      = new Bounties(this);
+        dt      = new Death(this);
+        inv     = new Inventory(this);
+        mb      = new MobLevel(this);
+        teams   = new Teams(this);
+        storage = new Storage(this);
+        track   = new PugnaPlayerTracker(this);
+
+        pm.registerEvents(new PlayerListener(this), this);
+        pm.registerEvents(new EntityListener(this), this);
+
+
+        dt.loadDeathChests();
+        track.loadPlayers();
+        teams.loadTeams();
+
+        getCommand("pg").setExecutor(new Cpg(this));
+        getCommand("bounty").setExecutor(new CBounty(this));
+        getCommand("board").setExecutor(new CStats(this));
+        getCommand("dchest").setExecutor(new CChests(this));
+        getCommand("t").setExecutor(new CTeamChat(this));
+        getCommand("team").setExecutor(new CTeam(this));
+        getCommand("pscore").setExecutor(new CScore(this));
+    }
+
+    public void onDisable()
+    {
+        dt.offloadDeathChests();
+        track.savePlayers();
+        teams.saveTeams();
+    }
 }
