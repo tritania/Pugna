@@ -50,10 +50,12 @@ public class CScore implements CommandExecutor
                 System.out.print("bloop");
                 play.addScore(Integer.parseInt(args[1]));
                 pg.track.checkEmperor(play);
+                Message.info(sender, "Added score");
             }
             else if (args[0].equals("remove"))
             {
                 play.removeScore(Integer.parseInt(args[1]));
+                Message.info(sender, "Removed score");
             }
             else if (args[0].equals("check"))
             {

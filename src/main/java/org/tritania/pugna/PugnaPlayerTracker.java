@@ -42,35 +42,11 @@ import org.tritania.pugna.wrappers.*;
 public class PugnaPlayerTracker
 {
     public Pugna pg;
-    private PugnaPlayer emperor;
     private HashMap<UUID, PugnaPlayer> players = new HashMap<UUID, PugnaPlayer>();
 
     public PugnaPlayerTracker(Pugna pg)
     {
         this.pg = pg;
-        emperor = pg.storage.loadEmperor();
-    }
-
-    public String getEmperorName()
-    {
-        if (emperor == null || emperor.getName() == null || emperor.getName().isEmpty())
-        {
-            return "Their currently is no emperor!";
-        }
-        else
-        {
-            return emperor.getName() + " is the current emperor";
-        }
-    }
-
-    public void checkEmperor(PugnaPlayer player)
-    {
-        System.out.println(player.getScore() + " --- " + emperor.getScore());
-        System.out.println(player.getName());
-        if (emperor == null || player.getScore() > emperor.getScore())
-        {
-            emperor = player;
-        }
     }
 
     public void startTracking(Player player)

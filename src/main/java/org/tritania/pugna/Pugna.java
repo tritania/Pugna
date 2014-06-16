@@ -47,6 +47,7 @@ public class Pugna extends JavaPlugin
     public String datalocal;
     public Storage storage;
     public PugnaPlayerTracker track;
+    public Emperor emperor;
 
     public void onLoad()
     {
@@ -76,6 +77,7 @@ public class Pugna extends JavaPlugin
         teams   = new Teams(this);
         storage = new Storage(this);
         track   = new PugnaPlayerTracker(this);
+        emperor = new Emperor(this);
 
         pm.registerEvents(new PlayerListener(this), this);
         pm.registerEvents(new EntityListener(this), this);
