@@ -101,5 +101,6 @@ public class Pugna extends JavaPlugin
         dt.offloadDeathChests();
         track.savePlayers();
         teams.saveTeams();
+        emperor.offLoadEmperor();
     }
 }

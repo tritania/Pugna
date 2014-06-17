@@ -63,6 +63,7 @@ import org.bukkit.util.Vector;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -228,7 +229,7 @@ public class PlayerListener implements Listener
         }
         else if (player.getPlayerListName().equals(pg.emperor.getEmperorName()))
         {
-            event.setFormat("[EMPEROR] %s : %s");
+            event.setFormat(ChatColor.DARK_PURPLE + "[EMPEROR] %s: %s");
         }
     }
 }
