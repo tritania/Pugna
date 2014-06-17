@@ -26,6 +26,7 @@ import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
+import org.tritania.pugna.wrappers.*;
 
 public class Emperor
 {
@@ -38,14 +39,14 @@ public class Emperor
         emperor = pg.storage.loadEmperor();
     }
 
-    public void AddPlayerScore(PugnaPlayer player)
+    public void AddPlayerScore(PugnaPlayer player, int amount)
     {
-
+        player.addScore(amount);
     }
 
-    public void RemovePlayerScore(PugnaPlayer player)
+    public void RemovePlayerScore(PugnaPlayer player, int amount)
     {
-
+        player.removeScore(amount);
     }
 
     public void checkEmperor(PugnaPlayer player)
@@ -58,8 +59,13 @@ public class Emperor
 
     }
 
-    public void getEmperorName()
+    public String getEmperorName()
     {
         return emperor.getName();
+    }
+
+    public void offLoadEmperor()
+    {
+        pg.storage.saveEmperor(emperor);
     }
 }

@@ -31,7 +31,7 @@ import org.tritania.pugna.util.Tools;
 import org.tritania.pugna.wrappers.*;
 /*End Imports*/
 
-public class CTeam implements CommandExecutor 
+public class CTeam implements CommandExecutor
 {
     public Pugna pg;
 
@@ -39,26 +39,26 @@ public class CTeam implements CommandExecutor
     {
         this.pg = pg;
     }
-    
+
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
         Player player = (Player) sender;
         PugnaPlayer trackPlayer = pg.track.getPlayerData(player);
-        if (args.length < 1) 
+        if (args.length < 1)
         {
             Message.info(sender, command.getUsage());
             return true;
         }
         else if (args[0].equals("form"))
-        {	if (trackPlayer.getTeamState())
-			{
-				Message.info(sender, "Your already in a team!");
-			}
-			else
-			{
-				pg.teams.createTeam(player, args[1], trackPlayer);
-				Message.info(sender, "You formed team: " + args[1]);
-			}
+        {   if (trackPlayer.getTeamState())
+            {
+                Message.info(sender, "Your already in a team!");
+            }
+            else
+            {
+                pg.teams.createTeam(player, args[1], trackPlayer);
+                Message.info(sender, "You formed team: " + args[1]);
+            }
         }
         else if (trackPlayer.getTeamState())
         {
@@ -82,23 +82,23 @@ public class CTeam implements CommandExecutor
                 PugnaTeam team = pg.teams.getTeam(teamName);
                 if (team.checkFounder(player))
                 {
-					if(team.getMembersI() > 1)
-					{
-						Message.info(sender, "Please set a new leader before leaving, /team setleader playername");
-					}
-					else
-					{
-						Message.info(sender, "You left the team");
-						team.removeMember(player, trackPlayer);
-						pg.teams.disbandTeam(teamName);
-					}
+                    if(team.getMembersI() > 1)
+                    {
+                        Message.info(sender, "Please set a new leader before leaving, /team setleader playername");
+                    }
+                    else
+                    {
+                        Message.info(sender, "You left the team");
+                        team.removeMember(player, trackPlayer);
+                        pg.teams.disbandTeam(teamName);
+                    }
                 }
                 else
                 {
-					Message.info(sender, "You left the team");
-					team.removeMember(player, trackPlayer);
-					team.sendMessage(player.getDisplayName() + " left the team");
-				}
+                    Message.info(sender, "You left the team");
+                    team.removeMember(player, trackPlayer);
+                    team.sendMessage(player.getDisplayName() + " left the team");
+                }
             }
             else if (args[0].equals("invite"))
             {
@@ -147,36 +147,41 @@ public class CTeam implements CommandExecutor
                     Message.info(sender, "You don't have permisson to do that!");
                 }
             }
-		}
-		else if (args[0].equals("accept"))
-		{
-			PugnaPlayer play = pg.track.getPlayerData(player);
-			if (play.getInviteState())
-			{
-				String teamName = play.getInvTeamName();
-				PugnaTeam team = pg.teams.getTeam(teamName);
-				team.addMember(player, play);
-				play.accepted();
-			}
-			else
-			{
-				Message.info(sender, "You need to be invited first!");
-			}
-		}
-		else if (args[0].equals("deny"))
-		{
-			PugnaPlayer play = pg.track.getPlayerData(player);
-			if (play.getInviteState())
-			{
-				play.denied();
-				Message.info(sender, "Invite denied");
-			}
-			else
-			{
-				Message.info(sender, "You need to be invited first!");
-			}
-		}
-        
+            else if (args[0].equals("status"))
+            {
+                String teamName = trackPlayer.getTeam();
+                Message.info(sender, "Team: " + teamName); //need to expand
+            }
+        }
+        else if (args[0].equals("accept"))
+        {
+            PugnaPlayer play = pg.track.getPlayerData(player);
+            if (play.getInviteState())
+            {
+                String teamName = play.getInvTeamName();
+                PugnaTeam team = pg.teams.getTeam(teamName);
+                team.addMember(player, play);
+                play.accepted();
+            }
+            else
+            {
+                Message.info(sender, "You need to be invited first!");
+            }
+        }
+        else if (args[0].equals("deny"))
+        {
+            PugnaPlayer play = pg.track.getPlayerData(player);
+            if (play.getInviteState())
+            {
+                play.denied();
+                Message.info(sender, "Invite denied");
+            }
+            else
+            {
+                Message.info(sender, "You need to be invited first!");
+            }
+        }
+
         else
         {
             Message.info(sender, "You need to be in a team to use these commands!");

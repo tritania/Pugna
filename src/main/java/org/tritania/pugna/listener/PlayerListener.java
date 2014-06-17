@@ -94,7 +94,7 @@ public class PlayerListener implements Listener
        pg.bt.checkOutstanding(player);
        pg.track.startTracking(player);
        PugnaPlayer play = pg.track.getPlayerData(player);
-       if (play.getTeamState())
+       if (play.getTeamState()) //NPE
        {
            PugnaTeam team = pg.teams.getTeam(play.getTeam());
            team.setOnline();
@@ -226,7 +226,7 @@ public class PlayerListener implements Listener
             PugnaTeam team = pg.teams.getTeam(teamName); //
             team.sendMessage(player, " " + event.getMessage());
         }
-        else if (player.getPlayerListName().equals(pg.track.getEmperorName()))
+        else if (player.getPlayerListName().equals(pg.emperor.getEmperorName()))
         {
             event.setFormat("[EMPEROR] %s : %s");
         }

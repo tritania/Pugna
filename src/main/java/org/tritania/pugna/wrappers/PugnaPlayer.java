@@ -41,7 +41,7 @@ public class PugnaPlayer implements Serializable
 
     public String getName()
     {
-        return name;
+        return this.name;
     }
 
     public void addScore(int value)

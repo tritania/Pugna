@@ -51,9 +51,16 @@ public class PugnaPlayerTracker
 
     public void startTracking(Player player)
     {
-        pg.storage.check(player); //check for player file
-        PugnaPlayer track = new PugnaPlayer(player.getName());
-        players.put(player.getUniqueId(), track);
+        if (pg.storage.check(player))
+        {
+            PugnaPlayer track = pg.storage.loadPlayer(player);
+            players.put(player.getUniqueId(), track);
+        }
+        else
+        {
+            PugnaPlayer track = new PugnaPlayer(player.getName());
+            players.put(player.getUniqueId(), track);
+        }
     }
 
     public void stopTracking(Player player)
@@ -87,7 +94,6 @@ public class PugnaPlayerTracker
             pg.storage.savePlayer(play);
             players.remove(play.getUniqueId());
         }
-        pg.storage.saveEmperor(emperor);
     }
 
     public void loadPlayers()
