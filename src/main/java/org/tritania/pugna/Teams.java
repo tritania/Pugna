@@ -49,7 +49,7 @@ import org.tritania.pugna.wrappers.*;
 
 
 public class Teams
-{   
+{
     public Pugna pg;
     private HashMap<String, PugnaTeam> teamList = new HashMap<String, PugnaTeam>();
 
@@ -57,19 +57,19 @@ public class Teams
     {
         this.pg = pg;
     }
-    
+
     public void createTeam(Player player, String teamName, PugnaPlayer tracked)
     {
         PugnaTeam team = new PugnaTeam(player, teamName, tracked);
         teamList.put(teamName, team);
         tracked.setTeam(teamName);
     }
-    
+
     public void disbandTeam(String teamName)
     {
-		PugnaTeam team = teamList.get(teamName);
-		HashMap<UUID, PugnaPlayer> players = team.getMembers();
-		for (Map.Entry<UUID, PugnaPlayer> entry : players.entrySet())
+        PugnaTeam team = teamList.get(teamName);
+        HashMap<UUID, PugnaPlayer> players = team.getMembers();
+        for (Map.Entry<UUID, PugnaPlayer> entry : players.entrySet())
         {
             PugnaPlayer player = entry.getValue();
             player.setChat(false);
@@ -77,19 +77,19 @@ public class Teams
         }
         teamList.remove(teamName);
     }
-    
+
     public PugnaTeam getTeam(String teamName)
     {
-		return teamList.get(teamName);
-	}
-	
-	public void loadTeams()
-	{
-		teamList = pg.storage.loadData("teams.data");
-	}
-	public void saveTeams()
-	{
-		pg.storage.saveData(teamList, "teams.data");
-	}
+        return teamList.get(teamName);
+    }
+
+    public void loadTeams()
+    {
+        teamList = pg.storage.loadData("teams.data");
+    }
+    public void saveTeams()
+    {
+        pg.storage.saveData(teamList, "teams.data");
+    }
 }
-   
+

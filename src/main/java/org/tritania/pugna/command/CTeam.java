@@ -68,6 +68,7 @@ public class CTeam implements CommandExecutor
                 PugnaTeam team = pg.teams.getTeam(teamName);
                 if (team.checkFounder(player))
                 {
+                    team.removeMember(player, trackPlayer);
                     pg.teams.disbandTeam(teamName);
                     Message.info(sender, "Team disbanded");
                 }
