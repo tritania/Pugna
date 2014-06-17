@@ -167,7 +167,7 @@ public class Storage implements Serializable
 
     public PugnaPlayer loadEmperor()
     {
-        PugnaPlayer play = null;
+        PugnaPlayer play = new PugnaPlayer("No One");
         try
         {
             File data =  new File(pg.datalocal + "/emperor.data");

@@ -43,28 +43,37 @@ public class CScore implements CommandExecutor
     {
         Player player = (Player) sender;
         PugnaPlayer play = pg.track.getPlayerData(player);
+        if (args.length < 1)
+        {
+            Message.info(sender, command.getUsage());
+            return true;
+        }
         if (player.hasPermission("pugna.scores"))
         {
             if (args[0].equals("add"))
             {
-                System.out.print("bloop");
-                play.addScore(Integer.parseInt(args[1]));
-                pg.track.checkEmperor(play);
+                pg.emperor.addPlayerScore(play, Integer.parseInt(args[1]));
+                pg.emperor.checkEmperor(play);
                 Message.info(sender, "Added score");
             }
             else if (args[0].equals("remove"))
             {
-                play.removeScore(Integer.parseInt(args[1]));
+                pg.emperor.removePlayerScore(play, Integer.parseInt(args[1]));
                 Message.info(sender, "Removed score");
             }
             else if (args[0].equals("check"))
             {
-                Message.info(sender, pg.track.getEmperorName());
+                Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
             }
         }
         else if (args[0].equals("check"))
         {
-            Message.info(sender, pg.track.getEmperorName());
+            Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
+        }
+        else
+        {
+            Message.info(sender, command.getUsage());
+            return true;
         }
 
         return true;

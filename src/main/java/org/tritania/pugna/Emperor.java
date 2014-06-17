@@ -39,24 +39,30 @@ public class Emperor
         emperor = pg.storage.loadEmperor();
     }
 
-    public void AddPlayerScore(PugnaPlayer player, int amount)
+    public void addPlayerScore(PugnaPlayer player, int amount)
     {
         player.addScore(amount);
+        checkEmperor(player);
     }
 
-    public void RemovePlayerScore(PugnaPlayer player, int amount)
+    public void removePlayerScore(PugnaPlayer player, int amount)
     {
         player.removeScore(amount);
+        checkEmperor(player);
     }
 
     public void checkEmperor(PugnaPlayer player)
     {
-
+        System.out.println(player.getScore() + " --- " + emperor.getScore());
+        if (player.getScore() > emperor.getScore())
+        {
+            emperor = player;
+        }
     }
 
     public void setEmperor(PugnaPlayer player)
     {
-
+        emperor = player;
     }
 
     public String getEmperorName()
