@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.Bukkit;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -52,21 +53,22 @@ public class CScore implements CommandExecutor
         {
             if (args[0].equals("add"))
             {
-                pg.emperor.addPlayerScore(play, Integer.parseInt(args[1]));
-                pg.emperor.checkEmperor(play);
-                Message.info(sender, "Added score");
+                PugnaPlayer playerValue = pg.track.getPlayerData(Bukkit.getPlayer(args[1]));
+                pg.emperor.addPlayerScore(playerValue, Integer.parseInt(args[2]));
+                Message.info(sender, "Added score to " + args[1]);
             }
             else if (args[0].equals("remove"))
             {
-                pg.emperor.removePlayerScore(play, Integer.parseInt(args[1]));
-                Message.info(sender, "Removed score");
+                PugnaPlayer playerValue = pg.track.getPlayerData(Bukkit.getPlayer(args[1]));
+                pg.emperor.removePlayerScore(playerValue, Integer.parseInt(args[2]));
+                Message.info(sender, "Removed score from " + args[1]);
             }
-            else if (args[0].equals("check"))
+            else if (args[0].equals("status"))
             {
                 Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
             }
         }
-        else if (args[0].equals("check"))
+        else if (args[0].equals("status"))
         {
             Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
         }

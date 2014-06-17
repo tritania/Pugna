@@ -93,7 +93,7 @@ public class Pugna extends JavaPlugin
         getCommand("dchest").setExecutor(new CChests(this));
         getCommand("t").setExecutor(new CTeamChat(this));
         getCommand("team").setExecutor(new CTeam(this));
-        getCommand("pscore").setExecutor(new CScore(this));
+        getCommand("emperor").setExecutor(new CScore(this));
     }
 
     public void onDisable()
