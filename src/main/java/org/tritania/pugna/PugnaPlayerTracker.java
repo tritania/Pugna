@@ -34,6 +34,7 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
@@ -107,5 +108,17 @@ public class PugnaPlayerTracker
                 players.put(play.getUniqueId(), loaded);
             }
         }
+    }
+
+    public void startCombatTimer(final PugnaPlayer player)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                player.setCombatState(false);
+            }
+        }.runTaskLater(pg, pg.config.combatTimer);
     }
 }

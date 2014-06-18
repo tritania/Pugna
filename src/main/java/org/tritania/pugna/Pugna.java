@@ -38,7 +38,6 @@ public class Pugna extends JavaPlugin
 
     public Configuration config;
     public Stats stats;
-    public Combat com;
     public Bounties bt;
     public Death dt;
     public Inventory inv;
@@ -68,7 +67,6 @@ public class Pugna extends JavaPlugin
 
         config.load();
 
-        com     = new Combat(this);
         stats   = new Stats(this);
         bt      = new Bounties(this);
         dt      = new Death(this);

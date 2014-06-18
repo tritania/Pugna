@@ -37,6 +37,7 @@ public class Configuration extends YamlConfiguration
     public boolean diffmob;
     public int deathChestTime;
     public String emperorTitle;
+    public int combatTimer;
 
     public Configuration(File file)
     {
@@ -49,6 +50,7 @@ public class Configuration extends YamlConfiguration
         diffmob = true;
         deathChestTime = 6000;
         emperorTitle = "[EMPEROR]";
+        combatTimer = 3600; // 3 minutes
     }
 
     public void load()
@@ -69,6 +71,7 @@ public class Configuration extends YamlConfiguration
         allowBounty = getBoolean("Allow bounties", allowBounty);
         diffmob = getBoolean("Creates more difficult mobs", diffmob);
         deathChestTime = getInt("Amount of time to keep death chests around (20 = 1 second)", deathChestTime);
+        combatTimer = getInt("Time between combat and teleport commands", combatTimer);
 
 
         if (!file.exists())
@@ -85,6 +88,7 @@ public class Configuration extends YamlConfiguration
         set("Allow bounties", allowBounty);
         set("Creates more difficult mobs", diffmob);
         set("Amount of time to keep death chests around (20 = 1 second", deathChestTime);
+        set("Time between combat and teleport commands", combatTimer);
         try
         {
             super.save(file);
