@@ -28,6 +28,7 @@ public class PugnaPlayer implements Serializable
     private boolean inTeam;
     private String teamName;
     private boolean invite;
+    private boolean inCombat;
     private String inviteTeamName;
     private String name;
 
@@ -37,6 +38,7 @@ public class PugnaPlayer implements Serializable
         score = 0;
         teamChat = false;
         inTeam = false;
+        inCombat = false;
     }
 
     public String getName()
@@ -121,5 +123,15 @@ public class PugnaPlayer implements Serializable
     public boolean getInviteState()
     {
         return invite;
+    }
+
+    public boolean getCombatState()
+    {
+        return inCombat;
+    }
+
+    public void setCombatState(boolean value)
+    {
+        inCombat = value;
     }
 }

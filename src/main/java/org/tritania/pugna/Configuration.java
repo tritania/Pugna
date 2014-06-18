@@ -28,67 +28,71 @@ import org.tritania.pugna.Pugna;
 
 public class Configuration extends YamlConfiguration
 {
-	private File file;
-	
-	public  boolean global;
+    private File file;
+
+    public  boolean global;
     public  String mapName;
-	public  boolean deathChest;
-	public  boolean allowBounty;
-	public boolean diffmob;
-	public int deathChestTime;
-    
-	public Configuration(File file)
-	{
-		this.file = file;
-		
-		global = false;
-		mapName = "World";
-		deathChest = true;
-		allowBounty = true;
-		diffmob = true;
-		deathChestTime = 6000;
-	}
-	 
-	public void load()
-	{
-		try 
-		{
-            super.load(file);
-		} 
-        catch (Exception e) 
-		{
-            Log.warning("Unable to load: %s", file.toString());
-		}
-		
-		global = getBoolean("Use this plugin globally?", global);
-		mapName  = getString("Use this plugin only on this map", mapName);
-		deathChest = getBoolean("Allow death chests", deathChest);
-		allowBounty = getBoolean("Allow bounties", allowBounty);
-		diffmob = getBoolean("Creates more difficult mobs", diffmob);
-		deathChestTime = getInt("Amount of time to keep death chests around (20 = 1 second)", deathChestTime);
-		
-        
-		if (!file.exists())
-            save();
-        
-	}
-	
-	public void save() 
-	{
-		set("Use this plugin globally?", global);
-		set("Use this plugin only on this map", mapName);
-		set("Allow death chests", deathChest);
-		set("Allow bounties", allowBounty);
-		set("Creates more difficult mobs", diffmob);
-		set("Amount of time to keep death chests around (20 = 1 second", deathChestTime);
-		try 
-		{
-			super.save(file);
-        } 
-        catch (Exception e) 
+    public  boolean deathChest;
+    public  boolean allowBounty;
+    public boolean diffmob;
+    public int deathChestTime;
+    public String emperorTitle;
+
+    public Configuration(File file)
+    {
+        this.file = file;
+
+        global = false;
+        mapName = "World";
+        deathChest = true;
+        allowBounty = true;
+        diffmob = true;
+        deathChestTime = 6000;
+        emperorTitle = "[EMPEROR]";
+    }
+
+    public void load()
+    {
+        try
         {
-			Log.warning("Unable to save: %s", file.toString());
+            super.load(file);
         }
-	}
+        catch (Exception e)
+        {
+            Log.warning("Unable to load: %s", file.toString());
+        }
+
+        global = getBoolean("Use this plugin globally?", global);
+        mapName  = getString("Use this plugin only on this map", mapName);
+        emperorTitle  = getString("Use this title for the emperor chat system", emperorTitle);
+        deathChest = getBoolean("Allow death chests", deathChest);
+        allowBounty = getBoolean("Allow bounties", allowBounty);
+        diffmob = getBoolean("Creates more difficult mobs", diffmob);
+        deathChestTime = getInt("Amount of time to keep death chests around (20 = 1 second)", deathChestTime);
+
+
+        if (!file.exists())
+            save();
+
+    }
+
+    public void save()
+    {
+        set("Use this plugin globally?", global);
+        set("Use this plugin only on this map", mapName);
+        set("Use this title for the emperor chat system", emperorTitle);
+        set("Allow death chests", deathChest);
+        set("Allow bounties", allowBounty);
+        set("Creates more difficult mobs", diffmob);
+        set("Amount of time to keep death chests around (20 = 1 second", deathChestTime);
+        try
+        {
+            super.save(file);
+        }
+        catch (Exception e)
+        {
+            Log.warning("Unable to save: %s", file.toString());
+        }
+    }
 }
 

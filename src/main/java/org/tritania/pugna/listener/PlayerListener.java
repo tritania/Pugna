@@ -138,6 +138,9 @@ public class PlayerListener implements Listener
         ((SkullMeta) itemMeta).setOwner(pName);
         item.setItemMeta(itemMeta);
         world.dropItemNaturally(location, item);
+
+        PugnaPlayer play = pg.track.getPlayerData(player);
+        play.setCombatState(false);
     }
 
     @EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
@@ -229,7 +232,7 @@ public class PlayerListener implements Listener
         }
         else if (player.getPlayerListName().equals(pg.emperor.getEmperorName()))
         {
-            event.setFormat(ChatColor.DARK_PURPLE + "[EMPEROR] %s: %s");
+            event.setFormat(ChatColor.DARK_PURPLE + pg.config.emperorTitle + " %s: %s");
         }
     }
 }
