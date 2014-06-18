@@ -31,70 +31,75 @@ import org.tritania.pugna.util.Message;
 import org.tritania.pugna.util.Tools;
 /*End Imports*/
 
-public class CChests implements CommandExecutor 
+public class CChests implements CommandExecutor
 {
-	public Pugna pg;
+    public Pugna pg;
 
     public CChests(Pugna pg)
     {
         this.pg = pg;
     }
-    
+
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-	{
-		if (pg.config.deathChest)
-		{
-			Player player = (Player) sender;
-			if (args.length < 1) 
-			{
-				Message.info(sender, command.getUsage());
-				return true;
-			}
-			else if(args[0].equals("destroy"))
-			{
-				if (args.length > 1 && args[1].equals("all"))
-				{
-					if (player.hasPermission("pugna.chestoveride"))
-					{
-						Message.info(sender, "Destroying all chests");
-						pg.dt.destroyAll();
-						return true;
-					}
-					else
-					{
-						Message.info(sender, "You don't have permisson for this");
-						return true;
-					}
-				}
-			
-				else
-				{
-					Message.info(sender, "Destroying all of your chests");
-					pg.dt.removePlayerChests(player.getUniqueId());
-					return true;
-				}
-			}
-			else if(args[0].equals("allow"))
-			{
-				if(args.length > 1)
-				{
-					if (Tools.isPlayer(args[1]))
-					{
-						Player sharee = Bukkit.getPlayer(args[1]);
-						pg.dt.changeOwnership(player.getUniqueId(), sharee);
-					}
-					else
-					{
-						Message.info(sender, "No such player!");
-					}
-				}
-				else
-				{
-					Message.info(sender, command.getUsage());
-				}
-			}
-			return true;
-		}
-		return true;
-	}
+    {
+        if (pg.config.deathChest)
+        {
+            Player player = (Player) sender;
+            if (args.length < 1)
+            {
+                Message.info(sender, command.getUsage());
+                return true;
+            }
+            else if(args[0].equals("destroy"))
+            {
+                if (args.length > 1 && args[1].equals("all"))
+                {
+                    if (player.hasPermission("pugna.chestoveride"))
+                    {
+                        Message.info(sender, "Destroying all chests");
+                        pg.dt.destroyAll();
+                        return true;
+                    }
+                    else
+                    {
+                        Message.info(sender, "You don't have permisson for this");
+                        return true;
+                    }
+                }
+
+                else
+                {
+                    Message.info(sender, "Destroying all of your chests");
+                    pg.dt.removePlayerChests(player.getUniqueId());
+                    return true;
+                }
+            }
+            else if(args[0].equals("allow"))
+            {
+                if(args.length > 1)
+                {
+                    if (Tools.isPlayer(args[1]))
+                    {
+                        Player sharee = Bukkit.getPlayer(args[1]);
+                        pg.dt.changeOwnership(player.getUniqueId(), sharee);
+                    }
+                    else
+                    {
+                        Message.info(sender, "No such player!");
+                    }
+                }
+                else
+                {
+                    Message.info(sender, command.getUsage());
+                }
+            }
+            else
+            {
+                Message.info(sender, command.getUsage());
+                return true;
+            }
+            return true;
+        }
+        return true;
+    }
 }

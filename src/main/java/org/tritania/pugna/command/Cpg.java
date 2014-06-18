@@ -29,30 +29,35 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
 /*End Imports*/
 
-public class Cpg implements CommandExecutor 
+public class Cpg implements CommandExecutor
 {
-	public Pugna pg;
+    public Pugna pg;
 
     public Cpg(Pugna pg)
     {
         this.pg = pg;
     }
-    
+
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-	{
-		Player player = (Player) sender;
-		if (args[0].equals("reload"))
-		{
-			if (player.hasPermission("pugna.reload"))
-			{
-				pg.config.load();
-				Message.info(sender, "Reloading the config");
-			}
-			else
-			{
-				Message.info(sender, "You don't have permisson for this!");
-			}
-		}
-		return true;
-	}
+    {
+        Player player = (Player) sender;
+        if (args[0].equals("reload"))
+        {
+            if (player.hasPermission("pugna.reload"))
+            {
+                pg.config.load();
+                Message.info(sender, "Reloading the config");
+            }
+            else
+            {
+                Message.info(sender, "You don't have permisson for this!");
+            }
+        }
+        else
+        {
+            Message.info(sender, command.getUsage());
+            return true;
+        }
+        return true;
+    }
 }

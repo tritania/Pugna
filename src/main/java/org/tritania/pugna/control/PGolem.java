@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.tritania.pugna;
+package org.tritania.pugna.control;
 
 import java.util.List;
 
@@ -37,14 +37,38 @@ import org.bukkit.entity.Monster;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
+import org.tritania.pugna.wrappers.*;
 
 public class PGolem
 {
     public Pugna pg;
 
+    private String teamName;
+    private String playerName;
+
     public PGolem(Pugna pg)
     {
         this.pg = pg;
+    }
+
+    public void setTeam(String teamName)
+    {
+        this.teamName = teamName;
+    }
+
+    public void setPlayer(String playerName)
+    {
+        this.playerName = playerName;
+    }
+
+    public void getPlayer(PugnaPlayer player, PugnaTeam team)
+    {
+
+    }
+
+    public void getPlayer(PugnaPlayer player)
+    {
+
     }
 }
 

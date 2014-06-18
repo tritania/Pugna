@@ -53,11 +53,15 @@ public class CStats implements CommandExecutor
             play.setBoard(false);
             return true;
         }
-        if (args[0].equals("keep"))
+        else if (args[0].equals("keep"))
         {
             PugnaPlayer play = pg.track.getPlayerData(player);
             play.setBoard(true);
             return true;
+        }
+        else
+        {
+            Message.info(sender, command.getUsage());
         }
         return true;
     }

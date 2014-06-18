@@ -28,6 +28,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerChatEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -57,6 +58,7 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.Material; //world
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.Chunk;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -86,6 +88,19 @@ public class PlayerListener implements Listener
 
         manager = pg.getServer().getPluginManager();
         manager.registerEvents(this, pg);
+    }
+
+    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
+    public void onMove(PlayerMoveEvent event)
+    {
+        Player player = event.getPlayer();
+        Location location = event.getTo();
+        Chunk chunk = location.getChunk();
+        PugnaPlayer play = pg.track.getPlayerData(player);
+        if (play.getTeamState())
+        {
+           PugnaTeam team = pg.teams.getTeam(play.getTeam()); //will pass to golem class
+        }
     }
 
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)

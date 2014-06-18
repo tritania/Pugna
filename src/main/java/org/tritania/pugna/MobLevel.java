@@ -58,46 +58,6 @@ public class MobLevel
 
         mob2.setMaxHealth(150);
         mob2.setHealth(150);
-        switch(mob.getType())
-        {
-            case CREEPER:
-            {
-                break;
-            }
-            case SKELETON:
-            {
-                break;
-            }
-            case SPIDER:
-            {
-                break;
-            }
-            case ZOMBIE:
-            {
-                break;
-            }
-            case SLIME:
-            {
-                break;
-            }
-            case ENDERMAN:
-            {
-                break;
-            }
-            case CAVE_SPIDER:
-            {
-                break;
-            }
-            case SILVERFISH:
-            {
-                break;
-            }
-            default:
-            {
-
-            }
-        }
-
         return true;
     }
 }
