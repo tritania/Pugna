@@ -28,7 +28,7 @@ commands:
     description: Allows you to access team related commands
     aliases: []
     usage: /<command>
-  pscore:
+  emperor:
     description: Allows you to access score related commands
     aliases: []
     usage: /<command>

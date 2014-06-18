@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package org.tritania.pugna;
 
 import java.util.HashMap;
@@ -63,76 +63,80 @@ import org.tritania.pugna.util.Message;
 
 public class EntityListener implements Listener
 {
-	private Pugna pg;
+    private Pugna pg;
 
-	public EntityListener(Pugna pg)
-	{
-		this.pg = pg;
-	}
-	
-	public void register()
-	{
-		PluginManager manager;
-		
-		manager = pg.getServer().getPluginManager();
-		manager.registerEvents(this, pg);
-	} 
+    public EntityListener(Pugna pg)
+    {
+        this.pg = pg;
+    }
+
+    public void register()
+    {
+        PluginManager manager;
+
+        manager = pg.getServer().getPluginManager();
+        manager.registerEvents(this, pg);
+    }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onCreatureSpawnEvent(CreatureSpawnEvent event)
     {
-		Entity mob = event.getEntity();
-		if (mob instanceof Monster)
-		{
-			CreatureType type = event.getCreatureType();
-			pg.mb.alter(mob, type);
-		}
-	}
-    
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void CreeperExplode(EntityExplodeEvent event)
-	{
-		if(event.getEntity() != null)
-		{
-			EntityType e = event.getEntity().getType();
-			Location loc = event.getEntity().getLocation();
-			World w = loc.getWorld();
-			if(e.equals(EntityType.CREEPER))
-			{
-				event.setCancelled(true);
-				event.getEntity().remove();
-				w.createExplosion(loc, 25, true);
-			}
-			else
-			{
-				Iterator<Block> iter = event.blockList().iterator();
-				while (iter.hasNext()) 
-				{
-					Block b = iter.next();
-					if (b.getType().equals(Material.CHEST))
-					{
-						if (pg.dt.checkBlock(b)) 
-						{
-							iter.remove();
-						} 
-					}
-				}
-			}
-		}
-		else 
-		{
-			Iterator<Block> iter = event.blockList().iterator();
-			while (iter.hasNext()) 
-			{
-				Block b = iter.next();
-				if (b.getType().equals(Material.CHEST))
-				{
-					if (pg.dt.checkBlock(b)) 
-					{
-						iter.remove();
-					} 
-				}
-			}
-		} 
-	}
+        Entity mob = event.getEntity();
+        if (mob instanceof Monster)
+        {
+            CreatureType type = event.getCreatureType();
+            pg.mb.alter(mob, type);
+        }
+        if (mob.getType().equals(EntityType.IRON_GOLEM))
+        {
+
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void CreeperExplode(EntityExplodeEvent event)
+    {
+        if(event.getEntity() != null)
+        {
+            EntityType e = event.getEntity().getType();
+            Location loc = event.getEntity().getLocation();
+            World w = loc.getWorld();
+            if(e.equals(EntityType.CREEPER))
+            {
+                event.setCancelled(true);
+                event.getEntity().remove();
+                w.createExplosion(loc, 25, true);
+            }
+            else
+            {
+                Iterator<Block> iter = event.blockList().iterator();
+                while (iter.hasNext())
+                {
+                    Block b = iter.next();
+                    if (b.getType().equals(Material.CHEST))
+                    {
+                        if (pg.dt.checkBlock(b))
+                        {
+                            iter.remove();
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            Iterator<Block> iter = event.blockList().iterator();
+            while (iter.hasNext())
+            {
+                Block b = iter.next();
+                if (b.getType().equals(Material.CHEST))
+                {
+                    if (pg.dt.checkBlock(b))
+                    {
+                        iter.remove();
+                    }
+                }
+            }
+        }
+    }
 }
