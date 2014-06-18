@@ -151,7 +151,8 @@ public class CTeam implements CommandExecutor
             else if (args[0].equals("status"))
             {
                 String teamName = trackPlayer.getTeam();
-                Message.info(sender, "Team: " + teamName); //need to expand
+                PugnaTeam team = pg.teams.getTeam(teamName);
+                pg.stats.setTeamBoard(player, team);
             }
         }
         else if (args[0].equals("accept"))

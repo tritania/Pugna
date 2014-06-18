@@ -40,34 +40,37 @@ import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
 import org.tritania.pugna.util.*;
 
-public class PugnaTeam implements Serializable 
+public class PugnaTeam implements Serializable
 {
-    
+
     private String teamName;
     private UUID founder;
+    private int kills;
+    private int deaths;
+    private int score;
     private int members;
     private int onlineMembers;
-    private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>(); 
-    
+    private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>();
+
     public PugnaTeam(Player founder, String teamName, PugnaPlayer data)
     {
-        this.founder = founder.getUniqueId(); 
+        this.founder = founder.getUniqueId();
         this.teamName = teamName;
         this.teammembers.put(founder.getUniqueId(), data);
         this.members = 1;
         this.onlineMembers = 1;
     }
-    
+
     public void addMember(Player player, PugnaPlayer data)
     {
-        teammembers.put(player.getUniqueId(), data); 
+        teammembers.put(player.getUniqueId(), data);
         sendMessage(player.getDisplayName() + ChatColor.DARK_AQUA + " has joined the team");
         data.setTeamState(true);
         data.setTeam(teamName);
         members++;
         onlineMembers++;
     }
-    
+
     public void removeMember(Player player, PugnaPlayer play)
     {
         teammembers.remove(player.getUniqueId());
@@ -76,34 +79,34 @@ public class PugnaTeam implements Serializable
         members--;
         onlineMembers--;
     }
-    
+
     public void setNewFounder(Player player)
     {
         founder = player.getUniqueId();
     }
-    
+
     public boolean checkFounder(Player player)
     {
-        if(player == null || founder == null) 
+        if(player == null || founder == null)
         {
-			return false;
-		}
-		else
-		{
-			return player.getUniqueId().equals(founder);
-		}
+            return false;
+        }
+        else
+        {
+            return player.getUniqueId().equals(founder);
+        }
     }
-    
+
     public HashMap<UUID, PugnaPlayer> getMembers()
     {
         return teammembers;
     }
-    
+
     public int getMembersI()
     {
         return members;
     }
-    
+
     public void sendMessage(Player sender, String message)
     {
         for (Map.Entry<UUID, PugnaPlayer> entry : teammembers.entrySet())
@@ -113,7 +116,7 @@ public class PugnaTeam implements Serializable
             player2.sendMessage(ChatColor.DARK_AQUA + "[Team " + sender.getDisplayName() + ChatColor.DARK_AQUA + "]" + message);
         }
     }
-    
+
     public void sendMessage(String message)
     {
         for (Map.Entry<UUID, PugnaPlayer> entry : teammembers.entrySet())
@@ -123,14 +126,29 @@ public class PugnaTeam implements Serializable
             player2.sendMessage(ChatColor.DARK_AQUA + "[Team Notification] " + message);
         }
     }
-    
+
     public void setOffline()
     {
-		onlineMembers--;
-	}
-	
-	public void setOnline()
-	{
-		onlineMembers++;
-	}
+        onlineMembers--;
+    }
+
+    public void setOnline()
+    {
+        onlineMembers++;
+    }
+
+    public void addDeath()
+    {
+        deaths++;
+    }
+
+    public void addKill()
+    {
+        kills++;
+    }
+
+    public void addScore()
+    {
+        score++;
+    }
 }
