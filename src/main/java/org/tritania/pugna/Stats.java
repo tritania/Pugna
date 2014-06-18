@@ -37,6 +37,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.ChatColor;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
@@ -71,8 +72,8 @@ public class Stats
         cont.setScore(1);
         value.setScore(reward.getAmount());
 
-
         player.setScoreboard(board);
+        scoreTimer(player);
     }
 
     public void setTeamBoard(Player player, PugnaTeam team)
@@ -105,5 +106,20 @@ public class Stats
         player.setScoreboard(board);
     }
 
+    public void scoreTimer(final Player player)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                PugnaPlayer play = pg.track.getPlayerData(player);
+                if (!play.getBoard())
+                {
+                    removeBoard(player);
+                }
+            }
+        }.runTaskLater(pg, 1200); //may add config value in the future
+    }
 }
 

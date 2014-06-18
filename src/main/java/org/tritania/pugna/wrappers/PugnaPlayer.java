@@ -34,6 +34,7 @@ public class PugnaPlayer implements Serializable
     private boolean inCombat;
     private String inviteTeamName;
     private String name;
+    private boolean board;
 
     public PugnaPlayer(String name)
     {
@@ -42,6 +43,7 @@ public class PugnaPlayer implements Serializable
         teamChat = false;
         inTeam = false;
         inCombat = false;
+        board = false;
     }
 
     public String getName()
@@ -151,5 +153,15 @@ public class PugnaPlayer implements Serializable
     public void addDeath()
     {
         deaths++;
+    }
+
+    public void setBoard(boolean value)
+    {
+        board = value;
+    }
+
+    public boolean getBoard()
+    {
+        return board;
     }
 }

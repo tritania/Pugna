@@ -26,30 +26,39 @@ import org.bukkit.command.CommandSender;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
+import org.tritania.pugna.wrappers.*;
 /*End Imports*/
 
-public class CStats implements CommandExecutor 
+public class CStats implements CommandExecutor
 {
-	public Pugna pg;
+    public Pugna pg;
 
     public CStats(Pugna pg)
     {
         this.pg = pg;
     }
-    
+
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-	{
-		Player player = (Player) sender;
-		if (args.length < 1) 
+    {
+        Player player = (Player) sender;
+        if (args.length < 1)
         {
             Message.info(sender, command.getUsage());
             return true;
         }
         if (args[0].equals("remove"))
         {
-			pg.stats.removeBoard(player);
-			return true;
-		}
-		return true;
-	}
+            PugnaPlayer play = pg.track.getPlayerData(player);
+            pg.stats.removeBoard(player);
+            play.setBoard(false);
+            return true;
+        }
+        if (args[0].equals("keep"))
+        {
+            PugnaPlayer play = pg.track.getPlayerData(player);
+            play.setBoard(true);
+            return true;
+        }
+        return true;
+    }
 }
