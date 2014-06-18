@@ -23,11 +23,11 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Entity;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerEvent; //events
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -39,31 +39,31 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.entity.CreatureType; //entity
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Explosive;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack; //inventory
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.Material;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.Material; //world
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.CreatureType;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Explosive;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.block.Action;
-import org.bukkit.inventory.meta.*;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.entity.Projectile;
-import org.bukkit.util.Vector;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.InventoryView;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender; //plugin
+import org.bukkit.plugin.PluginManager;
+
+import org.bukkit.ChatColor; //chat
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.wrappers.*;
@@ -95,7 +95,7 @@ public class PlayerListener implements Listener
        pg.bt.checkOutstanding(player);
        pg.track.startTracking(player);
        PugnaPlayer play = pg.track.getPlayerData(player);
-       if (play.getTeamState()) //NPE
+       if (play.getTeamState())
        {
            PugnaTeam team = pg.teams.getTeam(play.getTeam());
            team.setOnline();
@@ -143,17 +143,6 @@ public class PlayerListener implements Listener
         play.setCombatState(false);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL) //going to need other listeners to detect the other player
-    public void dmg(EntityDamageEvent event)
-    {
-        Entity e = event.getEntity();
-        if (e instanceof Player)
-        {
-            Player player = (Player) e;
-            pg.com.combatStart(player);
-        }
-    }
-
     @EventHandler(priority = EventPriority.NORMAL)
     public void playerInteract(PlayerInteractEvent event)
     {
@@ -188,10 +177,10 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void projectileHit(ProjectileHitEvent event)
     {
+        //need config value
         if (event.getEntity() instanceof Arrow)
         {
             Entity arrow = (Arrow) event.getEntity();
-            //Player player = (Player) event.getEntity().getShooter();
             Block block = arrow.getLocation().getBlock();
             int flame = arrow.getFireTicks();
             if (flame > 0)
@@ -202,17 +191,35 @@ public class PlayerListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onDmg(EntityDamageByEntityEvent event)
+    public void onDmg(EntityDamageByEntityEvent event) //main combat driver method
     {
         if (event.getEntity() instanceof Player)
         {
             if (event.getDamager() instanceof Monster)
             {
-                event.setDamage(event.getDamage() + 6);
+                event.setDamage(event.getDamage() + 6); //needs to be calculated
             }
             else if (event.getDamager() instanceof Arrow)
             {
-
+                Arrow arrow = (Arrow) event.getEntity();
+                if (arrow.getShooter() instanceof Player)
+                {
+                    Player playerShooter = (Player) arrow.getShooter(); //might throw NPE
+                    Player playerHit     = (Player) event.getEntity();
+                    PugnaPlayer playS = pg.track.getPlayerData(playerShooter);
+                    PugnaPlayer playH = pg.track.getPlayerData(playerHit);
+                    playS.setCombatState(true);
+                    playH.setCombatState(true);
+                }
+            }
+            else if (event.getDamager() instanceof Player)
+            {
+                Player playerShooter = (Player) event.getDamager(); //might throw NPE
+                Player playerHit     = (Player) event.getEntity();
+                PugnaPlayer playS = pg.track.getPlayerData(playerShooter);
+                PugnaPlayer playH = pg.track.getPlayerData(playerHit);
+                playS.setCombatState(true);
+                playH.setCombatState(true);
             }
         }
     }
