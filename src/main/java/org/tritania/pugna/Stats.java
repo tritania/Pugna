@@ -87,7 +87,7 @@ public class Stats
         objective.setDisplayName(ChatColor.BLUE +  "Team Stats");
     }
 
-    public void setPlayerBoard(Player player, PugnaTeam team)
+    public void setPlayerBoard(Player player)
     {
         ScoreboardManager mang = Bukkit.getScoreboardManager();
         Scoreboard board = mang.getNewScoreboard();
@@ -96,6 +96,20 @@ public class Stats
 
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.BLUE +  "Your Stats");
+
+        Score score = objective.getScore(Bukkit.getOfflinePlayer("Score: "));
+        Score kills = objective.getScore(Bukkit.getOfflinePlayer("Kills: " ));
+        Score deaths = objective.getScore(Bukkit.getOfflinePlayer("Deaths: " ));
+        Score teamRank = objective.getScore(Bukkit.getOfflinePlayer("Team Rank: "));
+
+        PugnaPlayer play = pg.track.getPlayerData(player);
+
+        score.setScore(play.getScore());
+        kills.setScore(play.getKills());
+        deaths.setScore(play.getDeaths());
+
+        player.setScoreboard(board);
+        scoreTimer(player);
     }
 
     public void removeBoard(Player player)

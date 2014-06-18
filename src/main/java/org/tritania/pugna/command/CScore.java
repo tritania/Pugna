@@ -63,14 +63,11 @@ public class CScore implements CommandExecutor
                 pg.emperor.removePlayerScore(playerValue, Integer.parseInt(args[2]));
                 Message.info(sender, "Removed score from " + args[1]);
             }
-            else if (args[0].equals("status"))
-            {
-                Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
-            }
         }
-        else if (args[0].equals("status"))
+        if (args[0].equals("status"))
         {
             Message.info(sender, pg.emperor.getEmperorName() + " is currently emperor");
+            pg.stats.setPlayerBoard(player);
         }
         else
         {

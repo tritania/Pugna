@@ -124,4 +124,16 @@ public class PugnaPlayerTracker
             }
         }.runTaskLater(pg, pg.config.combatTimer);
     }
+
+    public PugnaTeam getTeam (Player player)
+    {
+        PugnaPlayer play = pg.track.getPlayerData(player);
+        if (play.getTeamState())
+        {
+            String teamName = play.getTeam();
+            PugnaTeam team = pg.teams.getTeam(teamName);
+            return team;
+        }
+        return null;
+    }
 }

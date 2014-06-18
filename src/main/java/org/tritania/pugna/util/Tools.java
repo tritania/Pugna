@@ -20,17 +20,19 @@ package org.tritania.pugna.util;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 
+import org.tritania.pugna.wrappers.*;
+
 public class Tools
 {
-	public static boolean isPlayer(String name)
-	{
-		if(Bukkit.getPlayer(name) != null)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+    public static boolean isPlayer(String name)
+    {
+        if(Bukkit.getPlayer(name) != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

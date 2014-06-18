@@ -164,4 +164,14 @@ public class PugnaPlayer implements Serializable
     {
         return board;
     }
+
+    public int getKills()
+    {
+        return kills;
+    }
+
+    public int getDeaths()
+    {
+        return deaths;
+    }
 }
