@@ -103,10 +103,11 @@ public class Stats
         Score teamRank = objective.getScore(Bukkit.getOfflinePlayer("Team Rank: "));
 
         PugnaPlayer play = pg.track.getPlayerData(player);
+        PugnaScore values = play.getScore();
 
-        score.setScore(play.getScore());
-        kills.setScore(play.getKills());
-        deaths.setScore(play.getDeaths());
+        score.setScore(values.getTotalScore());
+        kills.setScore(values.getKills());
+        deaths.setScore(values.getDeaths());
 
         player.setScoreboard(board);
         scoreTimer(player);

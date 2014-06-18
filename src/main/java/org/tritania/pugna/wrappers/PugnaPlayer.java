@@ -21,12 +21,10 @@ import java.util.UUID;
 import org.bukkit.inventory.ItemStack;
 import java.io.Serializable;
 
+import org.tritania.pugna.wrappers.PugnaScore;
+
 public class PugnaPlayer implements Serializable
 {
-    private int score;
-    private int kills;
-    private int deaths;
-    private int blocks;
     private boolean teamChat;
     private boolean inTeam;
     private String teamName;
@@ -35,15 +33,16 @@ public class PugnaPlayer implements Serializable
     private String inviteTeamName;
     private String name;
     private boolean board;
+    private PugnaScore score;
 
     public PugnaPlayer(String name)
     {
         this.name = name;
-        this.score = 0;
         this.teamChat = false;
         this.inTeam = false;
         this.inCombat = false;
         this.board = false;
+        this.score = new PugnaScore();
     }
 
     public String getName()
@@ -51,17 +50,7 @@ public class PugnaPlayer implements Serializable
         return this.name;
     }
 
-    public void addScore(int value)
-    {
-        score = score + value;
-    }
-
-    public void removeScore(int value)
-    {
-        score = score - value;
-    }
-
-    public int getScore()
+    public PugnaScore getScore()
     {
         return score;
     }
@@ -140,21 +129,6 @@ public class PugnaPlayer implements Serializable
         inCombat = value;
     }
 
-    public void addKill()
-    {
-        kills++;
-    }
-
-    public void addBlocks()
-    {
-        blocks++;
-    }
-
-    public void addDeath()
-    {
-        deaths++;
-    }
-
     public void setBoard(boolean value)
     {
         board = value;
@@ -163,15 +137,5 @@ public class PugnaPlayer implements Serializable
     public boolean getBoard()
     {
         return board;
-    }
-
-    public int getKills()
-    {
-        return kills;
-    }
-
-    public int getDeaths()
-    {
-        return deaths;
     }
 }

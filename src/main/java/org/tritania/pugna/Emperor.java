@@ -41,20 +41,19 @@ public class Emperor
 
     public void addPlayerScore(PugnaPlayer player, int amount)
     {
-        player.addScore(amount);
+        player.getScore().changeScore(amount);
         checkEmperor(player);
     }
 
     public void removePlayerScore(PugnaPlayer player, int amount)
     {
-        player.removeScore(amount);
+        player.getScore().changeScore(amount);
         checkEmperor(player);
     }
 
     public void checkEmperor(PugnaPlayer player)
     {
-        System.out.println(player.getScore() + " --- " + emperor.getScore());
-        if (player.getScore() > emperor.getScore())
+        if (player.getScore().getTotalScore() > emperor.getScore().getTotalScore())
         {
             emperor = player;
         }
