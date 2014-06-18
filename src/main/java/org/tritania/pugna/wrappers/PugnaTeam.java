@@ -47,7 +47,7 @@ public class PugnaTeam implements Serializable
     private UUID founder;
     private int kills;
     private int deaths;
-    private int score;
+    private PugnaScore score;
     private int members;
     private int onlineMembers;
     private HashMap<UUID, PugnaPlayer> teammembers = new HashMap<UUID, PugnaPlayer>();
@@ -59,6 +59,7 @@ public class PugnaTeam implements Serializable
         this.teammembers.put(founder.getUniqueId(), data);
         this.members = 1;
         this.onlineMembers = 1;
+        this.score = new PugnaScore();
     }
 
     public void addMember(Player player, PugnaPlayer data)
@@ -137,18 +138,8 @@ public class PugnaTeam implements Serializable
         onlineMembers++;
     }
 
-    public void addDeath()
+    public PugnaScore getScore()
     {
-        deaths++;
-    }
-
-    public void addKill()
-    {
-        kills++;
-    }
-
-    public void addScore()
-    {
-        score++;
+        return score;
     }
 }

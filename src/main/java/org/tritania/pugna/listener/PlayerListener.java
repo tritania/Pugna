@@ -161,7 +161,7 @@ public class PlayerListener implements Listener
         if(play.getTeamState())
         {
             PugnaTeam team = pg.teams.getTeam(play.getTeam());
-            team.addDeath();
+            team.getScore().addDeath();
         }
     }
 
