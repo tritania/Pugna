@@ -100,9 +100,14 @@ public class Bounties
         return false;
     }
 
-    public void checkOutstanding(Player player) //used for player login events.
+    public boolean checkOutstanding(Player player) //used for player login events.
     {
-
+        UUID id = player.getUniqueId();
+        if (bountyorder.containsKey(id))
+        {
+            return true;
+        }
+        return false;
     }
 
     public void loadBounties()
