@@ -24,6 +24,9 @@ import java.io.Serializable;
 public class PugnaPlayer implements Serializable
 {
     private int score;
+    private int kills;
+    private int deaths;
+    private int blocks;
     private boolean teamChat;
     private boolean inTeam;
     private String teamName;
@@ -133,5 +136,20 @@ public class PugnaPlayer implements Serializable
     public void setCombatState(boolean value)
     {
         inCombat = value;
+    }
+
+    public void addKill()
+    {
+        kills++;
+    }
+
+    public void addBlocks()
+    {
+        blocks++;
+    }
+
+    public void addDeath()
+    {
+        deaths++;
     }
 }

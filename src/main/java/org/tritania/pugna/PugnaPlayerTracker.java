@@ -39,6 +39,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.*;
 import org.tritania.pugna.wrappers.*;
+import org.tritania.pugna.util.Log;
 
 public class PugnaPlayerTracker
 {
@@ -59,6 +60,7 @@ public class PugnaPlayerTracker
         }
         else
         {
+            Log.info("Creating new config file for %s", player.getPlayerListName());
             PugnaPlayer track = new PugnaPlayer(player.getName());
             players.put(player.getUniqueId(), track);
         }

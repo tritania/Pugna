@@ -141,6 +141,7 @@ public class PlayerListener implements Listener
 
         PugnaPlayer play = pg.track.getPlayerData(player);
         play.setCombatState(false);
+        play.addDeath();
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

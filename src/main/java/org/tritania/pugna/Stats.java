@@ -75,6 +75,28 @@ public class Stats
         player.setScoreboard(board);
     }
 
+    public void setTeamBoard(Player player, PugnaTeam team)
+    {
+        ScoreboardManager mang = Bukkit.getScoreboardManager();
+        Scoreboard board = mang.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("Stats", "dummy");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.BLUE +  "Team Stats");
+    }
+
+    public void setPlayerBoard(Player player, PugnaTeam team)
+    {
+        ScoreboardManager mang = Bukkit.getScoreboardManager();
+        Scoreboard board = mang.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("Stats", "dummy");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.BLUE +  "Your Stats");
+    }
+
     public void removeBoard(Player player)
     {
         ScoreboardManager manger = Bukkit.getScoreboardManager();
