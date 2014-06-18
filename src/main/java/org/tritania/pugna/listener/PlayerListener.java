@@ -177,15 +177,17 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void projectileHit(ProjectileHitEvent event)
     {
-        //need config value
-        if (event.getEntity() instanceof Arrow)
+        if (pg.config.flame)
         {
-            Entity arrow = (Arrow) event.getEntity();
-            Block block = arrow.getLocation().getBlock();
-            int flame = arrow.getFireTicks();
-            if (flame > 0)
+            if (event.getEntity() instanceof Arrow)
             {
-                block.setType(Material.FIRE);
+                Entity arrow = (Arrow) event.getEntity();
+                Block block = arrow.getLocation().getBlock();
+                int flame = arrow.getFireTicks();
+                if (flame > 0)
+                {
+                    block.setType(Material.FIRE);
+                }
             }
         }
     }
@@ -208,8 +210,8 @@ public class PlayerListener implements Listener
                     Player playerHit     = (Player) event.getEntity();
                     PugnaPlayer playS = pg.track.getPlayerData(playerShooter);
                     PugnaPlayer playH = pg.track.getPlayerData(playerHit);
-                    playS.setCombatState(true);
-                    playH.setCombatState(true);
+                    pg.track.startCombatTimer(playS);
+                    pg.track.startCombatTimer(playH);
                 }
             }
             else if (event.getDamager() instanceof Player)
@@ -218,8 +220,8 @@ public class PlayerListener implements Listener
                 Player playerHit     = (Player) event.getEntity();
                 PugnaPlayer playS = pg.track.getPlayerData(playerShooter);
                 PugnaPlayer playH = pg.track.getPlayerData(playerHit);
-                playS.setCombatState(true);
-                playH.setCombatState(true);
+                pg.track.startCombatTimer(playS);
+                pg.track.startCombatTimer(playH);
             }
         }
     }

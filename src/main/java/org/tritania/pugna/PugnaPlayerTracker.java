@@ -112,6 +112,7 @@ public class PugnaPlayerTracker
 
     public void startCombatTimer(final PugnaPlayer player)
     {
+        player.setCombatState(true);
         new BukkitRunnable()
         {
             @Override
