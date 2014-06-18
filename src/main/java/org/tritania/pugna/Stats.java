@@ -40,45 +40,48 @@ import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;
-
+import org.tritania.pugna.wrappers.*;
 
 public class Stats
 {
-	
-	public Pugna pg;
+
+    public Pugna pg;
 
     public Stats(Pugna pg)
     {
         this.pg = pg;
     }
-    
-    	
-	public void setBountyBoard(Player player, Player contractor)
-	{
-		ScoreboardManager mang = Bukkit.getScoreboardManager();
-		Scoreboard board = mang.getNewScoreboard();
-	
-		Objective objective = board.registerNewObjective("Stats", "dummy");
-		
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName(ChatColor.BLUE +  "Bounty");			
-		
-		Score bounty = objective.getScore(Bukkit.getOfflinePlayer("New Bounty!"));
-		Score cont = objective.getScore(Bukkit.getOfflinePlayer(contractor.getPlayerListName()));
-		
-		bounty.setScore(1);
-		cont.setScore(1);
-		
-		player.setScoreboard(board);
-	}
-	
-	public void removeBoard(Player player)
-	{
-		ScoreboardManager manger = Bukkit.getScoreboardManager();
-		Scoreboard board = manger.getNewScoreboard();
-		
-		player.setScoreboard(board);
-	}
+
+
+    public void setBountyBoard(Player player, Player contractor, Reward reward)
+    {
+        ScoreboardManager mang = Bukkit.getScoreboardManager();
+        Scoreboard board = mang.getNewScoreboard();
+
+        Objective objective = board.registerNewObjective("Stats", "dummy");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        objective.setDisplayName(ChatColor.BLUE +  "Bounty");
+
+        Score bounty = objective.getScore(Bukkit.getOfflinePlayer("New Bounty!"));
+        Score cont = objective.getScore(Bukkit.getOfflinePlayer("From: " + contractor.getPlayerListName())); //might be too long
+        Score value = objective.getScore(Bukkit.getOfflinePlayer("Reward: " + reward.getItem()));
+
+        bounty.setScore(1);
+        cont.setScore(1);
+        value.setScore(reward.getAmount());
+
+
+        player.setScoreboard(board);
+    }
+
+    public void removeBoard(Player player)
+    {
+        ScoreboardManager manger = Bukkit.getScoreboardManager();
+        Scoreboard board = manger.getNewScoreboard();
+
+        player.setScoreboard(board);
+    }
 
 }
-   
+

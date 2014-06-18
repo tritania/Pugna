@@ -23,22 +23,32 @@ import org.bukkit.inventory.ItemStack;
 
 public class Reward implements Serializable
 {
-	private UUID contractor;
-	private ItemStack reward;
-	
-	public Reward(UUID contractor, ItemStack reward)
-	{
-		contractor = contractor;
-		reward = reward;
-	}
-	
-	public ItemStack getReward()
-	{
-		return reward;
-	}
-	
-	public UUID getContractor()
-	{
-		return contractor;
-	}
+    private UUID contractor;
+    private ItemStack reward;
+
+    public Reward(UUID contractor, ItemStack reward)
+    {
+        contractor = contractor;
+        reward = reward;
+    }
+
+    public ItemStack getReward()
+    {
+        return reward;
+    }
+
+    public UUID getContractor()
+    {
+        return contractor;
+    }
+
+    public String getItem()
+    {
+        return reward.getType().toString();
+    }
+
+    public int getAmount()
+    {
+        return reward.getAmount();
+    }
 }

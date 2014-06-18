@@ -40,83 +40,83 @@ import org.tritania.pugna.wrappers.Reward;
 
 public class Bounties
 {
-	public Pugna pg;
-	public HashMap<UUID, Reward> bountyorder = new HashMap<UUID, Reward>();
+    public Pugna pg;
+    public HashMap<UUID, Reward> bountyorder = new HashMap<UUID, Reward>();
 
     public Bounties(Pugna pg)
     {
         this.pg = pg;
     }
-    
+
     public void createBounty(Player target, Player placer, ItemStack bounty)
     {
-		UUID targeted = target.getUniqueId(); //need to make sure more then one can't be added + remove items from players inventory
-		UUID contractor = placer.getUniqueId();
-		Reward bountyreward = new Reward(contractor, bounty);
-		bountyorder.put(targeted, bountyreward);
-		pg.stats.setBountyBoard(target, placer);
-	}
-	
-	public boolean removeBounty(Player target, Player placer) //remove (target was not killed)
-	{
-		
-		UUID targeted = target.getUniqueId();
-		UUID contractor = placer.getUniqueId();
-		
-		Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
+        UUID targeted = target.getUniqueId(); //need to make sure more then one can't be added + remove items from players inventory
+        UUID contractor = placer.getUniqueId();
+        Reward bountyreward = new Reward(contractor, bounty);
+        bountyorder.put(targeted, bountyreward);
+        pg.stats.setBountyBoard(target, placer, bountyreward);
+    }
+
+    public boolean removeBounty(Player target, Player placer) //remove (target was not killed)
+    {
+
+        UUID targeted = target.getUniqueId();
+        UUID contractor = placer.getUniqueId();
+
+        Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
         while(iterator.hasNext())
         {
             Map.Entry<UUID, Reward> entry = iterator.next();
-			UUID targetID = entry.getKey();
-			Reward reward = entry.getValue();
-			UUID contractor2 = reward.getContractor();
-			if (targetID == targeted && contractor2 == contractor)
-			{
-				pg.inv.placeItems(placer, reward.getReward());
-				iterator.remove();
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean checkOutstanding(Player target, Player placer) //not allowing more then one bounty from the same player against the same player
-	{
-		UUID targeted = target.getUniqueId();
-		UUID contractor = placer.getUniqueId();
-		
-		Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
+            UUID targetID = entry.getKey();
+            Reward reward = entry.getValue();
+            UUID contractor2 = reward.getContractor();
+            if (targetID == targeted && contractor2 == contractor)
+            {
+                pg.inv.placeItems(placer, reward.getReward());
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkOutstanding(Player target, Player placer) //not allowing more then one bounty from the same player against the same player
+    {
+        UUID targeted = target.getUniqueId();
+        UUID contractor = placer.getUniqueId();
+
+        Iterator<Map.Entry<UUID, Reward>> iterator = bountyorder.entrySet().iterator();
         while(iterator.hasNext())
         {
             Map.Entry<UUID, Reward> entry = iterator.next();
-			UUID targetID = entry.getKey();
-			Reward reward = entry.getValue();
-			UUID contractor2 = reward.getContractor();
-			if (targetID == targeted && contractor2 == contractor)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public void checkOutstanding(Player player) //used for player login events.
-	{
-		
-	}
-	
-	public void loadBounties()
-	{
-		bountyorder = pg.storage.loadData("bounty.data");
-	}
-	
-	public void saveBounties()
-	{
-		pg.storage.saveData(bountyorder, "bounty.data");
-	}
-	
-	public void cashOut(Player killer, Player killed)
-	{
-		
-	}
+            UUID targetID = entry.getKey();
+            Reward reward = entry.getValue();
+            UUID contractor2 = reward.getContractor();
+            if (targetID == targeted && contractor2 == contractor)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void checkOutstanding(Player player) //used for player login events.
+    {
+
+    }
+
+    public void loadBounties()
+    {
+        bountyorder = pg.storage.loadData("bounty.data");
+    }
+
+    public void saveBounties()
+    {
+        pg.storage.saveData(bountyorder, "bounty.data");
+    }
+
+    public void cashOut(Player killer, Player killed)
+    {
+
+    }
 }
