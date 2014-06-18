@@ -44,15 +44,15 @@ public class Configuration extends YamlConfiguration
     {
         this.file = file;
 
-        global = false;
-        mapName = "World";
-        deathChest = true;
-        allowBounty = true;
-        diffmob = true;
-        deathChestTime = 6000;
-        emperorTitle = "[EMPEROR]";
-        combatTimer = 3600; // 3 minutes
-        flame = true;
+        this.global         = false;
+        this.mapName        = "World";
+        this.deathChest     = true;
+        this.allowBounty    = true;
+        this.diffmob        = true;
+        this.deathChestTime = 6000;
+        this.emperorTitle   = "[EMPEROR]";
+        this.combatTimer    = 3600; // 3 minutes
+        this.flame          = true;
     }
 
     public void load()
@@ -66,15 +66,15 @@ public class Configuration extends YamlConfiguration
             Log.warning("Unable to load: %s", file.toString());
         }
 
-        global = getBoolean("Use this plugin globally?", global);
-        mapName  = getString("Use this plugin only on this map", mapName);
-        emperorTitle  = getString("Use this title for the emperor chat system", emperorTitle);
-        deathChest = getBoolean("Allow death chests", deathChest);
-        allowBounty = getBoolean("Allow bounties", allowBounty);
-        diffmob = getBoolean("Creates more difficult mobs", diffmob);
+        global         = getBoolean("Use this plugin globally?", global);
+        mapName        = getString("Use this plugin only on this map", mapName);
+        emperorTitle   = getString("Use this title for the emperor chat system", emperorTitle);
+        deathChest     = getBoolean("Allow death chests", deathChest);
+        allowBounty    = getBoolean("Allow bounties", allowBounty);
+        diffmob        = getBoolean("Creates more difficult mobs", diffmob);
         deathChestTime = getInt("Amount of time to keep death chests around (20 = 1 second)", deathChestTime);
-        combatTimer = getInt("Time between combat and teleport commands", combatTimer);
-        flame = getBoolean("Allows flame arrows to light terrain on fire", flame);
+        combatTimer    = getInt("Time between combat and teleport commands", combatTimer);
+        flame          = getBoolean("Allows flame arrows to light terrain on fire", flame);
 
         if (!file.exists())
             save();

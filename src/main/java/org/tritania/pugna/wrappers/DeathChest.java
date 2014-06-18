@@ -25,36 +25,36 @@ import org.bukkit.inventory.ItemStack;
 
 public class DeathChest implements Serializable
 {
-	private UUID owner; //player that owns the chest
-	private ArrayList<UUID> others; //players that have acess
-	
-	public DeathChest(UUID owner)
-	{
-		this.owner = owner;
-		others = new ArrayList<UUID>();
-	}
-	
-	public void addOther(UUID other)
-	{
-		others.add(other);
-	}
-	
-	public boolean checkOwner(UUID maybe)
-	{
-		return owner.equals(maybe);
-	}
-	
-	public boolean checkForAcess(UUID other)
-	{
-		if (others == null)
-			return false;
-		for (UUID entry : others)
-		{
-			if (entry.equals(other))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    private UUID owner; //player that owns the chest
+    private ArrayList<UUID> others; //players that have acess
+
+    public DeathChest(UUID owner)
+    {
+        this.owner = owner;
+        this.others = new ArrayList<UUID>();
+    }
+
+    public void addOther(UUID other)
+    {
+        others.add(other);
+    }
+
+    public boolean checkOwner(UUID maybe)
+    {
+        return owner.equals(maybe);
+    }
+
+    public boolean checkForAcess(UUID other)
+    {
+        if (others == null)
+            return false;
+        for (UUID entry : others)
+        {
+            if (entry.equals(other))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

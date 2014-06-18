@@ -36,7 +36,7 @@ public class Emperor
     public Emperor(Pugna pg)
     {
         this.pg = pg;
-        emperor = pg.storage.loadEmperor();
+        this.emperor = pg.storage.loadEmperor();
     }
 
     public void addPlayerScore(PugnaPlayer player, int amount)

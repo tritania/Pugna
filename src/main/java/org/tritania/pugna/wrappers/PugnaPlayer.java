@@ -39,11 +39,11 @@ public class PugnaPlayer implements Serializable
     public PugnaPlayer(String name)
     {
         this.name = name;
-        score = 0;
-        teamChat = false;
-        inTeam = false;
-        inCombat = false;
-        board = false;
+        this.score = 0;
+        this.teamChat = false;
+        this.inTeam = false;
+        this.inCombat = false;
+        this.board = false;
     }
 
     public String getName()

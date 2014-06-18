@@ -28,8 +28,8 @@ public class Reward implements Serializable
 
     public Reward(UUID contractor, ItemStack reward)
     {
-        contractor = contractor;
-        reward = reward;
+        this.contractor = contractor;
+        this.reward = reward;
     }
 
     public ItemStack getReward()
