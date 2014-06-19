@@ -64,11 +64,11 @@ public class Stats
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         objective.setDisplayName(ChatColor.BLUE +  "Bounty");
 
-        Score bounty = objective.getScore(Bukkit.getOfflinePlayer("New Bounty!"));
+        Score bounty = objective.getScore(Bukkit.getOfflinePlayer("Bounty For You"));
         Score cont = objective.getScore(Bukkit.getOfflinePlayer("From: " + contractor.getPlayerListName())); //might be too long
         Score value = objective.getScore(Bukkit.getOfflinePlayer("Reward: " + reward.getItem()));
 
-        bounty.setScore(1);
+        bounty.setScore(1 + reward.getAmount());
         cont.setScore(1);
         value.setScore(reward.getAmount());
 
