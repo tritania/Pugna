@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.List;
+import java.util.Collection;
 
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.command.Command;
@@ -91,17 +92,18 @@ public class PugnaPlayerTracker
 
     public void savePlayers()
     {
-        Player[] playersSave = Bukkit.getOnlinePlayers();
-        for (Player play : playersSave)
+		Collection<? extends Player> playersSave = Bukkit.getOnlinePlayers();
+        for (Iterator iterator = playersSave.iterator(); iterator.hasNext();) 
         {
-            pg.storage.savePlayer(play);
-            players.remove(play.getUniqueId());
-        }
+			Player player = (Player) iterator.next();
+            pg.storage.savePlayer(player);
+            players.remove(player.getUniqueId());
+		}
     }
 
     public void loadPlayers()
     {
-        Player[] playersSave = Bukkit.getOnlinePlayers();
+        Collection<? extends Player> playersSave = Bukkit.getOnlinePlayers();
         for (Player play : playersSave)
         {
             if (pg.storage.check(play))
