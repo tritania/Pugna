@@ -30,10 +30,10 @@ public class Configuration extends YamlConfiguration
 {
     private File file;
 
-    public  boolean global;
-    public  String mapName;
-    public  boolean deathChest;
-    public  boolean allowBounty;
+    public boolean global;
+    public String mapName;
+    public boolean deathChest;
+    public boolean allowBounty;
     public boolean diffmob;
     public int deathChestTime;
     public String emperorTitle;

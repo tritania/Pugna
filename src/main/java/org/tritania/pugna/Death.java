@@ -24,9 +24,6 @@ import java.util.UUID;
 import java.util.List;
 
 import org.bukkit.permissions.PermissibleBase;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -162,8 +159,7 @@ public class Death
                 DeathChest box = new DeathChest(playerId);
                 deathlocations.put(local, box);
 
-                CommandSender pc = (CommandSender) player;
-                Message.info(pc, "You have " + String.valueOf(pg.config.deathChestTime/20) + " seconds to retrive your items, good luck!"); //need to fix
+                Message.info(player, "You have " + String.valueOf(pg.config.deathChestTime/20) + " seconds to retrive your items, good luck!"); 
 
                 deathChestTimer(player, death);
             }

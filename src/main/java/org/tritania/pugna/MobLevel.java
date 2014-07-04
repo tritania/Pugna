@@ -16,20 +16,11 @@
  */
 package org.tritania.pugna;
 
-import java.util.List;
-
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.Material;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creature;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.EntityType;
