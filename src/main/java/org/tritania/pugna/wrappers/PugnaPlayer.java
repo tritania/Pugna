@@ -26,7 +26,6 @@ import org.tritania.pugna.wrappers.PugnaScore;
 public class PugnaPlayer implements Serializable
 {
     private boolean teamChat;
-    private boolean inTeam;
     private String teamName;
     private boolean invite;
     private boolean inCombat;
@@ -39,9 +38,9 @@ public class PugnaPlayer implements Serializable
     {
         this.name = name;
         this.teamChat = false;
-        this.inTeam = false;
         this.inCombat = false;
         this.board = false;
+        this.teamName = null;
         this.score = new PugnaScore();
     }
 
@@ -67,25 +66,22 @@ public class PugnaPlayer implements Serializable
 
     public void setTeam(String name)
     {
-        inTeam = true;
         teamName = name;
-    }
-
-    public void setTeamState(boolean value)
-    {
-        inTeam = value;
     }
 
     public void removeTeam()
     {
-        inTeam = false;
         teamName = null;
         teamChat = false;
     }
 
     public boolean getTeamState()
     {
-        return inTeam;
+        if (this.teamName.equals(null)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getTeam()

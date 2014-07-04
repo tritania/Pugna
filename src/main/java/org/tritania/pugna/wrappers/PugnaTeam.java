@@ -66,7 +66,6 @@ public class PugnaTeam implements Serializable
     {
         teammembers.put(player.getUniqueId(), data);
         sendMessage(player.getDisplayName() + ChatColor.DARK_AQUA + " has joined the team");
-        data.setTeamState(true);
         data.setTeam(teamName);
         members++;
         onlineMembers++;
@@ -75,8 +74,7 @@ public class PugnaTeam implements Serializable
     public void removeMember(Player player, PugnaPlayer play)
     {
         teammembers.remove(player.getUniqueId());
-        play.setTeamState(false);
-        play.setChat(false);
+        play.removeTeam();
         members--;
         onlineMembers--;
     }
