@@ -32,6 +32,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.*;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.Inventory;
 import org.tritania.pugna.util.Message;
 import org.tritania.pugna.util.Tools;
 /*End Imports*/
@@ -65,11 +66,11 @@ public class CBounty implements CommandExecutor
                     Message.info(sender, "You already have a bounty against them.");
                     return true;
                 }
-                if (pg.inv.checkForItems(player, item, amount))
+                if (Inventory.checkForItems(player, item, amount))
                 {
                     ItemStack bounty = new ItemStack(item, amount);
                     pg.bt.createBounty(target, player, bounty);
-                    pg.inv.removeItems(player, bounty);
+                    Inventory.removeItems(player, bounty);
                     return true;
                 }
                 else

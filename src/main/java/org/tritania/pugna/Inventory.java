@@ -24,30 +24,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
 
-import org.tritania.pugna.Pugna;
-import org.tritania.pugna.util.*;
-
-public class Inventory 
-{
-	public Pugna pg;
-
-    public Inventory(Pugna pg)
-    {
-        this.pg = pg;
-    }
+public class Inventory  {
     
-    public void placeItems(Player player, ItemStack reward)
-    {
+    public static void placeItems(Player player, ItemStack reward) {
 		player.getInventory().addItem(reward);
 	}
 	
-	public void removeItems(Player player, ItemStack cost)
-	{
+	public static void removeItems(Player player, ItemStack cost) {
 		player.getInventory().removeItem(cost);
 	}
 	
-	public boolean checkForItems(Player player, Material item, int amount)
-	{
+	public static boolean checkForItems(Player player, Material item, int amount) {
 		return player.getInventory().contains(item, amount);
 	}
     

@@ -40,7 +40,6 @@ public class Pugna extends JavaPlugin
     public Stats stats;
     public Bounties bt;
     public Death dt;
-    public Inventory inv;
     public MobLevel mb;
     public Teams teams;
     public String datalocal;
@@ -70,7 +69,6 @@ public class Pugna extends JavaPlugin
         stats   = new Stats(this);
         bt      = new Bounties(this);
         dt      = new Death(this);
-        inv     = new Inventory(this);
         mb      = new MobLevel(this);
         teams   = new Teams(this);
         storage = new Storage(this);

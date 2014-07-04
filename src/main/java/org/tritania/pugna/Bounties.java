@@ -35,6 +35,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Material;
 
 import org.tritania.pugna.Pugna;
+import org.tritania.pugna.Inventory;
 import org.tritania.pugna.util.*;
 import org.tritania.pugna.wrappers.Reward;
 
@@ -72,7 +73,7 @@ public class Bounties
             UUID contractor2 = reward.getContractor();
             if (targetID == targeted && contractor2 == contractor)
             {
-                pg.inv.placeItems(placer, reward.getReward());
+                Inventory.placeItems(placer, reward.getReward());
                 iterator.remove();
                 return true;
             }
