@@ -17,31 +17,12 @@
 
 package org.tritania.pugna;
 
-/*Start Imports*/
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Iterator;
 import java.util.UUID;
-import java.util.List;
 
-import org.bukkit.permissions.PermissibleBase;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.Material;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.ChatColor;
 
 import org.tritania.pugna.Pugna;
 import org.tritania.pugna.util.Message;

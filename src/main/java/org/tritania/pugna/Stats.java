@@ -20,17 +20,8 @@ package org.tritania.pugna;
 /*Start Imports*/
 import org.bukkit.permissions.PermissibleBase;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.Material;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.DisplaySlot;

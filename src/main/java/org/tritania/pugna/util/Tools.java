@@ -24,14 +24,10 @@ import org.tritania.pugna.wrappers.*;
 
 public class Tools
 {
-    public static boolean isPlayer(String name)
-    {
-        if(Bukkit.getPlayer(name) != null)
-        {
+    public static boolean isPlayer(String name) {
+        if(Bukkit.getPlayer(name) != null) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
